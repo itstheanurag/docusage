@@ -7,8 +7,6 @@ import {
   Receipt,
   BellRing,
   Clock,
-  PencilLine,
-  ShieldCheck,
   Users,
   LayoutDashboard,
 } from "lucide-react";

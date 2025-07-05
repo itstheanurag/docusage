@@ -1,4 +1,4 @@
-// src/components/Footer.tsx
+"use client";
 import { X, Mail, Github } from "lucide-react";
 
 const Footer = () => {
