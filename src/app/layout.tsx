@@ -1,7 +1,9 @@
+// layout.tsx
 import "./globals.css";
 import { Geist, Geist_Mono } from "next/font/google";
-import { auth } from "@/lib/auth"; // <-- new
-import ClientLayout from "@/client/layout";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { Providers } from "./providers";
 
 const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
 const geistMono = Geist_Mono({
@@ -19,12 +21,15 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth(); // <-- server-side session fetch
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <ClientLayout session={session}>{children}</ClientLayout>
+        <Providers >
+          <Navbar />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

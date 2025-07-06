@@ -1,15 +1,22 @@
 "use client";
+
 import { useSession } from "next-auth/react";
-import React from "react";
 
-const Dashboard = () => {
-  const { data: session } = useSession();
+export default function Dashboard() {
+  const { data: session, status } = useSession();
 
-  if (!session) {
-    return <div>User Session not found</div>;
+  if (status === "loading") {
+    return <p>Loading...</p>; // show a loader while session is fetched
   }
 
-  return <div>{JSON.stringify(session)}</div>;
-};
+  if (!session) {
+    return <p>User not authenticated</p>; // or redirect to /login
+  }
 
-export default Dashboard;
+  return (
+    <div>
+      <h1>Welcome, {session.user?.name}</h1>
+      <pre>{JSON.stringify(session, null, 2)}</pre>
+    </div>
+  );
+}

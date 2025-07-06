@@ -76,7 +76,7 @@ export default function FeatureHighlights() {
           {features.map((feature, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, scale: 0.95, filter: "blur(2px)" }}
+              initial={{ opacity: 0, scale: 0.90, filter: "blur(4px)" }}
               whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{
