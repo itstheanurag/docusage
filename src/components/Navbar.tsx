@@ -23,12 +23,9 @@ const Navbar = () => {
         {/* Right section */}
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
           <ThemeToggleButton />
-
-          <Button type="button" className="font-medium">
-            <Link href="/auth/login" className="hover:underline">
-              Get Started
-            </Link>
-          </Button>
+          <Link href="/auth/login" passHref>
+            <Button variant="default">Get Started</Button>
+          </Link>
         </div>
       </div>
     </nav>

@@ -1,5 +1,5 @@
 "use client";
-import { motion } from "framer-motion";
+import AnimateOnce from "@/components/animations/animate-once";
 import {
   FileText,
   Send,
@@ -74,23 +74,17 @@ export default function FeatureHighlights() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature, idx) => (
-            <motion.div
+            <AnimateOnce
               key={idx}
-              initial={{ opacity: 0, scale: 0.90, filter: "blur(4px)" }}
-              whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{
-                duration: 0.3,
-                ease: "easeInOut",
-              }}
-              className="tracking-tight p-6 rounded-xl border border-border bg-card text-left shadow-sm hover:cursor-pointer hover:shadow-md hover:scale-101 transition duration-150 ease-in-out"
+              delay={idx * 0.1}
+              className="tracking-tight p-6 rounded-xl border bg-card text-left shadow-sm hover:cursor-pointer hover:shadow-md hover:scale-101 transition duration-150 ease-in-out"
             >
               <feature.icon className="h-6 w-6 mb-4 text-primary" />
               <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
               <p className="text-sm text-muted-foreground">
                 {feature.description}
               </p>
-            </motion.div>
+            </AnimateOnce>
           ))}
         </div>
       </div>
