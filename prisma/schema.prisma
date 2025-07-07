@@ -1,0 +1,87 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/* ───────────────────────────────────────────
+   USERS  (table: users)
+───────────────────────────────────────────*/
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  password     String?
+  refreshToken String?
+  link         String   @unique
+  createdAt    DateTime @default(now())
+  deletedAt    DateTime?
+  forms        Form[]
+
+  @@map("users")
+}
+
+
+/* ───────────────────────────────────────────
+   FORMS  (table: forms)
+───────────────────────────────────────────*/
+model Form {
+  id         String      @id @default(uuid())
+  name       String
+  type       String
+  link       String      @unique
+  createdAt  DateTime    @default(now())
+  deletedAt  DateTime?
+
+  /* FK to Users */
+  userId     String
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /* relations */
+  pages      FormPage[]
+
+  @@map("forms")
+}
+
+/* ───────────────────────────────────────────
+   FORM_PAGES  (table: form_pages)
+───────────────────────────────────────────*/
+model FormPage {
+  id         String      @id @default(uuid())
+  formId     String
+  name       String
+  title      String
+  position   Int
+  createdAt  DateTime    @default(now())
+  deletedAt  DateTime?
+
+  /* FK to Form */
+  form       Form        @relation(fields: [formId], references: [id], onDelete: Cascade)
+
+  /* relations */
+  sections   FormSection[]
+
+  @@map("form_pages")
+}
+
+/* ───────────────────────────────────────────
+   FORM_SECTIONS  (table: form_sections)
+───────────────────────────────────────────*/
+model FormSection {
+  id           String     @id @default(uuid())
+  formPageId   String
+  type         String
+  content      Json
+  position     Int
+  createdAt    DateTime   @default(now())
+  deletedAt    DateTime?
+
+  /* FK to FormPage */
+  page         FormPage   @relation(fields: [formPageId], references: [id], onDelete: Cascade)
+
+  @@map("form_sections")
+}

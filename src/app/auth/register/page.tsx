@@ -14,14 +14,15 @@ const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-
     setError("");
 
-    if (!email || !password || !confirmPassword) {
+    if (!email || !password || !confirmPassword || !name) {
       setError("Please fill in all fields.");
       return;
     }
@@ -31,7 +32,29 @@ const RegisterPage = () => {
       return;
     }
 
-    router.push("/dashboard");
+    setLoading(true);
+    try {
+      console.log("CALKLING USERS API");
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, name }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Registration failed.");
+        setLoading(false);
+        return;
+      }
+
+      router.push("/auth/login");
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -46,13 +69,20 @@ const RegisterPage = () => {
           {error && <p className="text-sm text-center text-red-500">{error}</p>}
 
           <FormInput
+            id="name"
+            type="text"
+            label="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+
+          <FormInput
             id="email"
             type="email"
             label="Email"
             value={email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPassword(e.target.value)
-            }
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
 
@@ -61,9 +91,7 @@ const RegisterPage = () => {
             type="password"
             label="Password"
             value={password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPassword(e.target.value)
-            }
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
 
@@ -72,14 +100,12 @@ const RegisterPage = () => {
             type="password"
             label="Confirm Password"
             value={confirmPassword}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPassword(e.target.value)
-            }
+            onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
 
-          <Button type="submit" className="w-full">
-            Sign Up
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? "Signing Up..." : "Sign Up"}
           </Button>
         </form>
 

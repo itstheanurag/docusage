@@ -24,13 +24,26 @@ const LoginPage = () => {
       return;
     }
 
-    if (email === "admin@example.com" && password === "password") {
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!res.ok) {
+        const { error } = await res.json();
+        throw new Error(error || "Login failed.");
+      }
+
+      // Optionally, you could extract user from res.json() if you need it
       router.push("/dashboard");
-    } else {
-      setError("Invalid email or password.");
+    } catch (err: any) {
+      setError(err.message || "Something went wrong.");
     }
   };
-
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen p-24">
       <BackgroundPattern />
