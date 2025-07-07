@@ -1,5 +1,6 @@
+// lib/auth/session.ts
 import jwt from "jsonwebtoken";
-import * as cookie from "cookie"; // ✅ Correct import
+import * as cookie from "cookie";
 
 export type JwtPayload = {
   userId: string;
@@ -8,26 +9,27 @@ export type JwtPayload = {
   exp?: number;
 };
 
-/**
- * Parses the "authToken" cookie from a raw cookie header
- */
 export function parseAuthCookie(
   cookieHeader: string | undefined
 ): string | null {
   if (!cookieHeader) return null;
 
   const cookies = cookie.parse(cookieHeader);
-  return cookies.authToken || null;
+  return cookies.token || null; // Use your actual cookie name here
 }
 
-/**
- * Verifies a JWT token and returns the decoded payload if valid
- */
 export function verifyJwt(token: string): JwtPayload | null {
   try {
     return jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
-  } catch (error) {
-    console.error("JWT verification failed:", error);
+  } catch {
     return null;
   }
+}
+
+export function getLoggedInUserFromHeader(
+  cookieHeader: string | undefined
+): JwtPayload | null {
+  const token = parseAuthCookie(cookieHeader);
+  if (!token) return null;
+  return verifyJwt(token);
 }
