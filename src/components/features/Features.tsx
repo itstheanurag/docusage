@@ -60,7 +60,7 @@ const features = [
   },
 ];
 
-export default function FeatureHighlights() {
+export default function Features() {
   return (
     <section className="py-20 bg-background text-foreground">
       <div className="max-w-6xl mx-auto px-4 text-center">

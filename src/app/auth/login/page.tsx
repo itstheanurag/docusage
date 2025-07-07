@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import AnimateOnce from "@/components/animations/animate-once";
 import FormInput from "@/components/features/FormInputs";
 import BackgroundPattern from "@/components/animations/backround";
 import Animate from "@/components/animations/animate";

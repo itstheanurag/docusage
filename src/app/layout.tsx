@@ -1,9 +1,9 @@
 // layout.tsx
 import "./globals.css";
 import { Geist, Geist_Mono } from "next/font/google";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { Providers } from "./providers";
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 
 const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
 const geistMono = Geist_Mono({
@@ -16,16 +16,15 @@ export const metadata = {
   description: "GitHub Auth with NextAuth.js",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Providers >
+        <Providers>
           <Navbar />
           {children}
           <Footer />
