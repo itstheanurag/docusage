@@ -38,7 +38,8 @@ const LoginPage = () => {
       }
 
       // Optionally, you could extract user from res.json() if you need it
-      router.push("/dashboard");
+      // router.push("/dashboard");
+      window.location.href = "/dashboard";
     } catch (err: any) {
       setError(err.message || "Something went wrong.");
     }

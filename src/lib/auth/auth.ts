@@ -1,6 +1,8 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { prisma } from "../prisma";
+import { getServerUser } from "./jwt";
+import { cookies } from "next/headers";
 
 const JWT_SECRET = process.env.JWT_SECRET || "";
 export const registerUser = async ({
@@ -45,7 +47,7 @@ export const loginUser = async ({
   if (!valid) throw new Error("Invalid credentials");
 
   const refreshToken = jwt.sign(
-    { userId: user.id, email: user.email },
+    { id: user.id, email: user.email, name: user.name },
     JWT_SECRET,
     {
       expiresIn: "7d",
@@ -60,9 +62,24 @@ export const loginUser = async ({
   return { user, refreshToken };
 };
 
-export const logoutUser = async (userId: string) => {
+
+export const logoutUser = async () => {
+  const user = await getServerUser() as any;
+  console.log("SERVER USER TRYING TO LOGOUT ", user)
+  if (!user) {
+    throw new Error("Not authenticated");
+  }
+
+  // Clear refreshToken if you use it (optional)
   await prisma.user.update({
-    where: { id: userId },
+    where: { id: user.id },
     data: { refreshToken: null },
+  });
+
+  // Clear the cookie
+  (await cookies()).set("token", "", {
+    httpOnly: true,
+    path: "/",
+    expires: new Date(0),
   });
 };

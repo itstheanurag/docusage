@@ -1,13 +1,12 @@
-"use client";
-
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation"; // ✅ FIXED
 import ThemeToggleButton from "./theme/button";
 import Link from "next/link";
+import { getServerUser } from "@/lib/auth/jwt";
+import LogoutButton from "./auth/LogoutButton";
 
-const Navbar = () => {
-  const router = useRouter();
+const Navbar = async () => {
+  const user = await getServerUser();
 
   return (
     <nav className="sticky top-0 z-50 w-full px-6 py-3 flex items-center justify-between backdrop-blur-md border font-sans shadow-md rounded-none">
@@ -23,9 +22,13 @@ const Navbar = () => {
         {/* Right section */}
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
           <ThemeToggleButton />
-          <Link href="/auth/login" passHref>
-            <Button variant="default">Get Started</Button>
-          </Link>
+          {user ? (
+            <LogoutButton />
+          ) : (
+            <Link href="/auth/login" passHref>
+              <Button variant="default">Get Started</Button>
+            </Link>
+          )}
         </div>
       </div>
     </nav>

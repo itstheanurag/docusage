@@ -1,28 +1,10 @@
 // app/dashboard/page.tsx
-import { cookies } from "next/headers";
-import { prisma } from "@/lib/prisma";
-import { verifyJwt } from "@/lib/auth/jwt";
+import { getServerUser, verifyJwt } from "@/lib/auth/jwt";
+import { redirect } from "next/navigation";
 
 export default async function Dashboard() {
-  const token = (await cookies()).get("token")?.value;
-
-  if (!token) {
-    return <div className="text-red-500">Not logged in</div>;
-  }
-
-  const payload = verifyJwt(token);
-
-  if (!payload) {
-    return <div className="text-red-500">Invalid token</div>;
-  }
-
-  const user = await prisma.user.findUnique({
-    where: { id: payload.userId },
-  });
-
-  if (!user) {
-    return <div className="text-red-500">User not found</div>;
-  }
+  const user = await getServerUser()
+  if (!user) redirect("/");
 
   return (
     <div className="p-8">

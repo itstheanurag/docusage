@@ -1,21 +1,21 @@
 // lib/auth/session.ts
 import jwt from "jsonwebtoken";
 import * as cookie from "cookie";
+import { NextRequest } from "next/server";
+import { cookies } from "next/headers";
 
 export type JwtPayload = {
-  userId: string;
-  username: string;
+  id: string;
+  name: string;
+  email: string;
   iat?: number;
   exp?: number;
 };
 
-export function parseAuthCookie(
-  cookieHeader: string | undefined
-): string | null {
-  if (!cookieHeader) return null;
-
-  const cookies = cookie.parse(cookieHeader);
-  return cookies.token || null; // Use your actual cookie name here
+export async function getServerUser(): Promise<JwtPayload | null> {
+  const token = (await cookies()).get("token")?.value;
+  if (!token) return null;
+  return verifyJwt(token);
 }
 
 export function verifyJwt(token: string): JwtPayload | null {
@@ -24,12 +24,4 @@ export function verifyJwt(token: string): JwtPayload | null {
   } catch {
     return null;
   }
-}
-
-export function getLoggedInUserFromHeader(
-  cookieHeader: string | undefined
-): JwtPayload | null {
-  const token = parseAuthCookie(cookieHeader);
-  if (!token) return null;
-  return verifyJwt(token);
 }
