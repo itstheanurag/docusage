@@ -1,7 +1,5 @@
 // lib/auth/session.ts
 import jwt from "jsonwebtoken";
-import * as cookie from "cookie";
-import { NextRequest } from "next/server";
 import { cookies } from "next/headers";
 
 export type JwtPayload = {

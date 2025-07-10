@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import FormInput from "@/components/features/FormInputs";
 import BackgroundPattern from "@/components/animations/backround";
 import Animate from "@/components/animations/animate";
+import { toast } from "sonner";
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -23,18 +24,17 @@ const RegisterPage = () => {
     setError("");
 
     if (!email || !password || !confirmPassword || !name) {
-      setError("Please fill in all fields.");
+     toast.error("Please fill in all required fields")
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+   toast.error("Passwords do not match")
       return;
     }
 
     setLoading(true);
     try {
-      console.log("CALKLING USERS API");
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -44,12 +44,15 @@ const RegisterPage = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Registration failed.");
-        setLoading(false);
+        // setError(data.error || "Registration failed.");
+        // setLoading(false);
+        toast.error(data.error)
         return;
       }
 
+          toast.success("Registration Successfull")
       router.push("/auth/login");
+  
     } catch (err) {
       setError("Something went wrong. Please try again.");
     } finally {

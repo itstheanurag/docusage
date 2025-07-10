@@ -64,19 +64,16 @@ export const loginUser = async ({
 
 
 export const logoutUser = async () => {
-  const user = await getServerUser() as any;
-  console.log("SERVER USER TRYING TO LOGOUT ", user)
+  const user = await getServerUser();
   if (!user) {
     throw new Error("Not authenticated");
   }
 
-  // Clear refreshToken if you use it (optional)
   await prisma.user.update({
     where: { id: user.id },
     data: { refreshToken: null },
   });
 
-  // Clear the cookie
   (await cookies()).set("token", "", {
     httpOnly: true,
     path: "/",

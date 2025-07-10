@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import FormInput from "@/components/features/FormInputs";
 import BackgroundPattern from "@/components/animations/backround";
 import Animate from "@/components/animations/animate";
+import { toast } from "sonner";
 const LoginPage = () => {
   const router = useRouter();
 
@@ -19,7 +20,7 @@ const LoginPage = () => {
     setError("");
 
     if (!email || !password) {
-      setError("Please fill in all fields.");
+      toast.error("Please fill in all required fields")
       return;
     }
 
@@ -34,12 +35,14 @@ const LoginPage = () => {
 
       if (!res.ok) {
         const { error } = await res.json();
-        throw new Error(error || "Login failed.");
+        toast.error(error.error)
+        return
       }
 
       // Optionally, you could extract user from res.json() if you need it
       // router.push("/dashboard");
-      window.location.href = "/dashboard";
+        toast.success("Login Successful");
+        router.push("/dashboard");
     } catch (err: any) {
       setError(err.message || "Something went wrong.");
     }

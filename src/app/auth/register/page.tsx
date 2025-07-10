@@ -1,6 +1,5 @@
 // app/auth/login/page.tsx
 import { redirect } from "next/navigation";
-import { headers } from "next/headers";
 import RegisterPage from "@/components/auth/Registration";
 import { getServerUser } from "@/lib/auth/jwt";
 
