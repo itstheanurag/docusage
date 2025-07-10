@@ -94,18 +94,18 @@ export default function TemplateLibrary() {
               {filtered.map((template) => (
                 <Card
                   key={template.id}
-                  className="rounded-xl hover:shadow-md transition-shadow"
+                  className="rounded-xl hover:cursor-pointer hover:shadow-md hover:scale-101 transition duration-150 ease-in-out"
                 >
                   <CardHeader>
                     <CardTitle className="text-lg">{template.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground truncate">
                       {template.description}
                     </p>
                   </CardContent>
                   <CardFooter>
-                    <Button className="ml-auto">Use Template</Button>
+                    <Button className="ml-auto hover:translate-0.5">Use Template</Button>
                   </CardFooter>
                 </Card>
               ))}

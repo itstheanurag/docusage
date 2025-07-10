@@ -9,7 +9,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       disableTransitionOnChange
     >
       {children}
-      <Toaster position="bottom-right" duration={3000} />
+      <Toaster position="bottom-right" duration={1000} />
     </ThemeProvider>
   );
 }
