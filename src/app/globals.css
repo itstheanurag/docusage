@@ -127,3 +127,16 @@
 html {
   transition: background-color 0.4s ease, color 0.4s ease;
 }
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3); /* light gray */
+  border-radius: 9999px;
+}
