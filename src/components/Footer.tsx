@@ -3,9 +3,9 @@ import { X, Mail, Github } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="mt-auto border-t border-border bg-background text-foreground py-4 text-sm">
-      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-        {/* Left side */}
+  <footer className="border-t border-border bg-background text-foreground text-sm w-full mt-auto">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-6">
+        {/* Left */}
         <div className="text-center md:text-left">
           <p className="font-semibold text-lg">Docusage</p>
           <p className="text-muted-foreground">
@@ -13,7 +13,7 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* Center nav links */}
+        {/* Center */}
         <div className="flex gap-6 text-muted-foreground">
           <a href="/privacy" className="hover:text-primary transition">
             Privacy
@@ -26,7 +26,7 @@ const Footer = () => {
           </a>
         </div>
 
-        {/* Right side social icons */}
+        {/* Right */}
         <div className="flex gap-4">
           <a
             href="https://github.com/itstheanurag"

@@ -122,14 +122,31 @@ export default function FormBuilder() {
           />
         );
 
-      case 'checkbox':
-        return (
-          <CheckboxField
-            label={field.label || ''}
-            options={field.options || []}
-            name={field.id}
-          />
-        );
+case 'checkbox':
+  return (
+   <CheckboxField
+  label={field.label || ''}
+  options={field.options || []}
+  name={field.id}
+  onChangeLabel={(newLabel) => updateField(field.id, { label: newLabel })}
+  onChangeOption={(index, newValue) => {
+    const updatedOptions = [...(field.options || [])];
+    updatedOptions[index] = newValue;
+    updateField(field.id, { options: updatedOptions });
+  }}
+  onAddOption={() => {
+    const updatedOptions = [...(field.options || []), ''];
+    updateField(field.id, { options: updatedOptions });
+  }}
+  onRemoveOption={(index) => {
+    const updatedOptions = [...(field.options || [])];
+    updatedOptions.splice(index, 1);
+    updateField(field.id, { options: updatedOptions });
+  }}
+/>
+  );
+
+
 
       case 'signature':
         return <SignatureField label={field.label || ''} />;
@@ -217,7 +234,7 @@ export default function FormBuilder() {
             </div>
           ) : (
             formFields.map((field) => (
-              <div key={field.id} className="p-6 rounded-lg shadow-sm border relative group">
+              <div key={field.id} className="p-3 rounded-lg relative group">
                 <button
                   onClick={() => removeField(field.id)}
                   className="absolute top-4 right-4 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
