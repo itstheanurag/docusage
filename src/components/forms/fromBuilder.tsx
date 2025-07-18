@@ -114,10 +114,21 @@ export default function FormBuilder() {
             label={field.label || ''}
             options={field.options || []}
             name={field.id}
-            onChangeLabel={(newLabel) => updateField(field.id, { label: newLabel })}
+            onChangeLabel={(newLabel) =>
+              updateField(field.id, { label: newLabel })
+            }
             onChangeOption={(index, newValue) => {
               const updatedOptions = [...(field.options || [])];
               updatedOptions[index] = newValue;
+              updateField(field.id, { options: updatedOptions });
+            }}
+            onAddOption={() => {
+              const updatedOptions = [...(field.options || []), ''];
+              updateField(field.id, { options: updatedOptions });
+            }}
+            onRemoveOption={(index) => {
+              const updatedOptions = [...(field.options || [])];
+              updatedOptions.splice(index, 1);
               updateField(field.id, { options: updatedOptions });
             }}
           />
@@ -214,9 +225,9 @@ export default function FormBuilder() {
           />
         );
 
-        case 'textarea':
+      case 'textarea':
         return (
-           <ParagraphField
+          <ParagraphField
             content={field.content || ''}
             onChangeContent={(newContent) => updateField(field.id, { content: newContent })}
           />
