@@ -1,46 +1,10 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import ThemeToggleButton from "./theme/button";
 import Link from "next/link";
 import LogoutButton from "./auth/LogoutButton";
+import { JwtPayload } from "@/lib/auth/jwt";
 
-const Navbar = () => {
-  const [user, setUser] = useState<any>(null);
-  const pathname = usePathname();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await fetch("/api/auth/me", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include", // 👈 IMPORTANT!
-          cache: "no-store",
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          console.log("USER DATA", data);
-          setUser(data.data);
-        } else {
-          setUser(null);
-        }
-      } catch (error) {
-        console.error("Error fetching user:", error);
-        setUser(null);
-      }
-    };
-
-    fetchUser();
-  }, [pathname]);
-
-  console.log("USER FROM THE CLIENT ", user);
-
+const Navbar = ({user}: {user: JwtPayload  | null}) => {
   return (
     <nav className="sticky top-0 z-50 w-full px-6 py-3 flex items-center justify-between backdrop-blur-md border font-sans shadow-md rounded-none">
       <div className="w-full flex items-center justify-between">

@@ -13,12 +13,9 @@ const LoginPage = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-
     if (!email || !password) {
       toast.error("Please fill in all required fields")
       return;
@@ -30,21 +27,21 @@ const LoginPage = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include", // 👈 ensures cookies are sent and received
         body: JSON.stringify({ email, password }),
       });
+
 
       if (!res.ok) {
         const { error } = await res.json();
         toast.error(error.error)
         return
       }
-
-      // Optionally, you could extract user from res.json() if you need it
-      // router.push("/dashboard");
-        toast.success("Login Successful");
-        router.push("/dashboard");
+      toast.success("Login Successful");
+      router.refresh();
+      setTimeout(() => router.push("/dashboard"), 100);
     } catch (err: any) {
-      setError(err.message || "Something went wrong.");
+      toast.error(err.message || "Something went wrong.");
     }
   };
   return (
@@ -56,8 +53,6 @@ const LoginPage = () => {
         </h1>
 
         <form onSubmit={handleLogin} className="space-y-5">
-          {error && <p className="text-sm text-center text-red-500">{error}</p>}
-
           <FormInput
             id="email"
             type="email"

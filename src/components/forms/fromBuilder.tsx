@@ -51,6 +51,7 @@ export default function FormBuilder() {
   const [showOptions, setShowOptions] = useState(false);
 
   const addField = (option: typeof fieldOptions[0]) => {
+    console.log("Adding Options", option)
     setFormFields((prev) => [
       ...prev,
       {
@@ -122,32 +123,29 @@ export default function FormBuilder() {
           />
         );
 
-case 'checkbox':
-  return (
-   <CheckboxField
-  label={field.label || ''}
-  options={field.options || []}
-  name={field.id}
-  onChangeLabel={(newLabel) => updateField(field.id, { label: newLabel })}
-  onChangeOption={(index, newValue) => {
-    const updatedOptions = [...(field.options || [])];
-    updatedOptions[index] = newValue;
-    updateField(field.id, { options: updatedOptions });
-  }}
-  onAddOption={() => {
-    const updatedOptions = [...(field.options || []), ''];
-    updateField(field.id, { options: updatedOptions });
-  }}
-  onRemoveOption={(index) => {
-    const updatedOptions = [...(field.options || [])];
-    updatedOptions.splice(index, 1);
-    updateField(field.id, { options: updatedOptions });
-  }}
-/>
-  );
-
-
-
+      case 'checkbox':
+        return (
+          <CheckboxField
+            label={field.label || ''}
+            options={field.options || []}
+            name={field.id}
+            onChangeLabel={(newLabel) => updateField(field.id, { label: newLabel })}
+            onChangeOption={(index, newValue) => {
+              const updatedOptions = [...(field.options || [])];
+              updatedOptions[index] = newValue;
+              updateField(field.id, { options: updatedOptions });
+            }}
+            onAddOption={() => {
+              const updatedOptions = [...(field.options || []), ''];
+              updateField(field.id, { options: updatedOptions });
+            }}
+            onRemoveOption={(index) => {
+              const updatedOptions = [...(field.options || [])];
+              updatedOptions.splice(index, 1);
+              updateField(field.id, { options: updatedOptions });
+            }}
+          />
+        );
       case 'signature':
         return <SignatureField label={field.label || ''} />;
       case 'select':
@@ -216,6 +214,14 @@ case 'checkbox':
           />
         );
 
+        case 'textarea':
+        return (
+           <ParagraphField
+            content={field.content || ''}
+            onChangeContent={(newContent) => updateField(field.id, { content: newContent })}
+          />
+        );
+
       default:
         return null;
     }
@@ -262,29 +268,29 @@ case 'checkbox':
           </button>
 
           {showOptions && (
-  <div className="absolute bottom-16 right-0 rounded-lg shadow-xl border p-4 w-64 z-20">
-    <h3 className="font-semibold mb-3">Choose Field Type</h3>
+            <div className="absolute bottom-16 right-0 rounded-lg shadow-xl border p-4 w-64 z-20">
+              <h3 className="font-semibold mb-3">Choose Field Type</h3>
 
-    <div className="space-y-1 max-h-60 overflow-y-auto pr-1 scrollbar-thin">
-      {fieldOptions.map((opt) => (
-        <button
-          key={opt.label}
-          onClick={() => addField(opt)}
-          className="w-full text-left px-3 py-2 rounded-md transition-colors duration-150"
-        >
-          {opt.label}
-        </button>
-      ))}
-    </div>
+              <div className="space-y-1 max-h-60 overflow-y-auto pr-1 scrollbar-thin">
+                {fieldOptions.map((opt) => (
+                  <button
+                    key={opt.label}
+                    onClick={() => addField(opt)}
+                    className="w-full text-left px-3 py-2 rounded-md transition-colors duration-150"
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
 
-    <button
-      onClick={() => setShowOptions(false)}
-      className="mt-3 w-full text-center px-3 py-2 text-sm hover:opacity-80"
-    >
-      Cancel
-    </button>
-  </div>
-)}
+              <button
+                onClick={() => setShowOptions(false)}
+                className="mt-3 w-full text-center px-3 py-2 text-sm hover:opacity-80"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
 
 
         </div>

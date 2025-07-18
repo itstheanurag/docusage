@@ -79,4 +79,5 @@ export const logoutUser = async () => {
     path: "/",
     expires: new Date(0),
   });
+
 };
