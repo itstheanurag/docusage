@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const { email, password } = await req.json();
-    console.log(email, password)
+    // console.log(email, password)
     const { user, refreshToken } = await loginUser({ email, password });
     (await cookies()).set("token", refreshToken, {
       httpOnly: true,

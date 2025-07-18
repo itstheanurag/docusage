@@ -51,7 +51,7 @@ export default function FormBuilder() {
   const [showOptions, setShowOptions] = useState(false);
 
   const addField = (option: typeof fieldOptions[0]) => {
-    console.log("Adding Options", option)
+    // console.log("Adding Options", option)
     setFormFields((prev) => [
       ...prev,
       {

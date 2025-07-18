@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 
 export default async function HomePage() {
   const user = await getServerUser()
-  console.log("SERVER USER FOUDN IN HOMEPAGE", user)
+  // console.log("SERVER USER FOUDN IN HOMEPAGE", user)
   if(user) redirect("/dashboard");
   return (
     <>

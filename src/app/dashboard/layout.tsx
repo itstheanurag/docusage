@@ -4,7 +4,7 @@ import DashboardLayout from "./DasbhoardLayout";
 
 export default async function Layout() {
   const user = await getServerUser();
-  console.log("SERVER USER FOUDN IN DashboardLayout", user)
+  // console.log("SERVER USER FOUDN IN DashboardLayout", user)
   if (user) {
    return <DashboardLayout />;
   }
