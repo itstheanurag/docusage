@@ -3,7 +3,7 @@ import { X, Mail, Github } from "lucide-react";
 
 const Footer = () => {
   return (
-  <footer className="border-t border-border bg-background text-foreground text-sm w-full mt-auto">
+  <footer className="z-10 border-t border-border bg-background text-foreground text-sm w-full mt-auto">
       <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-6">
         {/* Left */}
         <div className="text-center md:text-left">

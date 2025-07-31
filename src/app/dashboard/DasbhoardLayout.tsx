@@ -2,8 +2,9 @@
 "use client";
 
 import { useState } from "react";
-import Sidebar from "./page";
 import FormBuilder from "@/components/forms/fromBuilder";
+import DocumentBuilder from "@/components/Documents/document-builder";
+import Sidebar from "./sidebar";
 
 const DashboardLayout = () => {
   const [selected, setSelected] = useState("create");
@@ -14,6 +15,8 @@ const DashboardLayout = () => {
         return <FormBuilder />;
       case "forms":
         return <p>Forms List Page</p>;
+      case "documents":
+        return <DocumentBuilder />;
       case "analytics":
         return <p>Analytics Page</p>;
       case "user":
@@ -24,10 +27,10 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div className="h-screen flex overflow-hidden">
+    <div className="h-screen flex items-center overflow-hidden gap-4">
       <Sidebar selected={selected} setSelected={setSelected} />
-      <div className="flex flex-col flex-1 overflow-hidden">
-        <main className="flex-1 overflow-y-auto p-6 min-h-0 scrollbar-thin">
+      <div className="">
+        <main className="">
           {renderContent()}
         </main>
       </div>
