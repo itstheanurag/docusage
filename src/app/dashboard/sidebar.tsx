@@ -5,7 +5,6 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const menuItems = [
-  { label: "Create", key: "create" },
   { label: "Forms", key: "forms" },
   { label: "Analytics", key: "analytics" },
   { label: "User", key: "user" },

@@ -61,9 +61,38 @@ export default function FormBuilder() {
   };
 
   return (
-    <div className="min-h-screen p-8 flex">
-      <div className="max-w-4xl mx-auto">
+      <div className="relative max-w-4xl mx-auto">
         <h1 className="text-2xl font-bold mb-8">Form Builder</h1>
+         <div className="absolute right-4 top-4">
+        <button
+          onClick={() => setShowOptions(prev => !prev)}
+          className="text-white px-4 py-2 rounded-md shadow relative"
+        >
+          Add Field
+        </button>
+        {showOptions && (
+          <div className=" absolute bottom rounded-lg shadow-xl border p-4 w-64">
+            <h3 className="font-semibold mb-3">Choose Field Type</h3>
+            <div className="space-y-1 max-h-60 overflow-y-auto pr-1 scrollbar-thin">
+              {fieldOptions.map((opt) => (
+                <button
+                  key={opt.label}
+                  onClick={() => addField(opt)}
+                  className="w-full text-left px-3 py-2 rounded-md transition-colors duration-150"
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={() => setShowOptions(false)}
+              className="mt-3 w-full text-center px-3 py-2 text-sm hover:opacity-80"
+            >
+              Cancel
+            </button>
+          </div>
+        )}
+         </div>
 
         <div className="space-y-6 mb-20">
           {formFields.length === 0 ? (
@@ -105,36 +134,6 @@ export default function FormBuilder() {
           )}
         </div>
       </div>
-      <div>
-        <button
-          onClick={() => setShowOptions(true)}
-          className="text-white px-4 py-2 rounded-md shadow"
-        >
-          Add Field
-        </button>
-        {showOptions && (
-          <div className="rounded-lg shadow-xl border p-4 w-64">
-            <h3 className="font-semibold mb-3">Choose Field Type</h3>
-            <div className="space-y-1 max-h-60 overflow-y-auto pr-1 scrollbar-thin">
-              {fieldOptions.map((opt) => (
-                <button
-                  key={opt.label}
-                  onClick={() => addField(opt)}
-                  className="w-full text-left px-3 py-2 rounded-md transition-colors duration-150"
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </div>
-            <button
-              onClick={() => setShowOptions(false)}
-              className="mt-3 w-full text-center px-3 py-2 text-sm hover:opacity-80"
-            >
-              Cancel
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
+
   );
 }
