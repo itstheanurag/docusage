@@ -22,13 +22,15 @@ import Link from "next/link";
 import { BackgroundBeams } from "@/components/backgrounds/Beams";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { RegisterInput } from "@/types";
 
 export function SignUpForm() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [agreedToTerms, setAgreedToTerms] = useState(false);
-  const [formData, setFormData] = useState({
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [agreedToTerms, setAgreedToTerms] = useState<boolean>(false);
+  const [formData, setFormData] = useState<RegisterInput>({
     fullName: "",
     email: "",
     password: "",
@@ -83,7 +85,7 @@ export function SignUpForm() {
 
       toast.success("Account created successfully! Redirecting to login...");
       setTimeout(() => {
-        router.push("/signin");
+        router.push("/auth/signin");
       }, 1500);
     } catch (error) {
       console.error("Registration error:", error);
