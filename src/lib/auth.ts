@@ -1,26 +1,14 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { prisma } from "./prisma";
+import { LoginInput, RegisterInput, User } from "@/types";
+import type { User as PrismaUser } from "@prisma/client";
+import ms from "ms";
 
-export interface CreateUserData {
-  email: string;
-  fullName: string;
-  password?: string;
-  provider?: string;
-  providerId?: string;
-  image?: string;
-}
-
-export interface LoginData {
-  email: string;
-  password: string;
-}
-
-// Hash password
 export async function hashPassword(password: string): Promise<string> {
   return await bcrypt.hash(password, 12);
 }
 
-// Verify password
 export async function verifyPassword(
   password: string,
   hashedPassword: string
@@ -28,8 +16,17 @@ export async function verifyPassword(
   return await bcrypt.compare(password, hashedPassword);
 }
 
-// Create user
-export async function createUser(data: CreateUserData) {
+function generateToken(userId: string, email: string) {
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is not defined");
+  }
+
+  const rawExpiresIn = process.env.JWT_EXPIRES_IN || "1d";
+  const expiresIn = Math.floor(ms(rawExpiresIn as ms.StringValue)! / 1000);
+  return jwt.sign({ userId, email }, process.env.JWT_SECRET, { expiresIn });
+}
+
+export async function createUser(data: RegisterInput) {
   try {
     const {
       email,
@@ -40,7 +37,6 @@ export async function createUser(data: CreateUserData) {
       image,
     } = data;
 
-    // Check if user already exists
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
@@ -49,10 +45,8 @@ export async function createUser(data: CreateUserData) {
       throw new Error("User already exists with this email");
     }
 
-    // Hash password if provided
     const hashedPassword = password ? await hashPassword(password) : null;
 
-    // Create user
     const user = await prisma.user.create({
       data: {
         email,
@@ -64,21 +58,22 @@ export async function createUser(data: CreateUserData) {
       },
     });
 
-    // Return user without password
-    const { password: _, ...userWithoutPassword } = user;
-    return userWithoutPassword;
+    return {
+      message: "user created successfully",
+      data: buildUserWithoutPassword(user),
+    };
   } catch (error) {
     console.error("Error creating user:", error);
     throw error;
   }
 }
 
-// Login user
-export async function loginUser(data: LoginData) {
+export async function loginUser(
+  data: LoginInput
+): Promise<{ user: User; token: string }> {
   try {
     const { email, password } = data;
 
-    // Find user by email
     const user = await prisma.user.findUnique({
       where: { email },
     });
@@ -87,37 +82,23 @@ export async function loginUser(data: LoginData) {
       throw new Error("Invalid credentials");
     }
 
-    // Verify password
     const isValid = await verifyPassword(password, user.password);
-
     if (!isValid) {
       throw new Error("Invalid credentials");
     }
 
-    // Return user without password
-    const { password: _, ...userWithoutPassword } = user;
-    return userWithoutPassword;
+    const token = generateToken(user.id, user.email);
+    return { user: buildUserWithoutPassword(user), token };
   } catch (error) {
     console.error("Error logging in user:", error);
     throw error;
   }
 }
 
-// Find user by email
 export async function findUserByEmail(email: string) {
   try {
     const user = await prisma.user.findUnique({
       where: { email },
-      select: {
-        id: true,
-        email: true,
-        fullName: true,
-        image: true,
-        provider: true,
-        emailVerified: true,
-        createdAt: true,
-        updatedAt: true,
-      },
     });
 
     return user;
@@ -127,7 +108,6 @@ export async function findUserByEmail(email: string) {
   }
 }
 
-// Find user by ID
 export async function findUserById(id: string) {
   try {
     const user = await prisma.user.findUnique({
@@ -149,4 +129,17 @@ export async function findUserById(id: string) {
     console.error("Error finding user by ID:", error);
     throw error;
   }
+}
+
+function buildUserWithoutPassword(user: PrismaUser): User {
+  return {
+    id: user.id,
+    fullName: user.fullName,
+    email: user.email,
+    emailVerified: user.emailVerified ?? null,
+    image: user.image ?? null,
+    provider: user.provider ?? null,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
+  };
 }

@@ -12,6 +12,9 @@ export const registerSchema = z.object({
   fullName: z.string().min(2, "Full name must be at least 2 characters"),
   password: z.string().min(6, "Password must be at least 6 characters"),
   confirmPassword: z.string().optional(),
+  provider: z.string().optional(),
+  providerId: z.string().optional(),
+  image: z.string().optional(),
 });
 
 // Infer the types from the schemas
