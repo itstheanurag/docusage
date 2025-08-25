@@ -181,7 +181,7 @@ export function SignInForm() {
               className="text-center text-sm text-muted-foreground w-full"
             >
               Don't have an account?{" "}
-              <Link href="/signup" className="text-muted-foreground hover:text-foreground hover:underline font-medium">
+              <Link href="/auth/signup" className="text-muted-foreground hover:text-foreground hover:underline font-medium">
                 Sign up
               </Link>
             </motion.p>
