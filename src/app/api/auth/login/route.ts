@@ -8,21 +8,15 @@ import { loginSchema } from "@/types";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-
-    // Validate input
     const validatedData = loginSchema.parse(body);
-
-    // Login user
-    const user = await loginUser({
+    const data = await loginUser({
       email: validatedData.email,
       password: validatedData.password,
     });
-
-    // In a real app, you'd create a session/JWT here
     return NextResponse.json(
       {
         message: "Login successful",
-        user,
+        data,
       },
       { status: 200 }
     );
@@ -31,7 +25,7 @@ export async function POST(request: NextRequest) {
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Validation error", details: error.errors },
+        { error: "Validation error", details: error.message },
         { status: 400 }
       );
     }
