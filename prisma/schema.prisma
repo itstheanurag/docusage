@@ -13,24 +13,17 @@ datasource db {
 model User {
   id            String    @id @default(cuid())
   email         String    @unique
-  fullName      String
+  fullName      String    @map("full_name")
   password      String?   // Optional for OAuth users
   emailVerified DateTime? @map("email_verified")
   image         String?   // For profile pictures from OAuth
-  
-  // OAuth fields
-  provider      String?   // "google", "email", etc.
-  providerId    String?   // Google ID, etc.
-  
-  // Timestamps
+
+  provider      String?
+  providerId    String?
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  // Add any additional fields you need
-  // role          String    @default("USER") // USER, ADMIN, etc.
-  // isActive      Boolean   @default(true)
-
-  
   sessions Session[]
 
   @@map("users")
