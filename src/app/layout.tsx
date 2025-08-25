@@ -1,37 +1,39 @@
-// layout.tsx
-import "./globals.css";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Providers } from "./providers";
-import Footer from "@/components/Footer";
-import NavbarWithUser from "@/components/NavbarWithUser";
+import type React from "react"
+import type { Metadata } from "next"
+import { ThemeProvider } from "next-themes"
+import { Outfit, Inter } from "next/font/google"
+import "./globals.css"
 
-const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
-const geistMono = Geist_Mono({
+const outfit = Outfit({
   subsets: ["latin"],
-  variable: "--font-geist-mono",
-});
+  display: "swap",
+  variable: "--font-outfit",
+})
 
-export const metadata = {
-  title: "Docusage",
-  description: "GitHub Auth with NextAuth.js",
-};
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+})
+
+export const metadata: Metadata = {
+  title: "DocuSage - Professional Document Builder",
+  description: "Create stunning documents with ease using our professional document builder",
+  generator: "v0.app",
+}
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+}: Readonly<{
+  children: React.ReactNode
+}>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex flex-col`}
-      >
-        <Providers>
-          <NavbarWithUser />
+    <html lang="en" className={`${outfit.variable} ${inter.variable} antialiased`}>
+      <body className="font-outfit">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
-          <Footer />
-        </Providers>
+        </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }

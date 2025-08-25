@@ -1,87 +1,51 @@
-// prisma/schema.prisma
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "postgresql" // Change to "mysql" or "sqlite" based on your preference
   url      = env("DATABASE_URL")
 }
 
-/* ───────────────────────────────────────────
-   USERS  (table: users)
-───────────────────────────────────────────*/
 model User {
-  id           String   @id @default(uuid())
-  name         String
-  email        String   @unique
-  password     String?
-  refreshToken String?
-  link         String   @unique
-  createdAt    DateTime @default(now())
-  deletedAt    DateTime?
-  forms        Form[]
+  id            String    @id @default(cuid())
+  email         String    @unique
+  fullName      String
+  password      String?   // Optional for OAuth users
+  emailVerified DateTime? @map("email_verified")
+  image         String?   // For profile pictures from OAuth
+  
+  // OAuth fields
+  provider      String?   // "google", "email", etc.
+  providerId    String?   // Google ID, etc.
+  
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Add any additional fields you need
+  // role          String    @default("USER") // USER, ADMIN, etc.
+  // isActive      Boolean   @default(true)
+
+  
+  sessions Session[]
 
   @@map("users")
 }
 
+// Optional: Add a sessions table if you're using Better Auth or similar
+model Session {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  expiresAt DateTime @map("expires_at")
+  token     String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-/* ───────────────────────────────────────────
-   FORMS  (table: forms)
-───────────────────────────────────────────*/
-model Form {
-  id         String      @id @default(uuid())
-  name       String
-  type       String
-  link       String      @unique
-  createdAt  DateTime    @default(now())
-  deletedAt  DateTime?
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  /* FK to Users */
-  userId     String
-  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  /* relations */
-  pages      FormPage[]
-
-  @@map("forms")
-}
-
-/* ───────────────────────────────────────────
-   FORM_PAGES  (table: form_pages)
-───────────────────────────────────────────*/
-model FormPage {
-  id         String      @id @default(uuid())
-  formId     String
-  name       String
-  title      String
-  position   Int
-  createdAt  DateTime    @default(now())
-  deletedAt  DateTime?
-
-  /* FK to Form */
-  form       Form        @relation(fields: [formId], references: [id], onDelete: Cascade)
-
-  /* relations */
-  sections   FormSection[]
-
-  @@map("form_pages")
-}
-
-/* ───────────────────────────────────────────
-   FORM_SECTIONS  (table: form_sections)
-───────────────────────────────────────────*/
-model FormSection {
-  id           String     @id @default(uuid())
-  formPageId   String
-  type         String
-  content      Json
-  position     Int
-  createdAt    DateTime   @default(now())
-  deletedAt    DateTime?
-
-  /* FK to FormPage */
-  page         FormPage   @relation(fields: [formPageId], references: [id], onDelete: Cascade)
-
-  @@map("form_sections")
+  @@map("sessions")
 }

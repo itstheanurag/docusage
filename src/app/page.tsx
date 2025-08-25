@@ -1,20 +1,17 @@
-import Features from "@/components/features/Features";
-import TemplateLibrary from "@/components/features/Template";
-import Home from "@/components/Home";
-import HowItWorks from "@/components/HowItWorks";
-import { getServerUser } from "@/lib/auth/jwt";
-import { redirect } from "next/navigation";
+import { FeaturesSection } from "@/components/features-section";
+import { Footer } from "@/components/footer";
+import { HeroSection } from "@/components/hero-section";
+import { Navbar } from "@/components/navbar";
+import { PreviewSection } from "@/components/preview-section";
 
-export default async function HomePage() {
-  const user = await getServerUser()
-  // console.log("SERVER USER FOUDN IN HOMEPAGE", user)
-  if(user) redirect("/dashboard");
+export default function HomePage() {
   return (
-    <>
-      <Home />
-      <Features />
-      <TemplateLibrary />
-      <HowItWorks />
-    </>
+    <main className="min-h-screen">
+      <Navbar />
+      <HeroSection />
+      <FeaturesSection />
+      <PreviewSection />
+      <Footer />
+    </main>
   );
 }
