@@ -1,4 +1,3 @@
-// lib/db.ts or wherever your helpers live
 import {prisma} from "@/lib/prisma";
 
 export const createForm = async (data: any) => {
