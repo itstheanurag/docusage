@@ -47,7 +47,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     <div className="flex flex-col h-full">
       <div className="p-6 border-b">
         <h2 className="text-xl font-bold">DocuSage</h2>
-        <p className="text-sm text-muted-foreground">Dashboard</p>
       </div>
 
       <nav className="flex-1 p-4 space-y-2">
@@ -86,12 +85,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   );
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen flex bg-background">
       {/* Desktop Sidebar */}
-      <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-        <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r bg-background">
-          <SidebarContent />
-        </div>
+      <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col border-r bg-background">
+        <SidebarContent />
       </div>
 
       {/* Mobile Sidebar */}
@@ -102,9 +99,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       </Sheet>
 
       {/* Main Content */}
-      <div className="lg:pl-72">
+      <div className="flex-1 lg:pl-72 flex flex-col min-h-screen">
         {/* Top Header */}
-        <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b bg-background px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+        <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b bg-background px-4 sm:px-6 lg:px-8 shadow-sm">
+          {/* Mobile menu button */}
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="lg:hidden">
@@ -113,21 +111,16 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             </SheetTrigger>
           </Sheet>
 
-          <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-            <div className="flex flex-1"></div>
-            <div className="flex items-center gap-x-4 lg:gap-x-6">
-              <Button variant="ghost" size="icon">
-                <Bell className="h-5 w-5" />
-              </Button>
-              <ModeToggle />
-            </div>
+          <div className="flex items-center gap-x-4 lg:gap-x-6">
+            <Button variant="ghost" size="icon">
+              <Bell className="h-5 w-5" />
+            </Button>
+            <ModeToggle />
           </div>
         </header>
 
         {/* Page Content */}
-        <main className="py-6">
-          <div className="px-4 sm:px-6 lg:px-8">{children}</div>
-        </main>
+        <main className="flex-1 py-6 px-4 sm:px-6 lg:px-8">{children}</main>
       </div>
     </div>
   );
