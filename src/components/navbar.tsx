@@ -25,13 +25,9 @@ export function Navbar() {
             className="flex items-center space-x-2"
           >
             <Link href="/" className="flex items-center space-x-2">
-              <motion.div
-                className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary pulse-glow"
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.6 }}
-              >
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary pulse-glow">
                 <FileText className="h-5 w-5 text-primary-foreground " />
-              </motion.div>
+              </span>
               <span className="text-xl font-serif font-bold text-foreground">
                 DocuSage
               </span>

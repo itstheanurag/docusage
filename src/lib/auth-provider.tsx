@@ -112,12 +112,9 @@ export function useAuth() {
   return context
 }
 
-// Protected route component
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading, user, token } = useAuth()
   const router = useRouter()
-
-  console.log("[v0] ProtectedRoute check:", { isAuthenticated, isLoading, hasUser: !!user, hasToken: !!token })
 
   if (isLoading) {
     return (
@@ -128,11 +125,9 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   }
 
   if (!isAuthenticated) {
-    console.log("[v0] Not authenticated, redirecting to signin")
     router.push("/signin")
     return null
   }
 
-  console.log("[v0] User is authenticated, rendering protected content")
   return <>{children}</>
 }

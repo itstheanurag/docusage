@@ -256,30 +256,33 @@ export function InvoicesManager() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.6 + index * 0.05, duration: 0.3 }}
-                  className="flex items-center justify-between p-6 border-b last:border-b-0 hover:bg-muted/50 transition-colors"
+                  className="flex flex-col lg:flex-row lg:items-center justify-between p-6 border-b last:border-b-0 hover:bg-muted/50 transition-colors gap-4"
                 >
-                  <div className="flex items-center space-x-4">
-                    <div className="p-2 bg-primary/10 rounded-lg">
+                  {/* Left Section */}
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4 flex-1">
+                    <div className="p-2 bg-primary/10 rounded-lg flex-shrink-0">
                       <Receipt className="h-5 w-5 text-primary" />
                     </div>
-                    <div>
-                      <p className="font-medium">{invoice.id}</p>
-                      <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                        <span className="flex items-center">
-                          <User className="mr-1 h-3 w-3" />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium truncate">{invoice.id}</p>
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 text-sm text-muted-foreground">
+                        <span className="flex items-center truncate">
+                          <User className="mr-1 h-3 w-3 flex-shrink-0" />
                           {invoice.client}
                         </span>
-                        <span className="flex items-center">
-                          <Calendar className="mr-1 h-3 w-3" />
+                        <span className="flex items-center truncate">
+                          <Calendar className="mr-1 h-3 w-3 flex-shrink-0" />
                           Due {invoice.dueDate}
                         </span>
                       </div>
-                      <p className="text-sm text-muted-foreground mt-1">
+                      <p className="text-sm text-muted-foreground mt-1 truncate">
                         {invoice.description}
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-4">
+
+                  {/* Right Section */}
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 mt-4 lg:mt-0 flex-shrink-0">
                     <div className="text-right">
                       <p className="font-bold text-lg">
                         ${invoice.amount.toLocaleString()}
@@ -288,7 +291,7 @@ export function InvoicesManager() {
                         {invoice.status}
                       </Badge>
                     </div>
-                    <div className="flex space-x-1">
+                    <div className="flex space-x-1 mt-2 sm:mt-0">
                       <Button variant="ghost" size="icon">
                         <Eye className="h-4 w-4" />
                       </Button>
