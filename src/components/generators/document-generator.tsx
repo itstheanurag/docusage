@@ -1,190 +1,185 @@
 "use client";
 
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import dynamic from "next/dynamic";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Bold,
-  Italic,
-  Underline,
-  List,
-  ListOrdered,
-  AlignLeft,
-  AlignCenter,
-  AlignRight,
-  Link,
-  Quote,
-  Code,
-  Plus,
-  X,
-} from "lucide-react";
-
+import { motion } from "framer-motion";
 import "react-quill-new/dist/quill.snow.css";
+import { FONTS } from "@/lib/data/fonts";
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
+const SIZES = ["small", "normal", "large", "huge"];
+
 export default function DocumentGenerator() {
-  const [content, setContent] = useState("");
-  const [showToolbar, setShowToolbar] = useState(false);
-  const [documentSize, setDocumentSize] = useState("a4");
-  const quillRef = useRef<any>(null);
+  const [value, setValue] = useState("");
+  const quillRef = useRef<any>(null); // use `any` to simplify TypeScript for now
 
-  type DocSizeKey = "a4" | "a3" | "letter" | "legal" | "custom";
+  const applyFormat = (format: string, val: any = true) => {
+    const editor = quillRef.current?.getEditor();
+    if (!editor) return;
 
-  const documentSizes: Record<DocSizeKey, { width: string; name: string }> = {
-    a4: { width: "w-[800px]", name: "A4" },
-    a3: { width: "w-[1200px]", name: "A3" },
-    letter: { width: "w-[850px]", name: "Letter" },
-    legal: { width: "w-[900px]", name: "Legal" },
-    custom: { width: "w-full", name: "Full Width" },
-  };
-
-  const modules = { toolbar: false };
-
-  const applyFormat = (format: string, value?: any) => {
-    if (quillRef.current) {
-      const editor = quillRef.current.getEditor();
-      editor.format(format, value);
+    // Toggle boolean formats like bold, italic, underline, strike
+    const isActive = editor.getFormat()[format];
+    if (typeof isActive === "boolean") {
+      editor.format(format, !isActive);
+    } else {
+      editor.format(format, val);
     }
   };
 
-  const toolbarItems = [
-    { icon: Bold, action: () => applyFormat("bold"), tooltip: "Bold" },
-    { icon: Italic, action: () => applyFormat("italic"), tooltip: "Italic" },
-    {
-      icon: Underline,
-      action: () => applyFormat("underline"),
-      tooltip: "Underline",
-    },
-    {
-      icon: AlignLeft,
-      action: () => applyFormat("align", ""),
-      tooltip: "Align Left",
-    },
-    {
-      icon: AlignCenter,
-      action: () => applyFormat("align", "center"),
-      tooltip: "Align Center",
-    },
-    {
-      icon: AlignRight,
-      action: () => applyFormat("align", "right"),
-      tooltip: "Align Right",
-    },
-    {
-      icon: List,
-      action: () => applyFormat("list", "bullet"),
-      tooltip: "Bullet List",
-    },
-    {
-      icon: ListOrdered,
-      action: () => applyFormat("list", "ordered"),
-      tooltip: "Numbered List",
-    },
-    {
-      icon: Link,
-      action: () => applyFormat("link", prompt("Enter URL:") || ""),
-      tooltip: "Insert Link",
-    },
-    { icon: Quote, action: () => applyFormat("blockquote"), tooltip: "Quote" },
-    {
-      icon: Code,
-      action: () => applyFormat("code-block"),
-      tooltip: "Code Block",
-    },
-  ];
+  const applyHeader = (level: number | "") => applyFormat("header", level);
+  const applyList = (type: "ordered" | "bullet") => applyFormat("list", type);
+  const applySize = (size: string) => applyFormat("size", size);
+  const applyFont = (font: string) => applyFormat("font", font);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-
-        {/* Document Size Selector */}
-        <div className="relative">
-          <select
-            value={documentSize}
-            onChange={(e) => setDocumentSize(e.target.value)}
-            className="border rounded-lg px-3 py-2 text-sm bg-white dark:bg-gray-800 dark:text-gray-200"
-          >
-            {Object.entries(documentSizes).map(([key, size]) => (
-              <option key={key} value={key}>
-                {size.name}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      {/* Document Container */}
-      <div className="flex justify-center min-h-screen">
-        <div
-          className={`bg-white dark:bg-gray-800 shadow-2xl rounded-xl overflow-hidden ${documentSizes[documentSize].width}`}
+    <div className="flex flex-col h-screen items-center bg-gray-50 p-4">
+      {/* Custom Toolbar */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="w-full max-w-6xl bg-white shadow-sm rounded-lg mb-4 flex flex-wrap gap-2 p-3"
+      >
+        {/* Header */}
+        <select
+          onChange={(e) => applyHeader(e.target.value ? +e.target.value : "")}
+          className="border rounded px-2 py-1 text-sm"
         >
-          <ReactQuill
-            ref={quillRef}
-            value={content}
-            onChange={setContent}
-            modules={modules}
-            theme="snow"
-            placeholder="Start writing your document here..."
-          />
-        </div>
-      </div>
+          <option value="">Normal</option>
+          <option value="1">H1</option>
+          <option value="2">H2</option>
+          <option value="3">H3</option>
+        </select>
 
-      {/* Floating Toolbar */}
-      <div className="fixed bottom-8 right-8">
+        {/* Font */}
+        <select
+          onChange={(e) => applyFont(e.target.value)}
+          className="border rounded px-2 py-1 text-sm"
+        >
+          {FONTS.map((f) => (
+            <option
+              key={f.value}
+              value={f.value}
+              style={{ fontFamily: f.value }}
+            >
+              {f.name}
+            </option>
+          ))}
+        </select>
+
+        {/* Size */}
+        <select
+          onChange={(e) => applySize(e.target.value)}
+          className="border rounded px-2 py-1 text-sm"
+        >
+          {SIZES.map((s) => (
+            <option key={s} value={s}>
+              {s || "Normal"}
+            </option>
+          ))}
+        </select>
+
+        {/* Text Style */}
         <button
-          onClick={() => setShowToolbar((prev) => !prev)}
-          className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-colors ${
-            showToolbar
-              ? "bg-red-500 hover:bg-red-600"
-              : "bg-blue-600 hover:bg-blue-700"
-          }`}
+          onClick={() => applyFormat("bold")}
+          className="btn-toolbar font-bold hover:bg-gray-200 rounded px-2 py-1"
         >
-          {showToolbar ? (
-            <X className="w-6 h-6 text-white" />
-          ) : (
-            <Plus className="w-6 h-6 text-white" />
-          )}
+          B
+        </button>
+        <button
+          onClick={() => applyFormat("italic")}
+          className="btn-toolbar italic hover:bg-gray-200 rounded px-2 py-1"
+        >
+          I
+        </button>
+        <button
+          onClick={() => applyFormat("underline")}
+          className="btn-toolbar underline hover:bg-gray-200 rounded px-2 py-1"
+        >
+          U
+        </button>
+        <button
+          onClick={() => applyFormat("strike")}
+          className="btn-toolbar line-through hover:bg-gray-200 rounded px-2 py-1"
+        >
+          S
+        </button>
+        <button
+          onClick={() => applyFormat("blockquote")}
+          className="btn-toolbar hover:bg-gray-200 rounded px-2 py-1"
+        >
+          ❝
         </button>
 
-        <AnimatePresence>
-          {showToolbar && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ duration: 0.2 }}
-              className="absolute bottom-20 right-0 flex flex-col gap-3"
-            >
-              {toolbarItems.map((item, index) => (
-                <motion.button
-                  key={index}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={item.action}
-                  className="w-12 h-12 bg-white dark:bg-gray-700 rounded-full shadow-lg flex items-center justify-center border"
-                  title={item.tooltip}
-                >
-                  <item.icon className="w-5 h-5 text-gray-700 dark:text-gray-200" />
-                </motion.button>
-              ))}
+        {/* Lists */}
+        <button
+          onClick={() => applyList("ordered")}
+          className="btn-toolbar hover:bg-gray-200 rounded px-2 py-1"
+        >
+          1.
+        </button>
+        <button
+          onClick={() => applyList("bullet")}
+          className="btn-toolbar hover:bg-gray-200 rounded px-2 py-1"
+        >
+          •
+        </button>
 
-              {/* Header Dropdown */}
-              <select
-                className="w-12 h-12 rounded-full bg-white dark:bg-gray-700 shadow-lg border text-xs text-center"
-                title="Header"
-                onChange={(e) => applyFormat("header", e.target.value || false)}
-              >
-                <option value="">T</option>
-                <option value="1">H1</option>
-                <option value="2">H2</option>
-                <option value="3">H3</option>
-              </select>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+        {/* Media */}
+        <button
+          onClick={() => {
+            const url = prompt("Enter link URL:");
+            if (url) applyFormat("link", url);
+          }}
+          className="btn-toolbar hover:bg-gray-200 rounded px-2 py-1"
+        >
+          🔗
+        </button>
+        <button
+          onClick={() => {
+            const url = prompt("Enter image URL:");
+            if (url) applyFormat("image", url);
+          }}
+          className="btn-toolbar hover:bg-gray-200 rounded px-2 py-1"
+        >
+          🖼
+        </button>
+        <button
+          onClick={() => {
+            const url = prompt("Enter video URL:");
+            if (url) applyFormat("video", url);
+          }}
+          className="btn-toolbar hover:bg-gray-200 rounded px-2 py-1"
+        >
+          🎥
+        </button>
+
+        {/* Clean */}
+        <button
+          onClick={() => applyFormat("clean")}
+          className="btn-toolbar hover:bg-gray-200 rounded px-2 py-1"
+        >
+          🧹
+        </button>
+      </motion.div>
+
+      {/* Editor */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4 }}
+        className="flex-1 w-full max-w-6xl bg-white shadow-lg rounded-lg overflow-hidden"
+      >
+        <ReactQuill
+          ref={quillRef}
+          value={value}
+          onChange={setValue}
+          modules={{ toolbar: false }}
+          theme="snow"
+          className="h-full"
+        />
+      </motion.div>
     </div>
   );
 }
