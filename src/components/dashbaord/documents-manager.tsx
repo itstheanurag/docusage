@@ -102,246 +102,255 @@ export function DocumentsManager() {
   );
 
   return (
-  <div className="space-y-6">
-  {/* Header */}
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5 }}
-    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
-  >
-    <div>
-      <h1 className="text-3xl font-bold tracking-tight">Documents</h1>
-      <p className="text-muted-foreground">
-        Manage and organize your documents
-      </p>
-    </div>
-    <Button className="self-start sm:self-auto">
-      <Plus className="mr-2 h-4 w-4" />
-      New Document
-    </Button>
-  </motion.div>
-
-  {/* Filters and Search */}
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.1, duration: 0.5 }}
-  >
-    <Card>
-      <CardContent className="pt-6">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4 flex-wrap">
-          {/* Search */}
-          <div className="flex-1 min-w-[200px]">
-            <div className="relative">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search documents..."
-                className="pl-10 w-full"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-          </div>
-
-          {/* Filters */}
-          <div className="flex flex-wrap gap-2">
-            <Select defaultValue="all">
-              <SelectTrigger className="w-32">
-                <SelectValue placeholder="Type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Types</SelectItem>
-                <SelectItem value="proposal">Proposal</SelectItem>
-                <SelectItem value="report">Report</SelectItem>
-                <SelectItem value="contract">Contract</SelectItem>
-                <SelectItem value="manual">Manual</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Select defaultValue="all">
-              <SelectTrigger className="w-32">
-                <SelectValue placeholder="Status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="draft">Draft</SelectItem>
-                <SelectItem value="review">Review</SelectItem>
-                <SelectItem value="completed">Completed</SelectItem>
-                <SelectItem value="sent">Sent</SelectItem>
-              </SelectContent>
-            </Select>
-
-            {/* View Mode */}
-            <div className="flex border rounded-md">
-              <Button
-                variant={viewMode === "grid" ? "default" : "ghost"}
-                size="icon"
-                onClick={() => setViewMode("grid")}
-                className="rounded-r-none"
-              >
-                <Grid className="h-4 w-4" />
-              </Button>
-              <Button
-                variant={viewMode === "list" ? "default" : "ghost"}
-                size="icon"
-                onClick={() => setViewMode("list")}
-                className="rounded-l-none"
-              >
-                <List className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
+    <div className="space-y-6">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+      >
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Documents</h1>
+          <p className="text-muted-foreground">
+            Manage and organize your documents
+          </p>
         </div>
-      </CardContent>
-    </Card>
-  </motion.div>
+        <Button className="self-start sm:self-auto">
+          <Plus className="mr-2 h-4 w-4" />
+          New Document
+        </Button>
+      </motion.div>
 
-  {/* Documents Grid/List */}
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.2, duration: 0.5 }}
-  >
-    {viewMode === "grid" ? (
-      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {filteredDocuments.map((doc, index) => (
-          <motion.div
-            key={doc.id}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3 + index * 0.05, duration: 0.3 }}
-          >
-            <Card className="hover:shadow-md transition-shadow">
-              <CardHeader className="pb-3">
-                <div className="flex items-start justify-between gap-2 flex-wrap">
-                  <div className="p-2 bg-primary/10 rounded-lg flex-shrink-0">
-                    <FileText className="h-5 w-5 text-primary" />
-                  </div>
-                  <Badge
-                    variant={
-                      doc.status === "Completed"
-                        ? "default"
-                        : doc.status === "Sent"
-                        ? "secondary"
-                        : "outline"
-                    }
+      {/* Filters and Search */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1, duration: 0.5 }}
+      >
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 flex-wrap">
+              {/* Search */}
+              <div className="flex-1 min-w-[200px]">
+                <div className="relative">
+                  <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Search documents..."
+                    className="pl-10 w-full"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              {/* Filters */}
+              <div className="flex flex-wrap gap-2">
+                <Select defaultValue="all">
+                  <SelectTrigger className="w-32">
+                    <SelectValue placeholder="Type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Types</SelectItem>
+                    <SelectItem value="proposal">Proposal</SelectItem>
+                    <SelectItem value="report">Report</SelectItem>
+                    <SelectItem value="contract">Contract</SelectItem>
+                    <SelectItem value="manual">Manual</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <Select defaultValue="all">
+                  <SelectTrigger className="w-32">
+                    <SelectValue placeholder="Status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Status</SelectItem>
+                    <SelectItem value="draft">Draft</SelectItem>
+                    <SelectItem value="review">Review</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
+                    <SelectItem value="sent">Sent</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {/* View Mode */}
+                <div className="flex border rounded-md">
+                  <Button
+                    variant={viewMode === "grid" ? "default" : "ghost"}
+                    size="icon"
+                    onClick={() => setViewMode("grid")}
+                    className="rounded-r-none"
                   >
-                    {doc.status}
-                  </Badge>
+                    <Grid className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant={viewMode === "list" ? "default" : "ghost"}
+                    size="icon"
+                    onClick={() => setViewMode("list")}
+                    className="rounded-l-none"
+                  >
+                    <List className="h-4 w-4" />
+                  </Button>
                 </div>
-                <CardTitle className="text-lg line-clamp-2">{doc.name}</CardTitle>
-                <CardDescription>
-                  {doc.type} • {doc.size}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex flex-wrap gap-1">
-                    {doc.tags.map((tag) => (
-                      <Badge key={tag} variant="outline" className="text-xs">
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Modified {doc.lastModified}
-                  </p>
-                  <div className="flex justify-between flex-wrap gap-2">
-                    <div className="flex space-x-1">
-                      <Button variant="ghost" size="icon">
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="icon">
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="icon">
-                        <Download className="h-4 w-4" />
-                      </Button>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-red-600 hover:text-red-700"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
-      </div>
-    ) : (
-      <Card>
-        <CardContent className="p-0">
-          <div className="space-y-0">
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      {/* Documents Grid/List */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
+      >
+        {viewMode === "grid" ? (
+          <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {filteredDocuments.map((doc, index) => (
               <motion.div
                 key={doc.id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.3 + index * 0.05, duration: 0.3 }}
-                className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b last:border-b-0 hover:bg-muted/50 transition-colors gap-2"
               >
-                <div className="flex items-start sm:items-center gap-4 flex-1 flex-wrap">
-                  <div className="p-2 bg-primary/10 rounded-lg flex-shrink-0">
-                    <FileText className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="font-medium truncate">{doc.name}</p>
-                    <p className="text-sm text-muted-foreground truncate">
-                      {doc.type} • {doc.size} • Modified {doc.lastModified}
-                    </p>
-                    <div className="flex flex-wrap gap-1 mt-1">
-                      {doc.tags.map((tag) => (
-                        <Badge key={tag} variant="outline" className="text-xs">
-                          {tag}
-                        </Badge>
-                      ))}
+                <Card className="hover:shadow-md transition-shadow">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-start justify-between gap-2 flex-wrap">
+                      <div className="p-2 bg-primary/10 rounded-lg flex-shrink-0">
+                        <FileText className="h-5 w-5 text-primary" />
+                      </div>
+                      <Badge
+                        variant={
+                          doc.status === "Completed"
+                            ? "default"
+                            : doc.status === "Sent"
+                              ? "secondary"
+                              : "outline"
+                        }
+                      >
+                        {doc.status}
+                      </Badge>
                     </div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2 flex-wrap mt-2 sm:mt-0">
-                  <Badge
-                    variant={
-                      doc.status === "Completed"
-                        ? "default"
-                        : doc.status === "Sent"
-                        ? "secondary"
-                        : "outline"
-                    }
-                  >
-                    {doc.status}
-                  </Badge>
-                  <div className="flex space-x-1">
-                    <Button variant="ghost" size="icon">
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon">
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon">
-                      <Download className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-red-600 hover:text-red-700"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
+                    <CardTitle className="text-lg line-clamp-2">
+                      {doc.name}
+                    </CardTitle>
+                    <CardDescription>
+                      {doc.type} • {doc.size}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div className="flex flex-wrap gap-1">
+                        {doc.tags.map((tag) => (
+                          <Badge
+                            key={tag}
+                            variant="outline"
+                            className="text-xs"
+                          >
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Modified {doc.lastModified}
+                      </p>
+                      <div className="flex justify-between flex-wrap gap-2">
+                        <div className="flex space-x-1">
+                          <Button variant="ghost" size="icon">
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                          <Button variant="ghost" size="icon">
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Button variant="ghost" size="icon">
+                            <Download className="h-4 w-4" />
+                          </Button>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="text-red-600 hover:text-red-700"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </motion.div>
             ))}
           </div>
-        </CardContent>
-      </Card>
-    )}
-  </motion.div>
-</div>
-
+        ) : (
+          <Card>
+            <CardContent className="p-0">
+              <div className="space-y-0">
+                {filteredDocuments.map((doc, index) => (
+                  <motion.div
+                    key={doc.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 + index * 0.05, duration: 0.3 }}
+                    className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b last:border-b-0 hover:bg-muted/50 transition-colors gap-2"
+                  >
+                    <div className="flex items-start sm:items-center gap-4 flex-1 flex-wrap">
+                      <div className="p-2 bg-primary/10 rounded-lg flex-shrink-0">
+                        <FileText className="h-4 w-4 text-primary" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-medium truncate">{doc.name}</p>
+                        <p className="text-sm text-muted-foreground truncate">
+                          {doc.type} • {doc.size} • Modified {doc.lastModified}
+                        </p>
+                        <div className="flex flex-wrap gap-1 mt-1">
+                          {doc.tags.map((tag) => (
+                            <Badge
+                              key={tag}
+                              variant="outline"
+                              className="text-xs"
+                            >
+                              {tag}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 flex-wrap mt-2 sm:mt-0">
+                      <Badge
+                        variant={
+                          doc.status === "Completed"
+                            ? "default"
+                            : doc.status === "Sent"
+                              ? "secondary"
+                              : "outline"
+                        }
+                      >
+                        {doc.status}
+                      </Badge>
+                      <div className="flex space-x-1">
+                        <Button variant="ghost" size="icon">
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                        <Button variant="ghost" size="icon">
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button variant="ghost" size="icon">
+                          <Download className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="text-red-600 hover:text-red-700"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+      </motion.div>
+    </div>
   );
 }
