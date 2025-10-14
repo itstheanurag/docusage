@@ -21,13 +21,16 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ModeToggle } from "@/components/mode-toggle";
 import { DashboardLayoutProps } from "@/types/dashboard";
+import { useAuthStore } from "@/stores";
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
 
-  const handleLogout = () => {
-    localStorage.removeItem("auth-token");
+  const { logout } = useAuthStore();
+
+  const handleLogout = async () => {
+    await logout();
     toast.success("Logged out successfully");
     router.push("/");
   };

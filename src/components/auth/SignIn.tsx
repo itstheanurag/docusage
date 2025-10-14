@@ -20,7 +20,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { BackgroundBeams } from "../backgrounds/Beams";
-import { useAuthStore } from "@/stores/authStore";
+import { useAuthStore } from "@/stores";
 
 export function SignInForm() {
   const {
