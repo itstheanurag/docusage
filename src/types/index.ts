@@ -1,12 +1,10 @@
 import { z } from "zod";
 
-// Login Schema
 export const loginSchema = z.object({
   email: z.email("Invalid email address"),
   password: z.string().min(1, "Password is required"),
 });
 
-// Register Schema
 export const registerSchema = z.object({
   email: z.email("Invalid email address"),
   fullName: z.string().min(2, "Full name must be at least 2 characters"),
@@ -17,7 +15,6 @@ export const registerSchema = z.object({
   image: z.string().optional(),
 });
 
-// Infer the types from the schemas
 export type LoginInput = z.infer<typeof loginSchema>;
 export type RegisterInput = z.infer<typeof registerSchema>;
 

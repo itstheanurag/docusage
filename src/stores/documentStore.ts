@@ -1,7 +1,6 @@
-import React from "react";
+
 import { create } from "zustand";
 
-// Types
 interface User {
   id: string;
   name: string;
