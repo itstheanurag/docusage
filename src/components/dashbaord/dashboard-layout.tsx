@@ -20,10 +20,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ModeToggle } from "@/components/mode-toggle";
-
-interface DashboardLayoutProps {
-  children: React.ReactNode;
-}
+import { DashboardLayoutProps } from "@/types/dashboard";
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

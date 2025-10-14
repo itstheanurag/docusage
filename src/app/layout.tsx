@@ -2,7 +2,6 @@ import type React from "react";
 import type { Metadata } from "next";
 import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "@/lib/auth-provider";
 import ThemeWrapper from "@/components/theme";
 
 const outfit = Outfit({
@@ -32,9 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning className="font-outfit">
-        <ThemeWrapper>
-          <AuthProvider>{children}</AuthProvider>
-        </ThemeWrapper>
+        <ThemeWrapper>{children}</ThemeWrapper>
       </body>
     </html>
   );

@@ -1,5 +1,5 @@
-import { SignUpForm } from "@/components/auth/SingUp"
-import { Navbar } from "@/components/navbar"
+import { SignUpForm } from "@/components/auth/SingUp";
+import { Navbar } from "@/components/navbar";
 
 export default function SignUpPage() {
   return (
@@ -7,5 +7,5 @@ export default function SignUpPage() {
       <Navbar />
       <SignUpForm />
     </div>
-  )
+  );
 }

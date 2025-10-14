@@ -16,55 +16,55 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+
 import { ModeToggle } from "@/components/mode-toggle";
 import { DashboardOverview } from "@/components/dashbaord/dashboard-overview";
 import { DocumentsManager } from "@/components/dashbaord/documents-manager";
 import { InvoicesManager } from "@/components/dashbaord/invoices-manager";
-import { ProtectedRoute } from "@/lib/auth-provider";
 import { ProfileManager } from "@/components/dashbaord/profile-manager";
 import { SettingsManager } from "@/components/dashbaord/settings-manager";
-
-type DashboardSection =
-  | "overview"
-  | "documents"
-  | "invoices"
-  | "profile"
-  | "settings";
+import { DashboarSectionType } from "@/types/dashboard";
+import { useAuthStore } from "@/stores/authStore";
 
 export default function DashboardPage() {
   const [currentSection, setCurrentSection] =
-    useState<DashboardSection>("overview");
+    useState<DashboarSectionType>("overview");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
 
-  const handleLogout = () => {
-    localStorage.removeItem("auth-token");
-    localStorage.removeItem("auth-user");
+  const { logout } = useAuthStore();
+
+  const handleLogout = async () => {
+    await logout();
     toast.success("Logged out successfully");
     router.push("/");
   };
 
   const sidebarItems = [
-    { icon: Home, label: "Overview", section: "overview" as DashboardSection },
+    {
+      icon: Home,
+      label: "Overview",
+      section: "overview" as DashboarSectionType,
+    },
     {
       icon: FileText,
       label: "Documents",
-      section: "documents" as DashboardSection,
+      section: "documents" as DashboarSectionType,
     },
     {
       icon: Receipt,
       label: "Invoices",
-      section: "invoices" as DashboardSection,
+      section: "invoices" as DashboarSectionType,
     },
-    { icon: User, label: "Profile", section: "profile" as DashboardSection },
+    { icon: User, label: "Profile", section: "profile" as DashboarSectionType },
     {
       icon: Settings,
       label: "Settings",
-      section: "settings" as DashboardSection,
+      section: "settings" as DashboarSectionType,
     },
   ];
 
-  const handleSectionChange = (section: DashboardSection) => {
+  const handleSectionChange = (section: DashboarSectionType) => {
     setCurrentSection(section);
     setIsMobileMenuOpen(false);
   };
@@ -126,56 +126,54 @@ export default function DashboardPage() {
   );
 
   return (
-    <ProtectedRoute>
-      <div className="min-h-screen bg-background">
-        {/* Desktop Sidebar */}
-        <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-          <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r bg-background">
-            <SidebarContent />
-          </div>
-        </div>
-
-        {/* Mobile Sidebar */}
-        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-          <SheetContent side="left" className="w-72 p-0">
-            <SidebarContent />
-          </SheetContent>
-        </Sheet>
-
-        {/* Main Content */}
-        <div className="lg:pl-72">
-          <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center border-b bg-background px-6 shadow-sm">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="lg:hidden mr-4"
-              onClick={() => setIsMobileMenuOpen(true)}
-            >
-              <Menu className="h-5 w-5" />
-            </Button>
-
-            <div className="flex flex-1 items-center justify-end">
-              <div className="flex items-center gap-x-3">
-                <Button variant="ghost" size="icon">
-                  <Bell className="h-5 w-5" />
-                </Button>
-                <ModeToggle />
-              </div>
-            </div>
-          </header>
-
-          <main className="p-6">
-            <motion.div
-              key={currentSection}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              {renderContent()}
-            </motion.div>
-          </main>
+    <div className="min-h-screen bg-background">
+      {/* Desktop Sidebar */}
+      <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+        <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r bg-background">
+          <SidebarContent />
         </div>
       </div>
-    </ProtectedRoute>
+
+      {/* Mobile Sidebar */}
+      <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+        <SheetContent side="left" className="w-72 p-0">
+          <SidebarContent />
+        </SheetContent>
+      </Sheet>
+
+      {/* Main Content */}
+      <div className="lg:pl-72">
+        <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center border-b bg-background px-6 shadow-sm">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="lg:hidden mr-4"
+            onClick={() => setIsMobileMenuOpen(true)}
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+
+          <div className="flex flex-1 items-center justify-end">
+            <div className="flex items-center gap-x-3">
+              <Button variant="ghost" size="icon">
+                <Bell className="h-5 w-5" />
+              </Button>
+              <ModeToggle />
+            </div>
+          </div>
+        </header>
+
+        <main className="p-6">
+          <motion.div
+            key={currentSection}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {renderContent()}
+          </motion.div>
+        </main>
+      </div>
+    </div>
   );
 }

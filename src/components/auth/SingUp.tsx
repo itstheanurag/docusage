@@ -1,8 +1,6 @@
 "use client";
 
 import type React from "react";
-
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,83 +20,48 @@ import Link from "next/link";
 import { BackgroundBeams } from "@/components/backgrounds/Beams";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { RegisterInput } from "@/types";
+import { useAuthStore } from "@/stores/authStore";
 
 export function SignUpForm() {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfirmPassword, setShowConfirmPassword] =
-    useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [agreedToTerms, setAgreedToTerms] = useState<boolean>(false);
-  const [formData, setFormData] = useState<RegisterInput>({
-    fullName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const {
+    formData,
+    showPassword,
+    showConfirmPassword,
+    agreedToTerms,
+    setFormData,
+    setShowPassword,
+    setShowConfirmPassword,
+    setAgreedToTerms,
+    register,
+    isLoading,
+  } = useAuthStore();
 
   const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData({ [name]: value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!agreedToTerms) {
-      toast.error("Please agree to the terms and conditions");
-      return;
-    }
+    if (!agreedToTerms) return toast.error("Please agree to terms");
 
-    if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwords do not match");
-      return;
-    }
-
-    if (formData.password.length < 8) {
-      toast.error("Password must be at least 8 characters long");
-      return;
-    }
-
-    setIsLoading(true);
+    if (formData.password !== formData.confirmPassword)
+      return toast.error("Passwords do not match");
+    if (formData.password.length < 8)
+      return toast.error("Password must be at least 8 characters");
 
     try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          fullName: formData.fullName,
-          password: formData.password,
-        }),
-      });
+      await register(formData);
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || "Registration failed");
-      }
-
-      toast.success("Account created successfully! Redirecting to login...");
-      setTimeout(() => {
-        router.push("/auth/signin");
-      }, 1500);
-    } catch (error) {
-      console.error("Registration error:", error);
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "Registration failed. Please try again."
-      );
-    } finally {
-      setIsLoading(false);
+      toast.success("Account created! Redirecting to login...");
+      router.push("/auth/signin");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Registration failed");
     }
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
       <BackgroundBeams />
@@ -322,7 +285,7 @@ export function SignUpForm() {
             >
               Already have an account?{" "}
               <Link
-                href="/signin"
+                href="/auth/signin"
                 className="text-muted-foreground hover:text-foreground hover:underline font-medium"
               >
                 Sign in
