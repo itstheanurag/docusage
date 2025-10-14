@@ -1,5 +1,5 @@
 import { Toaster } from "sonner";
-import { ThemeProvider, useTheme } from "next-themes";
+import { ThemeProvider } from "next-themes";
 
 export default function ThemeWrapper({ children }: { children: React.ReactNode }) {
   return (

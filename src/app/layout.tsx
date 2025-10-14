@@ -30,10 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${outfit.variable} ${inter.variable} antialiased`}
-    >
+    <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning className="font-outfit">
         <ThemeWrapper>
           <AuthProvider>{children}</AuthProvider>
