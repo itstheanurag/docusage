@@ -1,12 +1,8 @@
-import DocumentGenerator from "@/components/generators/document-generator";
 import React from "react";
+import Editor from "./editor";
 
 const Page = () => {
-  return (
-    <div>
-      <DocumentGenerator />
-    </div>
-  );
+  return <Editor />;
 };
 
 export default Page;
