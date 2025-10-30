@@ -7,4 +7,5 @@ export type DashboarSectionType =
   | "documents"
   | "invoices"
   | "profile"
-  | "settings";
+  | "settings"
+  | "api-keys";

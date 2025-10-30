@@ -6,15 +6,24 @@ import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 import { FileText, Menu, X } from "lucide-react";
 import Link from "next/link";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { SignUpForm } from "@/components/auth/signup";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
 
   return (
     <motion.nav
       initial={{ y: 0, opacity: 1 }}
       animate={{ y: 0, opacity: 1 }}
-      className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
@@ -50,16 +59,19 @@ export function Navbar() {
             </nav>
             <div className="flex items-center space-x-4">
               <ModeToggle />
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Link href="/auth/signin">
+              <Dialog open={isSignUpOpen} onOpenChange={setIsSignUpOpen}>
+                <DialogTrigger asChild>
                   <Button variant="ghost" size="sm">
-                    Sign In
+                    Your account
                   </Button>
-                </Link>
-              </motion.div>
+                </DialogTrigger>
+                <DialogContent className="w-full sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle className="sr-only">Sign Up</DialogTitle>
+                  </DialogHeader>
+                  <SignUpForm />
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
 
@@ -100,11 +112,19 @@ export function Navbar() {
                 </a>
               ))}
               <div className="flex flex-col space-y-2 pt-4 border-t border-border/40">
-                <Link href="/auth/signin" onClick={() => setIsOpen(false)}>
-                  <Button variant="ghost" size="sm" className="w-full">
-                    Sign In
-                  </Button>
-                </Link>
+                <Dialog open={isSignUpOpen} onOpenChange={setIsSignUpOpen}>
+                  <DialogTrigger asChild>
+                    <Button variant="ghost" size="sm" className="w-full">
+                      Your account
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="w-full sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle className="sr-only">Sign Up</DialogTitle>
+                    </DialogHeader>
+                    <SignUpForm />
+                  </DialogContent>
+                </Dialog>
               </div>
             </nav>
           </motion.div>

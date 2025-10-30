@@ -21,10 +21,17 @@ export interface InvoiceData {
   tax: number;
 }
 
+export type InvoiceDataValue = string | number | InvoiceItem[];
+export type InvoiceItemValue = string | number;
+
 export interface InvoiceStore extends InvoiceData {
-  updateField: (field: keyof InvoiceData, value: any) => void;
+  updateField: (field: keyof InvoiceData, value: InvoiceDataValue) => void;
   addItem: () => void;
-  updateItem: (id: string, field: keyof InvoiceItem, value: any) => void;
+  updateItem: (
+    id: string,
+    field: keyof InvoiceItem,
+    value: InvoiceItemValue,
+  ) => void;
   removeItem: (id: string) => void;
   calculateSubtotal: () => number;
   calculateTax: () => number;

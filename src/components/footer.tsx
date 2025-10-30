@@ -28,9 +28,7 @@ export function Footer() {
               >
                 <FileText className="h-6 w-6 text-primary" />
               </motion.div>
-              <span className="text-2xl font-bold">
-                DocuSage
-              </span>
+              <span className="text-2xl font-bold">DocuSage</span>
             </div>
             <p className="text-muted-foreground mb-6 max-w-md">
               Transform your document creation process with AI-powered tools.
@@ -75,7 +73,7 @@ export function Footer() {
                       {item}
                     </Link>
                   </motion.li>
-                )
+                ),
               )}
             </ul>
           </motion.div>
@@ -98,7 +96,7 @@ export function Footer() {
                       {item}
                     </Link>
                   </motion.li>
-                )
+                ),
               )}
             </ul>
           </motion.div>
@@ -124,7 +122,7 @@ export function Footer() {
                 >
                   {item}
                 </Link>
-              )
+              ),
             )}
           </div>
         </motion.div>

@@ -98,7 +98,7 @@ export function DashboardOverview() {
             Dashboard Overview
           </h1>
           <p className="text-muted-foreground text-sm sm:text-base">
-            Welcome back! Here's what's happening with your documents.
+            Welcome back! Here&apos;s what&apos;s happening with your documents.
           </p>
         </div>
       </motion.div>

@@ -93,7 +93,7 @@ export function HeroSection() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="mb-10 text-lg text-muted-foreground sm:text-xl lg:text-2xl max-w-3xl mx-auto leading-relaxed"
           >
-            Transform your ideas into stunning documents with DocuSage's
+            Transform your ideas into stunning documents with DocuSage&apos;s
             intuitive builder. From reports to presentations, create with
             confidence and style.
           </motion.p>
