@@ -19,7 +19,7 @@ export function SignUpForm() {
     try {
       await authClient.signIn.social({
         provider,
-        callbackURL: "/",
+        callbackURL: `${process.env.NEXT_PUBLIC_URL}/dashboard`,
       });
     } catch (error: any) {
       toast.error(error?.message || "Failed to authenticate");
