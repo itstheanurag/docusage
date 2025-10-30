@@ -9,18 +9,38 @@ export const auth = betterAuth({
   baseURL: process.env.NEXT_PUBLIC_URL!,
   basePath: `/api/auth`,
 
+  session: {
+    cookieCache: {
+      enabled: true,
+      maxAge: 5 * 60, // 5 minutes
+    },
+  },
+
+  advanced: {
+    cookiePrefix: "docusage",
+    crossSubDomainCookies: {
+      enabled: false,
+    },
+  },
+
   database: drizzleAdapter(getDb(), {
     provider: "pg",
-    debugLogs: process.env.NODE_ENV !== "production",
     schema,
   }),
+  logger: {
+    level: "debug",
+  },
 
   socialProviders: {
     github: {
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-      scope: ["read:user", "user:email"], // ✅ fixed
-      callbackURL: `${process.env.NEXT_PUBLIC_URL}/api/auth/callback/github`,
+    },
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      // Optional: You can specify scopes if needed
+      // scopes: ["openid", "profile", "email"],
     },
   },
 
