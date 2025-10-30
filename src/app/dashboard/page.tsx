@@ -13,6 +13,7 @@ import {
   LogOut,
   User,
   Bell,
+  Key,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -23,8 +24,9 @@ import { DocumentsManager } from "@/components/dashbaord/documents-manager";
 import { InvoicesManager } from "@/components/dashbaord/invoices-manager";
 import { ProfileManager } from "@/components/dashbaord/profile-manager";
 import { SettingsManager } from "@/components/dashbaord/settings-manager";
+import { ApiKeyManager } from "@/components/dashbaord/api-key-manager";
 import { DashboarSectionType } from "@/types/dashboard";
-import { useAuthStore } from "@/stores/authStore";
+import { authClient } from "@/lib/better-auth/client";
 
 export default function DashboardPage() {
   const [currentSection, setCurrentSection] =
@@ -32,10 +34,8 @@ export default function DashboardPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
 
-  const { logout } = useAuthStore();
-
   const handleLogout = async () => {
-    await logout();
+    await authClient.signOut();
     toast.success("Logged out successfully");
     router.push("/");
   };
@@ -62,6 +62,11 @@ export default function DashboardPage() {
       label: "Settings",
       section: "settings" as DashboarSectionType,
     },
+    {
+      icon: Key,
+      label: "API Keys",
+      section: "api-keys" as DashboarSectionType,
+    },
   ];
 
   const handleSectionChange = (section: DashboarSectionType) => {
@@ -81,6 +86,8 @@ export default function DashboardPage() {
         return <ProfileManager />;
       case "settings":
         return <SettingsManager />;
+      case "api-keys":
+        return <ApiKeyManager />;
       default:
         return <DashboardOverview />;
     }
