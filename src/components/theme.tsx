@@ -1,7 +1,11 @@
 import { Toaster } from "sonner";
 import { ThemeProvider } from "next-themes";
 
-export default function ThemeWrapper({ children }: { children: React.ReactNode }) {
+export default function ThemeWrapper({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <ThemeProvider
       attribute="class"
@@ -9,7 +13,7 @@ export default function ThemeWrapper({ children }: { children: React.ReactNode }
       enableSystem
       disableTransitionOnChange
     >
-      <Toaster/>
+      <Toaster />
       {children}
     </ThemeProvider>
   );

@@ -85,7 +85,6 @@ export function FeaturesSection() {
       id="features"
       className="relative py-20 sm:py-32 bg-gradient-to-b from-background to-muted/20 overflow-hidden"
     >
-
       <motion.div
         className="absolute top-16 right-32 w-20 h-20 bg-primary/5 rounded-full blur-xl"
         animate={{

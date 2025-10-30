@@ -97,8 +97,8 @@ export function DocumentsManager() {
       doc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       doc.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
       doc.tags.some((tag) =>
-        tag.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+        tag.toLowerCase().includes(searchQuery.toLowerCase()),
+      ),
   );
 
   return (
