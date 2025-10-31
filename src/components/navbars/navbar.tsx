@@ -6,14 +6,6 @@ import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 import { FileText, Menu, X } from "lucide-react";
 import Link from "next/link";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { SignUpForm } from "@/components/auth/signup";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -59,19 +51,14 @@ export function Navbar() {
             </nav>
             <div className="flex items-center space-x-4">
               <ModeToggle />
-              <Dialog open={isSignUpOpen} onOpenChange={setIsSignUpOpen}>
-                <DialogTrigger asChild>
-                  <Button variant="ghost" size="sm">
-                    Your account
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="w-full sm:max-w-md">
-                  <DialogHeader>
-                    <DialogTitle className="sr-only">Sign Up</DialogTitle>
-                  </DialogHeader>
-                  <SignUpForm />
-                </DialogContent>
-              </Dialog>
+              <Link href="/auth/login">
+                <Button variant="ghost" size="sm">
+                  Login
+                </Button>
+              </Link>
+              <Link href="/auth/register">
+                <Button size="sm">Sign Up</Button>
+              </Link>
             </div>
           </div>
 
@@ -112,19 +99,16 @@ export function Navbar() {
                 </a>
               ))}
               <div className="flex flex-col space-y-2 pt-4 border-t border-border/40">
-                <Dialog open={isSignUpOpen} onOpenChange={setIsSignUpOpen}>
-                  <DialogTrigger asChild>
-                    <Button variant="ghost" size="sm" className="w-full">
-                      Your account
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="w-full sm:max-w-md">
-                    <DialogHeader>
-                      <DialogTitle className="sr-only">Sign Up</DialogTitle>
-                    </DialogHeader>
-                    <SignUpForm />
-                  </DialogContent>
-                </Dialog>
+                <Link href="/auth/login">
+                  <Button variant="ghost" size="sm" className="w-full">
+                    Login
+                  </Button>
+                </Link>
+                <Link href="/auth/register">
+                  <Button size="sm" className="w-full">
+                    Sign Up
+                  </Button>
+                </Link>
               </div>
             </nav>
           </motion.div>

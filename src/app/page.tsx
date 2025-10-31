@@ -1,8 +1,9 @@
+import { PreviewSection } from "@/components/preview-section";
+import { CallToActionSection } from "@/components/call-to-action-section";
 import { FeaturesSection } from "@/components/features-section";
 import { Footer } from "@/components/footer";
 import { HeroSection } from "@/components/hero-section";
-import { Navbar } from "@/components/navbar";
-import { PreviewSection } from "@/components/preview-section";
+import { Navbar } from "@/components/navbars/navbar";
 
 export default function HomePage() {
   return (
@@ -11,6 +12,7 @@ export default function HomePage() {
       <HeroSection />
       <FeaturesSection />
       <PreviewSection />
+      <CallToActionSection />
       <Footer />
     </main>
   );
