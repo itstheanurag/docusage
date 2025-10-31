@@ -21,7 +21,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { BackgroundBeams } from "../backgrounds/Beams";
-import { authClient } from "@/lib/better-auth/client";
+import { signUp, signIn } from "@/lib/better-auth/client";
 import { AiFillGoogleCircle } from "react-icons/ai";
 import { BorderBeam } from "../backgrounds/border-beam";
 
@@ -45,7 +45,7 @@ export function SignUpForm() {
     e.preventDefault();
     setIsLoading(true);
 
-    const { error } = await authClient.signUp.email({
+    const data = await signUp.email({
       email: formData.email,
       password: formData.password,
       name: formData.name,
@@ -53,16 +53,18 @@ export function SignUpForm() {
 
     setIsLoading(false);
 
-    if (!error) {
-      router.push("/dashboard");
+    if (!data.error) {
+      toast.success("registration successfully, please login");
+
+      router.push("/auth/login");
     } else {
-      toast.error(error.message || "Login failed");
+      toast.error(data.error.message || "Login failed");
     }
   };
 
   // ✅ Google Login
   const handleGoogleLogin = async () => {
-    await authClient.signIn.social({
+    await signIn.social({
       provider: "google",
       callbackURL: `${process.env.NEXT_PUBLIC_URL}/dashboard`,
     });
@@ -203,7 +205,7 @@ export function SignUpForm() {
               <Button
                 variant="outline"
                 className="w-full mt-4 bg-transparent"
-                onClick={() => console.log("GitHub sign in")}
+                onClick={handleGoogleLogin}
               >
                 <AiFillGoogleCircle className="mr-2 h-4 w-4" />
                 Google

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 import {
   Card,
   CardContent,
@@ -12,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+
 import {
   Search,
   Plus,
@@ -23,6 +23,7 @@ import {
   Grid,
   List,
 } from "lucide-react";
+
 import {
   Select,
   SelectContent,
@@ -104,12 +105,7 @@ export function DocumentsManager() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
-      >
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Documents</h1>
           <p className="text-muted-foreground">
@@ -120,14 +116,10 @@ export function DocumentsManager() {
           <Plus className="mr-2 h-4 w-4" />
           New Document
         </Button>
-      </motion.div>
+      </div>
 
       {/* Filters and Search */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1, duration: 0.5 }}
-      >
+      <div>
         <Card>
           <CardContent className="pt-6">
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 flex-wrap">
@@ -195,23 +187,14 @@ export function DocumentsManager() {
             </div>
           </CardContent>
         </Card>
-      </motion.div>
+      </div>
 
       {/* Documents Grid/List */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
-      >
+      <div>
         {viewMode === "grid" ? (
           <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {filteredDocuments.map((doc, index) => (
-              <motion.div
-                key={doc.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.3 + index * 0.05, duration: 0.3 }}
-              >
+              <div key={doc.id}>
                 <Card className="hover:shadow-md transition-shadow">
                   <CardHeader className="pb-3">
                     <div className="flex items-start justify-between gap-2 flex-wrap">
@@ -276,7 +259,7 @@ export function DocumentsManager() {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </div>
             ))}
           </div>
         ) : (
@@ -284,11 +267,8 @@ export function DocumentsManager() {
             <CardContent className="p-0">
               <div className="space-y-0">
                 {filteredDocuments.map((doc, index) => (
-                  <motion.div
+                  <div
                     key={doc.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 + index * 0.05, duration: 0.3 }}
                     className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b last:border-b-0 hover:bg-muted/50 transition-colors gap-2"
                   >
                     <div className="flex items-start sm:items-center gap-4 flex-1 flex-wrap">
@@ -344,13 +324,13 @@ export function DocumentsManager() {
                         </Button>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </CardContent>
           </Card>
         )}
-      </motion.div>
+      </div>
     </div>
   );
 }
