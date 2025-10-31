@@ -59,7 +59,7 @@ export function SettingsManager() {
   const handleSettingChange = (
     category: string,
     setting: string,
-    value: boolean | string,
+    value: boolean | string
   ) => {
     setSettings((prev) => ({
       ...prev,
@@ -299,7 +299,7 @@ export function SettingsManager() {
                             ? "notifications"
                             : "privacy",
                           item.key,
-                          checked,
+                          checked
                         )
                       }
                     />

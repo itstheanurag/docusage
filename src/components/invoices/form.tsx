@@ -167,7 +167,7 @@ const InvoiceForm: React.FC = () => {
                     invoice.updateItem(
                       item.id,
                       "quantity",
-                      parseFloat(e.target.value) || 0,
+                      parseFloat(e.target.value) || 0
                     )
                   }
                   placeholder="Qty"
@@ -182,7 +182,7 @@ const InvoiceForm: React.FC = () => {
                     invoice.updateItem(
                       item.id,
                       "rate",
-                      parseFloat(e.target.value) || 0,
+                      parseFloat(e.target.value) || 0
                     )
                   }
                   placeholder="Rate"
