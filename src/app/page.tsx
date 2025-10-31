@@ -3,7 +3,7 @@ import { CallToActionSection } from "@/components/call-to-action-section";
 import { FeaturesSection } from "@/components/features-section";
 import { Footer } from "@/components/footer";
 import { HeroSection } from "@/components/hero-section";
-import { Navbar } from "@/components/navbar";
+import { Navbar } from "@/components/navbars/navbar";
 
 export default function HomePage() {
   return (
