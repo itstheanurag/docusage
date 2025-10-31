@@ -1,7 +1,5 @@
 import { Toaster } from "sonner";
 import { ThemeProvider } from "next-themes";
-import { usePathname } from "next/navigation";
-import { Navbar } from "./navbars/navbar";
 
 export default function ThemeWrapper({
   children,

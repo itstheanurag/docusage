@@ -20,9 +20,9 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { BackgroundBeams } from "../backgrounds/Beams";
-import { authClient } from "@/lib/better-auth/client";
 import { AiFillGoogleCircle } from "react-icons/ai";
 import { BorderBeam } from "../backgrounds/border-beam";
+import { signIn } from "@/lib/better-auth/client";
 
 export function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -34,11 +34,18 @@ export function SignInForm() {
     e.preventDefault();
     setIsLoading(true);
 
-    const { error } = await authClient.signIn.email(formData);
+    const { error } = await signIn.email(formData);
 
     setIsLoading(false);
     if (!error) router.push("/dashboard");
     else toast.error(error.message || "Login failed");
+  };
+
+  const handleGoogleLogin = async () => {
+    await signIn.social({
+      provider: "google",
+      callbackURL: `${process.env.NEXT_PUBLIC_URL}/dashboard`,
+    });
   };
 
   return (
@@ -183,12 +190,7 @@ export function SignInForm() {
               <Button
                 variant="outline"
                 className="w-full"
-                onClick={() =>
-                  authClient.signIn.social({
-                    provider: "google",
-                    callbackURL: `${process.env.NEXT_PUBLIC_URL}/dashboard`,
-                  })
-                }
+                onClick={handleGoogleLogin}
               >
                 <AiFillGoogleCircle className="h-4 w-4" />
                 Google

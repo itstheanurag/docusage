@@ -27,17 +27,23 @@ import {
   X,
 } from "lucide-react";
 import { toast } from "sonner";
+import { Session } from "@/lib/better-auth";
 
-export function ProfileManager() {
+export function ProfileManager({ session }: { session: Session }) {
+  const user = session.user;
+
   const [isEditing, setIsEditing] = useState(false);
+
   const [profile, setProfile] = useState({
-    name: "John Doe",
-    email: "john.doe@example.com",
-    phone: "+1 (555) 123-4567",
-    location: "New York, NY",
-    bio: "Document management specialist with 5+ years of experience in digital transformation and workflow optimization.",
-    joinDate: "January 2024",
-    avatar: "",
+    name: user.name ?? "",
+    email: user.email,
+    phone: (user as any).phone ?? "",
+    location: (user as any).location ?? "",
+    bio: (user as any).bio ?? "",
+    avatar: user.image ?? null,
+    joinDate: user.createdAt
+      ? new Date(user.createdAt).toLocaleDateString()
+      : "N/A",
   });
 
   const [editedProfile, setEditedProfile] = useState(profile);
@@ -45,7 +51,7 @@ export function ProfileManager() {
   const handleSave = () => {
     setProfile(editedProfile);
     setIsEditing(false);
-    toast.success("Profile updated successfully");
+    toast.success("Profile updated successfully (local only)");
   };
 
   const handleCancel = () => {

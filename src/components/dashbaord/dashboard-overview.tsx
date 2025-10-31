@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import {
   Card,
   CardContent,
@@ -87,12 +86,7 @@ export function DashboardOverview() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
-      >
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
             Dashboard Overview
@@ -101,17 +95,12 @@ export function DashboardOverview() {
             Welcome back! Here&apos;s what&apos;s happening with your documents.
           </p>
         </div>
-      </motion.div>
+      </div>
 
       {/* Stats Grid */}
       <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, index) => (
-          <motion.div
-            key={stat.title}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1, duration: 0.5 }}
-          >
+          <div key={stat.title}>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between pb-2 gap-2 flex-wrap">
                 <CardTitle className="text-sm font-medium">
@@ -127,16 +116,12 @@ export function DashboardOverview() {
                 </p>
               </CardContent>
             </Card>
-          </motion.div>
+          </div>
         ))}
       </div>
 
       {/* Quick Actions */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4, duration: 0.5 }}
-      >
+      <div>
         <Card>
           <CardHeader>
             <CardTitle>Quick Actions</CardTitle>
@@ -161,14 +146,10 @@ export function DashboardOverview() {
             </div>
           </CardContent>
         </Card>
-      </motion.div>
+      </div>
 
       {/* Recent Documents */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6, duration: 0.5 }}
-      >
+      <div>
         <Card>
           <CardHeader>
             <CardTitle>Recent Documents</CardTitle>
@@ -177,11 +158,8 @@ export function DashboardOverview() {
           <CardContent>
             <div className="space-y-4">
               {recentDocuments.map((doc, index) => (
-                <motion.div
+                <div
                   key={doc.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.7 + index * 0.1, duration: 0.3 }}
                   className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors gap-2"
                 >
                   <div className="flex items-start sm:items-center gap-4 flex-1 flex-wrap min-w-0">
@@ -219,12 +197,12 @@ export function DashboardOverview() {
                       </Button>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </CardContent>
         </Card>
-      </motion.div>
+      </div>
     </div>
   );
 }
