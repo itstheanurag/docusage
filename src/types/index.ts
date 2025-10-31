@@ -59,3 +59,26 @@ export type ErrorResponse = {
   error: string;
   message?: string;
 };
+
+export type DisplayApiKey = {
+  id: string;
+  name: string | null;
+  key: string;
+  prefix: string | null;
+  start: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  enabled: boolean;
+  expiresAt: Date | null;
+  refillInterval: number | null;
+  refillAmount: number | null;
+  lastRefillAt: Date | null;
+  rateLimitEnabled: boolean;
+  rateLimitTimeWindow: number;
+  rateLimitMax: number;
+  requestCount: number;
+  remaining: number | null;
+  lastRequest: Date | null;
+  permissions: string | null;
+  metadata: string | null;
+};
