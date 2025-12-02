@@ -31,7 +31,7 @@ export default function SharedCodePage({
 
   return (
     <div className="flex flex-col h-screen bg-background">
-      <header className="border-b px-6 py-3 flex items-center justify-between bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="border-b px-6 py-3 flex items-center justify-between bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
         <div className="flex items-center gap-4">
           <Link
             href="/dashboard/codes"

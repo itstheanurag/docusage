@@ -9,19 +9,28 @@ import {
   LogOut,
   User,
   Key,
+  ChevronLeft,
+  ChevronRight,
+  Code2,
+  FormInput,
 } from "lucide-react";
 import { DashboarSectionType } from "@/types/dashboard";
+import { cn } from "@/lib/utils";
 
 interface SidebarProps {
   currentSection: DashboarSectionType;
   onSectionChange: (section: DashboarSectionType) => void;
   onLogout?: () => void;
+  isCollapsed?: boolean;
+  onToggleCollapse?: () => void;
 }
 
 export default function Sidebar({
   currentSection,
   onSectionChange,
   onLogout,
+  isCollapsed = false,
+  onToggleCollapse,
 }: SidebarProps) {
   const sidebarItems = [
     {
@@ -39,6 +48,16 @@ export default function Sidebar({
       label: "Invoices",
       section: "invoices" as DashboarSectionType,
     },
+    {
+      icon: Code2,
+      label: "Code Snippets",
+      section: "codes" as DashboarSectionType,
+    },
+    {
+      icon: FormInput,
+      label: "Forms",
+      section: "forms" as DashboarSectionType,
+    },
     { icon: User, label: "Profile", section: "profile" as DashboarSectionType },
     {
       icon: Settings,
@@ -55,8 +74,27 @@ export default function Sidebar({
   return (
     <div className="flex flex-col h-full">
       {/* Logo / Header */}
-      <div className="h-16 border-b flex items-center justify-between px-4">
-        <h2 className="text-xl font-bold">DocuSage</h2>
+      <div
+        className={cn(
+          "h-16 border-b flex items-center px-4",
+          isCollapsed ? "justify-center" : "justify-between"
+        )}
+      >
+        {!isCollapsed && <h2 className="text-xl font-bold">DocuSage</h2>}
+        {onToggleCollapse && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onToggleCollapse}
+            className="hidden lg:flex"
+          >
+            {isCollapsed ? (
+              <ChevronRight className="h-4 w-4" />
+            ) : (
+              <ChevronLeft className="h-4 w-4" />
+            )}
+          </Button>
+        )}
       </div>
 
       {/* Navigation */}
@@ -65,11 +103,14 @@ export default function Sidebar({
           <Button
             key={item.section}
             variant={currentSection === item.section ? "default" : "ghost"}
-            className="w-full justify-start h-10 px-3"
+            className={cn(
+              "w-full justify-start h-10 px-3",
+              isCollapsed && "justify-center px-2"
+            )}
             onClick={() => onSectionChange(item.section)}
           >
-            <item.icon className="mr-3 h-4 w-4" />
-            {item.label}
+            <item.icon className={cn("h-4 w-4", !isCollapsed && "mr-3")} />
+            {!isCollapsed && item.label}
           </Button>
         ))}
       </nav>
@@ -79,11 +120,14 @@ export default function Sidebar({
         <div className="px-4 py-4 border-t">
           <Button
             variant="ghost"
-            className="w-full justify-start h-10 px-3 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950"
+            className={cn(
+              "w-full justify-start h-10 px-3 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950",
+              isCollapsed && "justify-center px-2"
+            )}
             onClick={onLogout}
           >
-            <LogOut className="mr-3 h-4 w-4" />
-            Logout
+            <LogOut className={cn("h-4 w-4", !isCollapsed && "mr-3")} />
+            {!isCollapsed && "Logout"}
           </Button>
         </div>
       )}
