@@ -111,19 +111,22 @@ export function HeroSection() {
             >
               <Button
                 size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 text-lg font-medium group shadow-xl pulse-glow"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg font-medium group shadow-xl pulse-glow rounded-full"
+                asChild
               >
-                Start Building Free
-                <motion.div
-                  className="ml-2"
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Number.POSITIVE_INFINITY,
-                  }}
-                >
-                  <ArrowRight className="h-5 w-5" />
-                </motion.div>
+                <a href="/register">
+                  Start Building Free
+                  <motion.div
+                    className="ml-2"
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Number.POSITIVE_INFINITY,
+                    }}
+                  >
+                    <ArrowRight className="h-5 w-5" />
+                  </motion.div>
+                </a>
               </Button>
             </motion.div>
             <motion.div
@@ -133,9 +136,10 @@ export function HeroSection() {
               <Button
                 variant="outline"
                 size="lg"
-                className="px-8 py-3 text-lg font-medium bg-card/50 backdrop-blur shadow-lg"
+                className="px-8 py-6 text-lg font-medium bg-card/50 backdrop-blur shadow-lg rounded-full border-primary/20 hover:bg-primary/5"
+                asChild
               >
-                Watch Demo
+                <a href="#preview">Watch Demo</a>
               </Button>
             </motion.div>
           </motion.div>

@@ -19,6 +19,7 @@ import {
   Search,
   BarChart3,
 } from "lucide-react";
+import { BorderBeam } from "@/components/backgrounds/border-beam";
 
 const features = [
   {
@@ -83,8 +84,11 @@ export function FeaturesSection() {
   return (
     <section
       id="features"
-      className="relative py-20 sm:py-32 bg-gradient-to-b from-background to-muted/20 overflow-hidden"
+      className="relative py-20 sm:py-32 bg-background overflow-hidden"
     >
+      {/* Grid Pattern Background */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808033_1px,transparent_1px),linear-gradient(to_bottom,#80808033_1px,transparent_1px)] bg-size-[60px_60px] mask-[radial-gradient(circle_at_center,white,transparent)] [-webkit-mask-image:radial-gradient(circle_at_center,white,transparent)]"></div>
+
       <motion.div
         className="absolute top-16 right-32 w-20 h-20 bg-primary/5 rounded-full blur-xl"
         animate={{
@@ -110,7 +114,7 @@ export function FeaturesSection() {
         }}
       />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative pb-20">
         <div className="mx-auto max-w-2xl text-center mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -140,9 +144,9 @@ export function FeaturesSection() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ y: -5 }}
-              className="group"
+              className="group relative"
             >
-              <Card className="h-full bg-card/50 backdrop-blur border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
+              <Card className="h-full bg-card/50 backdrop-blur border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
                 <CardHeader className="pb-4">
                   <div className="flex items-center justify-between mb-2">
                     <motion.div
@@ -172,6 +176,14 @@ export function FeaturesSection() {
                     {feature.description}
                   </CardDescription>
                 </CardContent>
+                <BorderBeam
+                  size={100}
+                  duration={12}
+                  delay={9}
+                  borderWidth={1.5}
+                  colorFrom="var(--color-primary)"
+                  colorTo="var(--color-accent)"
+                />
               </Card>
             </motion.div>
           ))}

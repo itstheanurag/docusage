@@ -210,7 +210,7 @@ export function SignInForm() {
             >
               Don't have an account?{" "}
               <Link
-                href="/auth/register"
+                href="/register"
                 className="hover:underline font-medium"
               >
                 Sign up

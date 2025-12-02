@@ -57,7 +57,7 @@ const templates = [
 
 export function PreviewSection() {
   return (
-    <section className="py-20 sm:py-32 bg-muted/30">
+    <section id="templates" className="py-20 sm:py-32 bg-muted/30">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -130,7 +130,6 @@ export function PreviewSection() {
           ))}
         </div>
 
-        {/* Preview Demo */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -138,42 +137,110 @@ export function PreviewSection() {
           viewport={{ once: true }}
           className="relative"
         >
-          <Card className="bg-gradient-to-br from-card to-muted/50 border-border/50 overflow-hidden">
-            <CardContent className="p-8 sm:p-12">
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-card-foreground mb-2">
-                  See DocuCraft in Action
-                </h3>
-                <p className="text-muted-foreground">
-                  Watch how easy it is to create professional documents
-                </p>
+          <Card className="bg-background border-border/50 overflow-hidden shadow-2xl">
+            {/* Mock Window Header */}
+            <div className="bg-muted/50 border-b border-border p-3 flex items-center gap-2">
+              <div className="flex gap-1.5">
+                <div className="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/50" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/50" />
+                <div className="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/50" />
+              </div>
+              <div className="ml-4 flex gap-2">
+                <div className="h-2 w-20 bg-muted-foreground/20 rounded-full" />
+                <div className="h-2 w-12 bg-muted-foreground/10 rounded-full" />
+                <div className="h-2 w-12 bg-muted-foreground/10 rounded-full" />
+              </div>
+            </div>
+
+            {/* Mock Editor Interface */}
+            <div className="flex h-[400px] sm:h-[500px] bg-background">
+              {/* Sidebar */}
+              <div className="w-16 border-r border-border bg-muted/10 flex flex-col items-center py-4 gap-4">
+                {[...Array(5)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="w-8 h-8 rounded-md bg-muted-foreground/10"
+                  />
+                ))}
               </div>
 
-              {/* Mock Preview */}
-              <div className="relative mx-auto max-w-4xl">
-                <div className="aspect-video rounded-lg bg-gradient-to-br from-primary/10 to-accent/10 border border-border/50 flex items-center justify-center">
-                  <motion.div
-                    animate={{
-                      scale: [1, 1.05, 1],
-                      opacity: [0.7, 1, 0.7],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Number.POSITIVE_INFINITY,
-                      ease: "easeInOut",
-                    }}
-                    className="text-center"
+              {/* Main Canvas */}
+              <div className="flex-1 bg-muted/20 p-8 flex justify-center overflow-hidden relative">
+                <div className="w-full max-w-2xl bg-background shadow-sm border border-border/40 rounded-sm p-8 space-y-4">
+                  {/* Mock Document Content */}
+                  <div className="h-8 w-3/4 bg-primary/10 rounded-md mb-8" />
+                  <div className="space-y-2">
+                    <div className="h-4 w-full bg-muted-foreground/10 rounded" />
+                    <div className="h-4 w-full bg-muted-foreground/10 rounded" />
+                    <div className="h-4 w-5/6 bg-muted-foreground/10 rounded" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 my-8">
+                    <div className="h-32 bg-accent/10 rounded-md border border-accent/20" />
+                    <div className="h-32 bg-blue-500/10 rounded-md border border-blue-500/20" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="h-4 w-full bg-muted-foreground/10 rounded" />
+                    <div className="h-4 w-11/12 bg-muted-foreground/10 rounded" />
+                    <div className="h-4 w-4/5 bg-muted-foreground/10 rounded" />
+                  </div>
+                </div>
+
+                {/* Floating Cursor Animation */}
+                <motion.div
+                  className="absolute top-1/2 left-1/2 pointer-events-none"
+                  animate={{
+                    x: [0, 100, 0],
+                    y: [0, 50, 0],
+                  }}
+                  transition={{
+                    duration: 5,
+                    repeat: Number.POSITIVE_INFINITY,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="text-primary drop-shadow-lg"
                   >
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/20 flex items-center justify-center">
-                      <FileText className="h-8 w-8 text-primary" />
+                    <path
+                      d="M3 3L10.07 19.97L12.58 12.58L19.97 10.07L3 3Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </motion.div>
+              </div>
+
+              {/* Properties Panel */}
+              <div className="w-64 border-l border-border bg-background hidden lg:block p-4 space-y-6">
+                <div className="space-y-2">
+                  <div className="h-3 w-20 bg-muted-foreground/20 rounded-full" />
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="h-8 bg-muted-foreground/5 rounded" />
+                    <div className="h-8 bg-muted-foreground/5 rounded" />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="h-3 w-16 bg-muted-foreground/20 rounded-full" />
+                  <div className="h-24 bg-muted-foreground/5 rounded" />
+                </div>
+                <div className="space-y-2">
+                  <div className="h-3 w-24 bg-muted-foreground/20 rounded-full" />
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <div className="h-2 w-8 bg-muted-foreground/10 rounded" />
+                      <div className="h-2 w-8 bg-muted-foreground/10 rounded" />
                     </div>
-                    <p className="text-muted-foreground">
-                      Interactive Demo Coming Soon
-                    </p>
-                  </motion.div>
+                    <div className="h-1 bg-muted-foreground/10 rounded-full overflow-hidden">
+                      <div className="h-full w-2/3 bg-primary/50" />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </CardContent>
+            </div>
           </Card>
         </motion.div>
       </div>

@@ -222,7 +222,7 @@ export function SignUpForm() {
             >
               Already have an account?{" "}
               <Link
-                href="/auth/login"
+                href="/login"
                 className="text-muted-foreground hover:text-foreground hover:underline font-medium"
               >
                 Sign In
