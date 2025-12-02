@@ -7,12 +7,12 @@ interface User {
 }
 
 interface DocumentState {
-  title: string; // new title field
+  title: string; 
   content: string;
   history: string[];
   historyIndex: number;
   users: User[];
-  setTitle: (title: string) => void; // new setter
+  setTitle: (title: string) => void;
   setContent: (content: string) => void;
   undo: () => void;
   redo: () => void;
@@ -21,7 +21,7 @@ interface DocumentState {
 }
 
 export const useDocumentStore = create<DocumentState>((set, get) => ({
-  title: "Untitled Document", // default title
+  title: "Untitled Document", 
   content: "",
   history: [],
   historyIndex: -1,
