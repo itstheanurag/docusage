@@ -2,20 +2,28 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
 
 export async function middleware(request: NextRequest) {
-  const cookies = getSessionCookie(request);
+  // Check for any session token cookie (handling prefixes)
+  const allCookies = request.cookies.getAll();
+  const sessionCookie = allCookies.find((c) =>
+    c.name.endsWith("session_token")
+  );
+
+  const isLoggedIn = !!sessionCookie || !!getSessionCookie(request);
+
   const url = request.nextUrl.clone();
 
-  // Redirect logged-in users away from public pages
-  const publicPages = ["/", "/auth"];
-  if (cookies && publicPages.includes(url.pathname)) {
-    url.pathname = "/dashboard"; // redirect to dashboard
+  // Redirect logged-in users away from public auth pages
+  if (
+    isLoggedIn &&
+    (url.pathname === "/" || url.pathname.startsWith("/auth"))
+  ) {
+    url.pathname = "/dashboard";
     return NextResponse.redirect(url);
   }
 
   // Protect dashboard pages
-  const protectedPages = ["/dashboard"];
-  if (!cookies && protectedPages.includes(url.pathname)) {
-    url.pathname = "/auth/login"; // redirect to login
+  if (!isLoggedIn && url.pathname.startsWith("/dashboard")) {
+    url.pathname = "/auth/login";
     return NextResponse.redirect(url);
   }
 
