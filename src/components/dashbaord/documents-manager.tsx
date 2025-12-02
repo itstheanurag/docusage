@@ -32,6 +32,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import Link from "next/link";
+
 export function DocumentsManager() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [searchQuery, setSearchQuery] = useState("");
@@ -112,10 +114,12 @@ export function DocumentsManager() {
             Manage and organize your documents
           </p>
         </div>
-        <Button className="self-start sm:self-auto">
-          <Plus className="mr-2 h-4 w-4" />
-          New Document
-        </Button>
+        <Link href="/document">
+          <Button className="self-start sm:self-auto">
+            <Plus className="mr-2 h-4 w-4" />
+            New Document
+          </Button>
+        </Link>
       </div>
 
       {/* Filters and Search */}

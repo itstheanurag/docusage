@@ -1,13 +1,10 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { Key } from "lucide-react";
+import { useApiKeyStore } from "@/stores/apiKeyStore";
 
-interface EmptyStateProps {
-  onCreateNew: () => void;
-}
+export function EmptyState() {
+  const { setIsCreateModalOpen } = useApiKeyStore();
 
-export function EmptyState({ onCreateNew }: EmptyStateProps) {
   return (
     <div className="flex flex-col items-center justify-center py-12 px-4 border-2 border-dashed rounded-lg">
       <div className="rounded-full bg-muted p-3 mb-4">
@@ -17,7 +14,7 @@ export function EmptyState({ onCreateNew }: EmptyStateProps) {
       <p className="text-sm text-muted-foreground text-center mb-4">
         Create your first API key to get started with the API
       </p>
-      <Button onClick={onCreateNew}>
+      <Button onClick={() => setIsCreateModalOpen(true)}>
         <Key className="mr-2 h-4 w-4" /> Create Your First Key
       </Button>
     </div>

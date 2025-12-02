@@ -4,28 +4,15 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { copyToClipboard, formatDate } from "@/lib/utils/apiKey";
 import { DisplayApiKey } from "@/types";
-import { Switch } from "@radix-ui/react-switch";
+import { Switch } from "@/components/ui/switch";
 import { Key } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import { useApiKeyStore } from "@/stores/apiKeyStore";
 
-/* --------------------------- ViewApiKeyModal --------------------------- */
-interface ViewApiKeyModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  apiKey: DisplayApiKey | null;
-  onSave: (id: string, patch: Partial<DisplayApiKey>) => Promise<void> | void;
-  onRegenerate?: (id: string) => Promise<void> | void;
-  onDelete?: (id: string) => Promise<void> | void;
-}
-
-export function ViewApiKeyModal({
-  isOpen,
-  onClose,
-  apiKey,
-  onSave,
-  onDelete,
-}: ViewApiKeyModalProps) {
+export function ViewApiKeyModal() {
+  const { selectedKey, setSelectedKey, updateApiKey, deleteApiKey } =
+    useApiKeyStore();
   const [editing, setEditing] = useState(false);
 
   // form state
@@ -43,46 +30,54 @@ export function ViewApiKeyModal({
 
   // when modal opens, seed form with apiKey values
   React.useEffect(() => {
-    if (!apiKey) return;
-    setName(apiKey.name ?? "");
-    setEnabled(apiKey.enabled);
-    setRateLimitEnabled(apiKey.rateLimitEnabled ?? false);
-    setRateLimitMax(apiKey.rateLimitMax ?? null);
+    if (!selectedKey) return;
+    setName(selectedKey.name ?? "");
+    setEnabled(selectedKey.enabled);
+    setRateLimitEnabled(selectedKey.rateLimitEnabled ?? false);
+    setRateLimitMax(selectedKey.rateLimitMax ?? null);
     setRateLimitWindowHours(
-      Math.max(1, Math.round((apiKey.rateLimitTimeWindow ?? 3600000) / 3600000))
+      Math.max(
+        1,
+        Math.round((selectedKey.rateLimitTimeWindow ?? 3600000) / 3600000)
+      )
     );
     setRefillIntervalHours(
-      apiKey.refillInterval ? Math.round(apiKey.refillInterval / 3600000) : null
+      selectedKey.refillInterval
+        ? Math.round(selectedKey.refillInterval / 3600000)
+        : null
     );
-    setRefillAmount(apiKey.refillAmount ?? null);
+    setRefillAmount(selectedKey.refillAmount ?? null);
     setExpiresAt(
-      apiKey.expiresAt
-        ? new Date(apiKey.expiresAt).toISOString().slice(0, 16)
+      selectedKey.expiresAt
+        ? new Date(selectedKey.expiresAt).toISOString().slice(0, 16)
         : null
     );
     // permissions: store as array of strings if comma or array
-    if (!apiKey.permissions) setPermissions([]);
-    else if (typeof apiKey.permissions === "string") {
+    if (!selectedKey.permissions) setPermissions([]);
+    else if (typeof selectedKey.permissions === "string") {
       try {
         // try parse JSON array
-        const p = JSON.parse(apiKey.permissions);
+        const p = JSON.parse(selectedKey.permissions);
         if (Array.isArray(p)) setPermissions(p.map(String));
-        else setPermissions(apiKey.permissions.split(",").map((s) => s.trim()));
+        else
+          setPermissions(
+            selectedKey.permissions.split(",").map((s) => s.trim())
+          );
       } catch {
-        setPermissions(apiKey.permissions.split(",").map((s) => s.trim()));
+        setPermissions(selectedKey.permissions.split(",").map((s) => s.trim()));
       }
     } else {
       setPermissions(
-        Array.isArray(apiKey.permissions)
-          ? apiKey.permissions
-          : [String(apiKey.permissions)]
+        Array.isArray(selectedKey.permissions)
+          ? selectedKey.permissions
+          : [String(selectedKey.permissions)]
       );
     }
 
     setEditing(false);
-  }, [apiKey]);
+  }, [selectedKey]);
 
-  if (!isOpen || !apiKey) return null;
+  if (!selectedKey) return null;
 
   const handleSave = async () => {
     const patch: Partial<DisplayApiKey> = {
@@ -100,9 +95,9 @@ export function ViewApiKeyModal({
     };
 
     try {
-      await onSave(apiKey.id, patch);
+      await updateApiKey(selectedKey.id, patch);
       toast.success("Saved");
-      onClose();
+      setSelectedKey(null);
     } catch (err) {
       toast.error("Failed to save");
     }
@@ -119,7 +114,10 @@ export function ViewApiKeyModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+      <div
+        className="absolute inset-0 bg-black/40"
+        onClick={() => setSelectedKey(null)}
+      />
       <div className="relative z-10 w-full max-w-3xl bg-card rounded-lg shadow-lg overflow-hidden">
         <div className="p-4 border-b">
           <div className="flex items-center justify-between">
@@ -129,11 +127,11 @@ export function ViewApiKeyModal({
               </div>
               <div>
                 <div className="text-lg font-semibold">
-                  {apiKey.name || "Unnamed key"}
+                  {selectedKey.name || "Unnamed key"}
                 </div>
                 <div className="text-xs text-muted-foreground">
-                  {apiKey.prefix
-                    ? `${apiKey.prefix} ••• ${apiKey.start || ""}`
+                  {selectedKey.prefix
+                    ? `${selectedKey.prefix} ••• ${selectedKey.start || ""}`
                     : "No prefix"}
                 </div>
               </div>
@@ -144,9 +142,9 @@ export function ViewApiKeyModal({
                 variant="ghost"
                 size="sm"
                 onClick={() => {
-                  if (onDelete && confirm("Delete this key?")) {
-                    onDelete(apiKey.id);
-                    onClose();
+                  if (confirm("Delete this key?")) {
+                    deleteApiKey(selectedKey.id);
+                    setSelectedKey(null);
                   }
                 }}
                 className="text-destructive"
@@ -177,12 +175,16 @@ export function ViewApiKeyModal({
 
             <div>
               <Label>Created</Label>
-              <div className="mt-2 text-sm">{formatDate(apiKey.createdAt)}</div>
+              <div className="mt-2 text-sm">
+                {formatDate(selectedKey.createdAt)}
+              </div>
             </div>
 
             <div>
               <Label>Updated</Label>
-              <div className="mt-2 text-sm">{formatDate(apiKey.updatedAt)}</div>
+              <div className="mt-2 text-sm">
+                {formatDate(selectedKey.updatedAt)}
+              </div>
             </div>
           </div>
 
@@ -304,18 +306,18 @@ export function ViewApiKeyModal({
           </div>
 
           {/* Read-only Metadata */}
-          {apiKey.metadata && (
+          {selectedKey.metadata && (
             <div>
               <Label>Metadata</Label>
               <pre className="mt-3 rounded-md border bg-slate-100 dark:bg-slate-800 p-3 text-xs font-mono max-h-40 overflow-auto">
-                {apiKey.metadata}
+                {selectedKey.metadata}
               </pre>
             </div>
           )}
         </div>
 
         <div className="p-4 border-t flex items-center justify-end gap-2">
-          <Button variant="outline" onClick={onClose}>
+          <Button variant="outline" onClick={() => setSelectedKey(null)}>
             Close
           </Button>
           <Button onClick={handleSave}>Save</Button>
@@ -325,7 +327,6 @@ export function ViewApiKeyModal({
   );
 }
 
-/* --------------------------- PermissionAdder --------------------------- */
 function PermissionAdder({ onAdd }: { onAdd: (p: string) => void }) {
   const [val, setVal] = useState("");
   return (
@@ -349,5 +350,3 @@ function PermissionAdder({ onAdd }: { onAdd: (p: string) => void }) {
     </form>
   );
 }
-
-/* ------------------------------ End file ------------------------------ */

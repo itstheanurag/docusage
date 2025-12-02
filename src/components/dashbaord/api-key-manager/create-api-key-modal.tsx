@@ -1,8 +1,5 @@
-/* Updated CreateApiKeyModal with extended configuration fields */
-
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -18,7 +15,7 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Copy, Key, AlertCircle } from "lucide-react";
-import { DisplayApiKey } from "@/types";
+import { useApiKeyStore } from "@/stores/apiKeyStore";
 
 const copyToClipboard = async (text: string) => {
   try {
@@ -37,38 +34,35 @@ const formatDuration = (ms: number | null) => {
   return `${hours} hour${hours > 1 ? "s" : ""}`;
 };
 
-interface CreateApiKeyModalProps {
-  isOpen: boolean;
-  isCreating: boolean;
-  newKeyName: string;
-  newlyCreatedKey: DisplayApiKey | null;
-  onClose: () => void;
-  onCreate: (payload: any) => void;
-  setNewKeyName: (name: string) => void;
-}
-
-export function CreateApiKeyModal({
-  isOpen,
-  isCreating,
-  newKeyName,
-  newlyCreatedKey,
-  onClose,
-  onCreate,
-  setNewKeyName,
-}: CreateApiKeyModalProps) {
-  const [permissions, setPermissions] = useState("");
-  const [expiresAt, setExpiresAt] = useState<string | null>(null);
-  const [rateLimitEnabled, setRateLimitEnabled] = useState(false);
-  const [rateLimitMax, setRateLimitMax] = useState(1000);
-  const [rateLimitWindowHours, setRateLimitWindowHours] = useState(1);
-  const [refillIntervalHours, setRefillIntervalHours] = useState<number | null>(
-    null
-  );
-  const [refillAmount, setRefillAmount] = useState<number | null>(null);
-  const [metadata, setMetadata] = useState("");
+export function CreateApiKeyModal() {
+  const {
+    isCreateModalOpen,
+    isCreating,
+    newKeyName,
+    newlyCreatedKey,
+    closeCreateModal,
+    createApiKey,
+    setNewKeyName,
+    permissions,
+    setPermissions,
+    expiresAt,
+    setExpiresAt,
+    rateLimitEnabled,
+    setRateLimitEnabled,
+    rateLimitMax,
+    setRateLimitMax,
+    rateLimitWindowHours,
+    setRateLimitWindowHours,
+    refillIntervalHours,
+    setRefillIntervalHours,
+    refillAmount,
+    setRefillAmount,
+    metadata,
+    setMetadata,
+  } = useApiKeyStore();
 
   const handleCreate = () => {
-    onCreate({
+    createApiKey({
       name: newKeyName,
       permissions: permissions
         ? permissions.split(",").map((p) => p.trim())
@@ -86,7 +80,7 @@ export function CreateApiKeyModal({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isCreateModalOpen} onOpenChange={closeCreateModal}>
       <DialogContent className="sm:max-w-[500px]">
         {newlyCreatedKey ? (
           <>
@@ -153,7 +147,7 @@ export function CreateApiKeyModal({
             </div>
 
             <DialogFooter>
-              <Button onClick={onClose} className="w-full">
+              <Button onClick={closeCreateModal} className="w-full">
                 Done
               </Button>
             </DialogFooter>
@@ -260,7 +254,11 @@ export function CreateApiKeyModal({
             </div>
 
             <DialogFooter>
-              <Button variant="outline" onClick={onClose} disabled={isCreating}>
+              <Button
+                variant="outline"
+                onClick={closeCreateModal}
+                disabled={isCreating}
+              >
                 Cancel
               </Button>
               <Button onClick={handleCreate} disabled={isCreating}>

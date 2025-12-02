@@ -15,22 +15,13 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Eye, Trash2, Key } from "lucide-react";
 
-import type { DisplayApiKey } from "@/types";
 import { formatDate } from "@/lib/utils/apiKey";
+import { useApiKeyStore } from "@/stores/apiKeyStore";
 
-interface ApiKeysTableProps {
-  apiKeys: DisplayApiKey[];
-  onView: (apiKey: DisplayApiKey) => void;
-  onToggleEnabled: (id: string, enabled: boolean) => Promise<void> | void;
-  onDelete: (id: string) => Promise<void> | void;
-}
+export function ApiKeysTable() {
+  const { apiKeys, setSelectedKey, toggleApiKey, deleteApiKey } =
+    useApiKeyStore();
 
-export function ApiKeysTable({
-  apiKeys,
-  onView,
-  onToggleEnabled,
-  onDelete,
-}: ApiKeysTableProps) {
   return (
     <div className="overflow-x-auto rounded-md border">
       <Table>
@@ -53,7 +44,7 @@ export function ApiKeysTable({
               {/* Name */}
               <TableCell className="max-w-[200px]">
                 <div className="flex items-center gap-3">
-                  <div className="rounded-full bg-primary/10 p-2 flex-shrink-0">
+                  <div className="rounded-full bg-primary/10 p-2 shrink-0">
                     <Key className="h-4 w-4 text-primary" />
                   </div>
                   <div className="min-w-0">
@@ -79,7 +70,7 @@ export function ApiKeysTable({
                   </Badge>
                   <Switch
                     checked={k.enabled}
-                    onCheckedChange={(val) => onToggleEnabled(k.id, val)}
+                    onCheckedChange={(val) => toggleApiKey(k.id, val)}
                   />
                 </div>
               </TableCell>
@@ -97,7 +88,11 @@ export function ApiKeysTable({
               {/* Actions */}
               <TableCell className="text-right">
                 <div className="flex items-center justify-end gap-2">
-                  <Button size="sm" variant="ghost" onClick={() => onView(k)}>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => setSelectedKey(k)}
+                  >
                     <Eye className="h-4 w-4 mr-1" />
                     View
                   </Button>
@@ -105,7 +100,7 @@ export function ApiKeysTable({
                   <Button
                     size="sm"
                     variant="ghost"
-                    onClick={() => onDelete(k.id)}
+                    onClick={() => deleteApiKey(k.id)}
                     className="text-destructive"
                   >
                     <Trash2 className="h-4 w-4 mr-1" />

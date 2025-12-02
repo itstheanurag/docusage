@@ -1,14 +1,11 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { CardTitle } from "@/components/ui/card";
 import { Key } from "lucide-react";
+import { useApiKeyStore } from "@/stores/apiKeyStore";
 
-interface ApiKeyManagerHeaderProps {
-  onCreateNew: () => void;
-}
+export function ApiKeyManagerHeader() {
+  const { setIsCreateModalOpen } = useApiKeyStore();
 
-export function ApiKeyManagerHeader({ onCreateNew }: ApiKeyManagerHeaderProps) {
   return (
     <div className="flex items-center justify-between">
       <div>
@@ -17,7 +14,7 @@ export function ApiKeyManagerHeader({ onCreateNew }: ApiKeyManagerHeaderProps) {
           Manage your API keys for secure access to your account
         </p>
       </div>
-      <Button onClick={onCreateNew} size="lg">
+      <Button onClick={() => setIsCreateModalOpen(true)} size="lg">
         <Key className="mr-2 h-4 w-4" /> Create New Key
       </Button>
     </div>

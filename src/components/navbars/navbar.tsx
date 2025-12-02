@@ -9,8 +9,6 @@ import Link from "next/link";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
-
   return (
     <motion.nav
       initial={{ y: 0, opacity: 1 }}

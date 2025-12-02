@@ -1,25 +1,12 @@
 "use client";
-import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
-import {
-  Menu,
-  Home,
-  FileText,
-  Receipt,
-  Settings,
-  LogOut,
-  User,
-  Bell,
-  Key,
-} from "lucide-react";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { DialogTitle } from "@/components/ui/dialog";
+import { Menu, Bell } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import { ModeToggle } from "@/components/mode-toggle";
-import { DashboarSectionType } from "@/types/dashboard";
 import dynamic from "next/dynamic";
 import { Loader2 } from "lucide-react";
 
@@ -86,34 +73,16 @@ const ApiKeyManager = dynamic(
   { loading: LoadingState }
 );
 
-import { signOut } from "@/lib/better-auth/client";
 import { Session } from "@/lib/better-auth/auth-types";
 
 import UserAvatar from "../user";
 import Sidebar from "./sidebar";
 
+import { useDashboardStore } from "@/stores/dashboardStore";
+
 export default function Dashboard({ session }: { session: Session }) {
-  const [currentSection, setCurrentSection] =
-    useState<DashboarSectionType>("overview");
-
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
-
-  const router = useRouter();
-
-  const handleLogout = async () => {
-    const data = await signOut();
-
-    if (!data.error) {
-      toast.success("Logged out successfully");
-      router.push("/");
-    } else toast.error(data.error.message);
-  };
-
-  const handleSectionChange = (section: DashboarSectionType) => {
-    setCurrentSection(section);
-    setIsMobileMenuOpen(false);
-  };
+  const { currentSection, isMobileMenuOpen, setIsMobileMenuOpen, isCollapsed } =
+    useDashboardStore();
 
   const renderContent = () => {
     switch (currentSection) {
@@ -148,24 +117,17 @@ export default function Dashboard({ session }: { session: Session }) {
         )}
       >
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r bg-background">
-          <Sidebar
-            currentSection={currentSection}
-            onSectionChange={handleSectionChange}
-            onLogout={handleLogout}
-            isCollapsed={isCollapsed}
-            onToggleCollapse={() => setIsCollapsed(!isCollapsed)}
-          />
+          <Sidebar />
         </div>
       </div>
 
       {/* Mobile Sidebar */}
       <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
         <SheetContent side="left" className="w-72 p-0">
-          <Sidebar
-            currentSection={currentSection}
-            onSectionChange={handleSectionChange}
-            onLogout={handleLogout}
-          />
+          <div className="sr-only">
+            <DialogTitle>Mobile Navigation Menu</DialogTitle>
+          </div>
+          <Sidebar mobile={true} />
         </SheetContent>
       </Sheet>
       {/* Main Content */}
@@ -191,39 +153,7 @@ export default function Dashboard({ session }: { session: Session }) {
                 <Bell className="h-5 w-5" />
               </Button>
               <ModeToggle />
-
-              <UserAvatar session={session} logout={handleLogout} />
-
-              {/* <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <Avatar className="h-8 w-8 cursor-pointer">
-                    <AvatarImage
-                      src={session.user?.image || "/placeholder.svg"}
-                    />
-                    <AvatarFallback>
-                      {session.user?.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </AvatarFallback>
-                  </Avatar>
-                </DropdownMenuTrigger>
-
-                <DropdownMenuContent align="end" className="w-56">
-                  <div className="p-4 border-b">
-                    <p className="font-medium">{session.user?.name}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {session.user?.email}
-                    </p>
-                  </div>
-                  <DropdownMenuItem onClick={() => router.push("/profile")}>
-                    Profile
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleLogout}>
-                    Logout
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu> */}
+              <UserAvatar session={session} />
             </div>
           </div>
         </header>
