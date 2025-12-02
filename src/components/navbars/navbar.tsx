@@ -51,12 +51,12 @@ export function Navbar() {
             </nav>
             <div className="flex items-center space-x-4">
               <ModeToggle />
-              <Link href="/auth/login">
+              <Link href="/login">
                 <Button variant="ghost" size="sm">
                   Login
                 </Button>
               </Link>
-              <Link href="/auth/register">
+              <Link href="/register">
                 <Button size="sm">Sign Up</Button>
               </Link>
             </div>
@@ -99,12 +99,12 @@ export function Navbar() {
                 </a>
               ))}
               <div className="flex flex-col space-y-2 pt-4 border-t border-border/40">
-                <Link href="/auth/login">
+                <Link href="/login">
                   <Button variant="ghost" size="sm" className="w-full">
                     Login
                   </Button>
                 </Link>
-                <Link href="/auth/register">
+                <Link href="/register">
                   <Button size="sm" className="w-full">
                     Sign Up
                   </Button>

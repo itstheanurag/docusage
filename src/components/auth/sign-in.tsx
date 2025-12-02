@@ -33,12 +33,14 @@ export function SignInForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
     const { error } = await signIn.email(formData);
-
     setIsLoading(false);
-    if (!error) router.push("/dashboard");
-    else toast.error(error.message || "Login failed");
+    if (!error) {
+      toast.success("Signed in successfully");
+      router.push("/dashboard");
+    } else {
+      toast.error(error.message || "Login failed");
+    }
   };
 
   const handleGoogleLogin = async () => {

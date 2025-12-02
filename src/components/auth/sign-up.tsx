@@ -54,7 +54,7 @@ export function SignUpForm() {
     setIsLoading(false);
 
     if (!data.error) {
-      toast.success("registration successfully, please login");
+      toast.success("Registration successful, please login");
 
       router.push("/auth/login");
     } else {
@@ -220,7 +220,7 @@ export function SignUpForm() {
               transition={{ delay: 0.8, duration: 0.3 }}
               className="text-center text-sm text-muted-foreground w-full"
             >
-              Don't have an account?{" "}
+              Already have an account?{" "}
               <Link
                 href="/auth/login"
                 className="text-muted-foreground hover:text-foreground hover:underline font-medium"
