@@ -1,5 +1,29 @@
 import { useDocumentStore } from "@/stores/documentStore";
 import { FormatCommandEvent } from "@/types/document";
+import {
+  Bold,
+  Italic,
+  Underline,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  List,
+  ListOrdered,
+  Link as LinkIcon,
+  Image as ImageIcon,
+  Undo,
+  Redo,
+  Type,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const Toolbar: React.FC<{
   onFormat: (data: FormatCommandEvent) => void;
@@ -7,151 +31,187 @@ const Toolbar: React.FC<{
   const { undo, redo, historyIndex, history } = useDocumentStore();
 
   return (
-    <div className="flex flex-wrap items-center gap-2 border-b border-border bg-muted/40 px-4 py-2 text-sm">
-      {/* History Controls */}
-      <div className="flex gap-1 border-r border-border pr-3 mr-2">
-        <button
+    <div className="flex items-center gap-1 p-1 bg-background rounded-lg border border-border shadow-sm">
+      {/* History */}
+      <div className="flex items-center gap-0.5">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8"
           onClick={undo}
           disabled={historyIndex <= 0}
-          className="rounded px-3 py-1.5 hover:bg-accent hover:text-accent-foreground disabled:opacity-40 disabled:cursor-not-allowed transition"
-          title="Undo"
         >
-          ↶
-        </button>
-        <button
+          <Undo className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8"
           onClick={redo}
           disabled={historyIndex >= history.length - 1}
-          className="rounded px-3 py-1.5 hover:bg-accent hover:text-accent-foreground disabled:opacity-40 disabled:cursor-not-allowed transition"
-          title="Redo"
         >
-          ↷
-        </button>
+          <Redo className="h-4 w-4" />
+        </Button>
       </div>
+
+      <Separator orientation="vertical" className="h-6 mx-1" />
 
       {/* Font Size */}
-      <select
-        onChange={(e) =>
-          onFormat({ command: "fontSize", value: e.target.value })
-        }
-        defaultValue="16px"
-        className="border border-border bg-background text-foreground rounded px-2 py-1.5 hover:border-accent transition"
+      <Select
+        onValueChange={(val) => onFormat({ command: "fontSize", value: val })}
+        defaultValue="3"
       >
-        <option value="12px">Small</option>
-        <option value="16px">Normal</option>
-        <option value="20px">Large</option>
-        <option value="24px">Huge</option>
-      </select>
+        <SelectTrigger className="h-8 w-[100px] border-none bg-transparent focus:ring-0">
+          <SelectValue placeholder="Size" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="1">Small</SelectItem>
+          <SelectItem value="3">Normal</SelectItem>
+          <SelectItem value="5">Large</SelectItem>
+          <SelectItem value="7">Huge</SelectItem>
+        </SelectContent>
+      </Select>
 
-      {/* Basic Formatting */}
-      <div className="flex gap-1 border-l border-border pl-3 ml-2">
-        <button
+      <Separator orientation="vertical" className="h-6 mx-1" />
+
+      {/* Formatting */}
+      <div className="flex items-center gap-0.5">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8"
           onClick={() => onFormat({ command: "bold" })}
-          className="font-bold rounded px-3 py-1.5 hover:bg-accent hover:text-accent-foreground transition"
-          title="Bold"
         >
-          B
-        </button>
-        <button
+          <Bold className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8"
           onClick={() => onFormat({ command: "italic" })}
-          className="italic rounded px-3 py-1.5 hover:bg-accent hover:text-accent-foreground transition"
-          title="Italic"
         >
-          I
-        </button>
-        <button
+          <Italic className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8"
           onClick={() => onFormat({ command: "underline" })}
-          className="underline rounded px-3 py-1.5 hover:bg-accent hover:text-accent-foreground transition"
-          title="Underline"
         >
-          U
-        </button>
+          <Underline className="h-4 w-4" />
+        </Button>
       </div>
 
-      {/* Colors */}
-      <div className="flex gap-2 border-l border-border pl-3 ml-2">
-        <input
-          type="color"
-          onChange={(e) =>
-            onFormat({ command: "foreColor", value: e.target.value })
-          }
-          className="w-8 h-8 rounded cursor-pointer border border-border bg-background"
-          title="Text Color"
-        />
-        <input
-          type="color"
-          onChange={(e) =>
-            onFormat({ command: "backColor", value: e.target.value })
-          }
-          className="w-8 h-8 rounded cursor-pointer border border-border bg-background"
-          title="Highlight"
-        />
-      </div>
+      <Separator orientation="vertical" className="h-6 mx-1" />
 
       {/* Alignment */}
-      <div className="flex gap-1 border-l border-border pl-3 ml-2">
-        <button
+      <div className="flex items-center gap-0.5">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8"
           onClick={() => onFormat({ command: "justifyLeft" })}
-          className="rounded px-3 py-1.5 hover:bg-accent hover:text-accent-foreground transition"
-          title="Align Left"
         >
-          ⫷
-        </button>
-        <button
+          <AlignLeft className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8"
           onClick={() => onFormat({ command: "justifyCenter" })}
-          className="rounded px-3 py-1.5 hover:bg-accent hover:text-accent-foreground transition"
-          title="Center"
         >
-          ≡
-        </button>
-        <button
+          <AlignCenter className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8"
           onClick={() => onFormat({ command: "justifyRight" })}
-          className="rounded px-3 py-1.5 hover:bg-accent hover:text-accent-foreground transition"
-          title="Align Right"
         >
-          ⫸
-        </button>
+          <AlignRight className="h-4 w-4" />
+        </Button>
       </div>
+
+      <Separator orientation="vertical" className="h-6 mx-1" />
 
       {/* Lists */}
-      <div className="flex gap-1 border-l border-border pl-3 ml-2">
-        <button
+      <div className="flex items-center gap-0.5">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8"
           onClick={() => onFormat({ command: "insertUnorderedList" })}
-          className="rounded px-3 py-1.5 hover:bg-accent hover:text-accent-foreground transition"
-          title="Bullet List"
         >
-          •
-        </button>
-        <button
+          <List className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8"
           onClick={() => onFormat({ command: "insertOrderedList" })}
-          className="rounded px-3 py-1.5 hover:bg-accent hover:text-accent-foreground transition"
-          title="Numbered List"
         >
-          1.
-        </button>
+          <ListOrdered className="h-4 w-4" />
+        </Button>
       </div>
 
+      <Separator orientation="vertical" className="h-6 mx-1" />
+
+      {/* Colors */}
+      <div className="flex items-center gap-2 px-2">
+        <div className="relative group">
+          <div className="h-6 w-6 rounded border border-border overflow-hidden cursor-pointer flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+            <Type className="h-4 w-4" />
+          </div>
+          <input
+            type="color"
+            className="absolute inset-0 opacity-0 cursor-pointer"
+            onChange={(e) =>
+              onFormat({ command: "foreColor", value: e.target.value })
+            }
+            title="Text Color"
+          />
+        </div>
+        <div className="relative group">
+          <div className="h-6 w-6 rounded border border-border overflow-hidden cursor-pointer flex items-center justify-center bg-yellow-100 dark:bg-yellow-900/50">
+            <div className="h-3 w-3 bg-yellow-400 rounded-full"></div>
+          </div>
+          <input
+            type="color"
+            className="absolute inset-0 opacity-0 cursor-pointer"
+            onChange={(e) =>
+              onFormat({ command: "backColor", value: e.target.value })
+            }
+            title="Highlight Color"
+          />
+        </div>
+      </div>
+
+      <Separator orientation="vertical" className="h-6 mx-1" />
+
       {/* Insert */}
-      <div className="flex gap-1 border-l border-border pl-3 ml-2">
-        <button
+      <div className="flex items-center gap-0.5">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8"
           onClick={() => {
             const url = prompt("Enter link URL:");
             if (url) onFormat({ command: "createLink", value: url });
           }}
-          className="rounded px-3 py-1.5 hover:bg-accent hover:text-accent-foreground transition"
-          title="Insert Link"
         >
-          🔗
-        </button>
-        <button
+          <LinkIcon className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8"
           onClick={() => {
             const url = prompt("Enter image URL:");
             if (url) onFormat({ command: "insertImage", value: url });
           }}
-          className="rounded px-3 py-1.5 hover:bg-accent hover:text-accent-foreground transition"
-          title="Insert Image"
         >
-          🖼
-        </button>
+          <ImageIcon className="h-4 w-4" />
+        </Button>
       </div>
     </div>
   );

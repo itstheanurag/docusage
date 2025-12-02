@@ -43,7 +43,7 @@ export default function NewCodePage() {
           </Button>
         </div>
       </header>
-      <main className="flex-1 p-4 overflow-hidden">
+      <main className="flex-1 overflow-hidden">
         <CodeEditor
           code={code}
           onChange={(val) => setCode(val || "")}

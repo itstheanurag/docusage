@@ -10,8 +10,25 @@ export async function listApiKeys() {
   return keys;
 }
 
-export async function createApiKey(name: string) {
-  const res = await client.apiKey.create({ name });
+export async function createApiKey(payload: {
+  name: string;
+  permissions?: string[] | null;
+  expiresAt?: Date | null;
+  rateLimitEnabled?: boolean;
+  rateLimitMax?: number;
+  rateLimitTimeWindow?: number;
+  refillInterval?: number | null;
+  refillAmount?: number | null;
+  metadata?: any;
+}) {
+  const cleanPayload = {
+    ...payload,
+    permissions: payload.permissions ?? undefined,
+    expiresAt: payload.expiresAt ?? undefined,
+    refillInterval: payload.refillInterval ?? undefined,
+    refillAmount: payload.refillAmount ?? undefined,
+  };
+  const res = await client.apiKey.create(cleanPayload);
   if (res.error) throw new Error(res.error.message);
   return normalizeApiKey(res.data);
 }
@@ -53,6 +70,11 @@ export async function updateApiKey(id: string, patch: Partial<DisplayApiKey>) {
   // Convert refillIntervalHours → refillInterval in ms
   if ("refillIntervalHours" in patch && patch.refillInterval != null) {
     cleanedPatch.refillInterval = patch.refillInterval * 60 * 60 * 1000;
+  }
+
+  // Ensure refillAmount is undefined if null
+  if (cleanedPatch.refillAmount === null) {
+    cleanedPatch.refillAmount = undefined;
   }
 
   const res = await client.apiKey.update({ keyId: id, ...cleanedPatch });
