@@ -6,7 +6,7 @@ import { ArrowRight, FileText, Zap, Users, Sparkles } from "lucide-react";
 import { BackgroundBeams } from "@/components/backgrounds/Beams";
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden py-20 sm:py-32 bg-gradient-to-br from-background via-background to-muted/20">
+    <section className="relative overflow-hidden py-20 sm:py-32 bg-linear-to-br from-background via-background to-muted/20">
       {/* Wave Background */}
       <BackgroundBeams />
 

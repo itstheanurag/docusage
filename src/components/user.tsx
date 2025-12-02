@@ -8,15 +8,23 @@ import {
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
 import { Session } from "@/lib/better-auth";
+import { signOut } from "@/lib/better-auth/client";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
-export default function UserAvatar({
-  session,
-  logout,
-}: {
-  session?: Session;
-  logout?: () => void;
-}) {
-  if (!session) return <></>;
+export default function UserAvatar({ session }: { session?: Session }) {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    const data = await signOut();
+
+    if (!data.error) {
+      toast.success("Logged out successfully");
+      router.push("/");
+    } else toast.error(data.error.message);
+  };
+
+  if (!session) return null;
 
   return (
     <DropdownMenu>
@@ -26,7 +34,7 @@ export default function UserAvatar({
           <AvatarFallback>
             {session.user?.name
               .split(" ")
-              .map((n) => n[0])
+              .map((n: string) => n[0])
               .join("")}
           </AvatarFallback>
         </Avatar>
@@ -37,7 +45,7 @@ export default function UserAvatar({
           <p className="font-medium">{session.user?.name}</p>
           <p className="text-sm text-muted-foreground">{session.user?.email}</p>
         </div>
-        <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

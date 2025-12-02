@@ -8,7 +8,7 @@ export function Footer() {
   return (
     <footer className="relative bg-background border-t border-border/40 overflow-hidden">
       {/* Background Pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+      <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-accent/5" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_80%,rgba(120,119,198,0.1),transparent_50%)]" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
