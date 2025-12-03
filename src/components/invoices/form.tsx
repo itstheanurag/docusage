@@ -1,4 +1,4 @@
-import { useInvoiceStore } from "@/stores";
+import { useInvoiceStore } from "@/store";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";

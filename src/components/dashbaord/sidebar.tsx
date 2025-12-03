@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { sidebarItems } from "@/lib/data/dashboard-sidebar";
-import { useDashboardStore } from "@/stores/dashboardStore";
+import { useDashboardStore } from "@/store/dashboardStore";
 import { signOut } from "@/lib/better-auth/client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";

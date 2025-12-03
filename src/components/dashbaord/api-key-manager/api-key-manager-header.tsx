@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { CardTitle } from "@/components/ui/card";
 import { Key } from "lucide-react";
-import { useApiKeyStore } from "@/stores/apiKeyStore";
+import { useApiKeyStore } from "@/store/apiKeyStore";
 
 export function ApiKeyManagerHeader() {
   const { setIsCreateModalOpen } = useApiKeyStore();

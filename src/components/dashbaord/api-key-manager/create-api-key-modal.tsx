@@ -15,7 +15,7 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Copy, Key, AlertCircle } from "lucide-react";
-import { useApiKeyStore } from "@/stores/apiKeyStore";
+import { useApiKeyStore } from "@/store/apiKeyStore";
 
 const copyToClipboard = async (text: string) => {
   try {

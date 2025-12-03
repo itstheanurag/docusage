@@ -16,7 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { Eye, Trash2, Key } from "lucide-react";
 
 import { formatDate } from "@/lib/utils/apiKey";
-import { useApiKeyStore } from "@/stores/apiKeyStore";
+import { useApiKeyStore } from "@/store/apiKeyStore";
 
 export function ApiKeysTable() {
   const { apiKeys, setSelectedKey, toggleApiKey, deleteApiKey } =

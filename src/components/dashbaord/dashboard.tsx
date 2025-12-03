@@ -78,7 +78,7 @@ import { Session } from "@/lib/better-auth/auth-types";
 import UserAvatar from "../user";
 import Sidebar from "./sidebar";
 
-import { useDashboardStore } from "@/stores/dashboardStore";
+import { useDashboardStore } from "@/store/dashboardStore";
 
 export default function Dashboard({ session }: { session: Session }) {
   const { currentSection, isMobileMenuOpen, setIsMobileMenuOpen, isCollapsed } =

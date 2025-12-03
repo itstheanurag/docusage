@@ -7,7 +7,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { FileText, Menu, X } from "lucide-react";
 import Link from "next/link";
 
-export function Navbar() {
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <motion.nav

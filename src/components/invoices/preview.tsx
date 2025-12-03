@@ -1,4 +1,4 @@
-import { useInvoiceStore } from "@/stores";
+import { useInvoiceStore } from "@/store";
 
 const InvoicePreview: React.FC = () => {
   const invoice = useInvoiceStore();

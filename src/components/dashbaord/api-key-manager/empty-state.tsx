@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Key } from "lucide-react";
-import { useApiKeyStore } from "@/stores/apiKeyStore";
+import { useApiKeyStore } from "@/store/apiKeyStore";
 
 export function EmptyState() {
   const { setIsCreateModalOpen } = useApiKeyStore();

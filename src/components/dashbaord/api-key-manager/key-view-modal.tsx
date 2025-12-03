@@ -8,7 +8,7 @@ import { Switch } from "@/components/ui/switch";
 import { Key } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "sonner";
-import { useApiKeyStore } from "@/stores/apiKeyStore";
+import { useApiKeyStore } from "@/store/apiKeyStore";
 
 export function ViewApiKeyModal() {
   const { selectedKey, setSelectedKey, updateApiKey, deleteApiKey } =

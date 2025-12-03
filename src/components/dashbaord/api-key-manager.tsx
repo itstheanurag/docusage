@@ -7,7 +7,7 @@ import { CreateApiKeyModal } from "./api-key-manager/create-api-key-modal";
 import { EmptyState } from "./api-key-manager/empty-state";
 import { ApiKeysTable } from "./api-key-manager/api-key-table";
 import { ViewApiKeyModal } from "./api-key-manager/key-view-modal";
-import { useApiKeyStore } from "@/stores/apiKeyStore";
+import { useApiKeyStore } from "@/store/apiKeyStore";
 
 export function ApiKeyManager() {
   const { apiKeys, isLoading, selectedKey, fetchApiKeys } = useApiKeyStore();
