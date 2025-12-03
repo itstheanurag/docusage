@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { FormField } from "./form-builder";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { FormField } from "@/types/form";
 
 interface FormRendererProps {
   title: string;
