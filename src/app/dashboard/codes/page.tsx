@@ -46,7 +46,7 @@ export default function CodesDashboardPage() {
             <CardContent>
               <div className="text-muted-foreground line-clamp-3 font-mono bg-muted/50 p-3 rounded-md border text-xs">
                 function bubbleSort(arr) {"{"}
-                // implementation here return arr.sort();
+                {"// implementation here return arr.sort();"}
                 {"}"}
               </div>
             </CardContent>

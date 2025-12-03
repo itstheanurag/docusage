@@ -1,14 +1,9 @@
 "use client";
 
 import { FormRenderer } from "@/components/forms/form-render";
-import { use } from "react";
 
-export default function PublicFormPage({
-  params,
-}: {
-  params: Promise<{ shareUrl: string }>;
-}) {
-  const resolvedParams = use(params);
+export default function PublicFormPage() {
+  // const resolvedParams = use(params);
 
   const mockFields = [
     {
@@ -46,6 +41,7 @@ export default function PublicFormPage({
       <FormRenderer
         title="Customer Feedback"
         description="Please let us know what you think about our service. We value your feedback!"
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         fields={mockFields as any}
         onSubmit={(data) => {
           console.log(data);

@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 
 const PreviewSection = dynamic(() => import("@/components/preview-section"));
 const CallToActionSection = dynamic(
-  () => import("@/components/call-to-action-section")
+  () => import("@/components/call-to-action-section"),
 );
 const FeaturesSection = dynamic(() => import("@/components/features-section"));
 const Footer = dynamic(() => import("@/components/footer"));

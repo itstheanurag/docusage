@@ -20,8 +20,6 @@ const Preview: React.FC<PreviewProps> = ({ content }) => {
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = content;
 
-    const newNodes: React.ReactNode[] = [];
-
     // Helper to traverse nodes
     const traverse = (node: Node, index: number): React.ReactNode => {
       if (node.nodeType === Node.TEXT_NODE) {
@@ -125,17 +123,19 @@ const Preview: React.FC<PreviewProps> = ({ content }) => {
 
         // Recursively handle children
         const children = Array.from(element.childNodes).map((child, i) =>
-          traverse(child, i)
+          traverse(child, i),
         );
 
         const Tag = element.tagName.toLowerCase();
 
         // Copy attributes
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const props: any = { key: index };
         Array.from(element.attributes).forEach((attr) => {
           if (attr.name === "class") {
             props.className = attr.value;
           } else if (attr.name === "style") {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const styleObj: any = {};
             const styleStr = attr.value;
             styleStr.split(";").forEach((style) => {
@@ -180,7 +180,7 @@ const Preview: React.FC<PreviewProps> = ({ content }) => {
     };
 
     const parsedNodes = Array.from(tempDiv.childNodes).map((node, i) =>
-      traverse(node, i)
+      traverse(node, i),
     );
     setNodes(parsedNodes);
   }, [content]);

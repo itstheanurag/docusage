@@ -207,7 +207,10 @@ const Editor: React.FC = () => {
               className="text-lg font-semibold bg-transparent outline-none w-full max-w-xs"
             />
             <div className="h-6 w-px bg-border mx-2"></div>
-            <Select value={pageSize} onValueChange={(v: any) => setPageSize(v)}>
+            <Select
+              value={pageSize}
+              onValueChange={(v) => setPageSize(v as keyof typeof PAGE_SIZES)}
+            >
               <SelectTrigger className="w-[180px] h-8">
                 <SelectValue placeholder="Page Size" />
               </SelectTrigger>
