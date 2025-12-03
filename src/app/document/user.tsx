@@ -1,4 +1,4 @@
-import { useDocumentStore } from "@/stores/documentStore";
+import { useDocumentStore } from "@/store/documentStore";
 
 const UserPresence = () => {
   const users = useDocumentStore((state) => state.users);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useDocumentStore } from "@/stores/documentStore";
+import { useDocumentStore } from "@/store/documentStore";
 import React, { useState, useRef, useEffect } from "react";
 import { FormatCommandEvent } from "@/types/document";
 

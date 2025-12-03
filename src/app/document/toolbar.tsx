@@ -1,4 +1,4 @@
-import { useDocumentStore } from "@/stores/documentStore";
+import { useDocumentStore } from "@/store/documentStore";
 import { FormatCommandEvent } from "@/types/document";
 import {
   Bold,
