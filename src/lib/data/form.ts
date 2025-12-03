@@ -12,9 +12,14 @@ import {
   Upload,
   Star,
   PenTool,
+  LucideIcon,
 } from "lucide-react";
 
-export const FIELD_TYPES: { type: FieldType; icon: any; label: string }[] = [
+export const FIELD_TYPES: {
+  type: FieldType;
+  icon: LucideIcon;
+  label: string;
+}[] = [
   { type: "text", icon: Type, label: "Short Text" },
   { type: "textarea", icon: AlignLeft, label: "Long Text" },
   { type: "email", icon: Mail, label: "Email" },

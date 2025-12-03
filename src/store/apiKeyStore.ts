@@ -46,6 +46,7 @@ interface ApiKeyStore {
   setSelectedKey: (key: DisplayApiKey | null) => void;
 
   fetchApiKeys: () => Promise<void>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   createApiKey: (payload: any) => Promise<void>;
   deleteApiKey: (id: string) => Promise<void>;
   toggleApiKey: (id: string, enabled: boolean) => Promise<void>;
@@ -53,7 +54,7 @@ interface ApiKeyStore {
   closeCreateModal: () => void;
 }
 
-export const useApiKeyStore = create<ApiKeyStore>((set, get) => ({
+export const useApiKeyStore = create<ApiKeyStore>((set) => ({
   apiKeys: [],
   isLoading: false,
   isCreateModalOpen: false,
@@ -102,6 +103,7 @@ export const useApiKeyStore = create<ApiKeyStore>((set, get) => ({
     }
   },
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   createApiKey: async (payload: any) => {
     set({ isCreating: true });
     try {
@@ -134,24 +136,24 @@ export const useApiKeyStore = create<ApiKeyStore>((set, get) => ({
 
   toggleApiKey: async (id, enabled) => {
     try {
-      const updatedKey = await toggleApiKeyEnabled(id, enabled);
+      await toggleApiKeyEnabled(id, enabled);
       set((state) => ({
         apiKeys: state.apiKeys.map((key) =>
-          key.id === id ? { ...key, enabled } : key
+          key.id === id ? { ...key, enabled } : key,
         ),
       }));
       toast.success(`API key ${enabled ? "enabled" : "disabled"}`);
-    } catch (err) {
+    } catch {
       toast.error("Failed to update API key");
     }
   },
 
   updateApiKey: async (id, patch) => {
     try {
-      const updatedKey = await updateApiKey(id, patch);
+      await updateApiKey(id, patch);
       set((state) => ({
         apiKeys: state.apiKeys.map((key) =>
-          key.id === id ? { ...key, ...patch } : key
+          key.id === id ? { ...key, ...patch } : key,
         ),
         selectedKey:
           state.selectedKey?.id === id
@@ -159,7 +161,7 @@ export const useApiKeyStore = create<ApiKeyStore>((set, get) => ({
             : state.selectedKey,
       }));
       toast.success("API key updated successfully.");
-    } catch (err) {
+    } catch {
       toast.error("Failed to update API key");
     }
   },

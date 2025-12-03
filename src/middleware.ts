@@ -5,7 +5,7 @@ export async function middleware(request: NextRequest) {
   // Check for any session token cookie (handling prefixes)
   const allCookies = request.cookies.getAll();
   const sessionCookie = allCookies.find((c) =>
-    c.name.endsWith("session_token")
+    c.name.endsWith("session_token"),
   );
 
   const isLoggedIn = !!sessionCookie || !!getSessionCookie(request);

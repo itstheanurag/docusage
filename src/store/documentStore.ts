@@ -7,7 +7,7 @@ interface User {
 }
 
 interface DocumentState {
-  title: string; 
+  title: string;
   content: string;
   history: string[];
   historyIndex: number;
@@ -21,7 +21,7 @@ interface DocumentState {
 }
 
 export const useDocumentStore = create<DocumentState>((set, get) => ({
-  title: "Untitled Document", 
+  title: "Untitled Document",
   content: "",
   history: [],
   historyIndex: -1,
