@@ -80,14 +80,12 @@ const features = [
   },
 ];
 
-export function FeaturesSection() {
+export default function FeaturesSection() {
   return (
     <section
       id="features"
       className="relative py-20 sm:py-32 bg-background overflow-hidden"
     >
-      {/* Grid Pattern Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808033_1px,transparent_1px),linear-gradient(to_bottom,#80808033_1px,transparent_1px)] bg-size-[60px_60px] mask-[radial-gradient(circle_at_center,white,transparent)] [-webkit-mask-image:radial-gradient(circle_at_center,white,transparent)]"></div>
 
       <motion.div
         className="absolute top-16 right-32 w-20 h-20 bg-primary/5 rounded-full blur-xl"
@@ -125,7 +123,7 @@ export function FeaturesSection() {
             <Badge variant="outline" className="mb-4 text-sm font-medium">
               Features
             </Badge>
-            <h2 className="text-3xl font-serif font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl mb-4">
+            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl mb-4">
               Everything you need to create amazing documents
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
@@ -167,7 +165,7 @@ export function FeaturesSection() {
                       </Badge>
                     )}
                   </div>
-                  <CardTitle className="text-lg font-serif font-semibold">
+                  <CardTitle className="text-lg font-semibold">
                     {feature.title}
                   </CardTitle>
                 </CardHeader>

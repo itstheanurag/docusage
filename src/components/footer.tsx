@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { FileText, Github, Twitter, Linkedin, Mail } from "lucide-react";
 import Link from "next/link";
 
-export function Footer() {
+export default function Footer() {
   return (
     <footer className="relative bg-background border-t border-border/40 overflow-hidden">
       {/* Background Pattern */}
@@ -73,7 +73,7 @@ export function Footer() {
                       {item}
                     </Link>
                   </motion.li>
-                ),
+                )
               )}
             </ul>
           </motion.div>
@@ -96,7 +96,7 @@ export function Footer() {
                       {item}
                     </Link>
                   </motion.li>
-                ),
+                )
               )}
             </ul>
           </motion.div>
@@ -122,7 +122,7 @@ export function Footer() {
                 >
                   {item}
                 </Link>
-              ),
+              )
             )}
           </div>
         </motion.div>

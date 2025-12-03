@@ -1,39 +1,16 @@
 "use client";
-
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
-import { FlickeringGrid } from "@/components/backgrounds/FlickerGrids";
 import { Button } from "@/components/ui/button";
-import { useTheme } from "next-themes";
 
-export function CallToActionSection() {
-  const { theme } = useTheme();
-  const [gridColor, setGridColor] = useState("rgb(0, 0, 0)");
-
-  useEffect(() => {
-    const isDark =
-      theme === "dark" ||
-      (theme === "system" &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches);
-
-    setGridColor(isDark ? "rgb(255, 255, 255)" : "rgb(0, 0, 0)");
-  }, [theme]);
-
+export default function CallToActionSection() {
   return (
     <section className="py-20 sm:py-32 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-[2.5rem] bg-primary/5 border border-primary/10 px-6 py-24 sm:px-16 sm:py-32 text-center">
-          {/* Background Flickering Grid */}
-          <div className="absolute inset-0">
-            <FlickeringGrid
-              squareSize={4}
-              gridGap={6}
-              color={gridColor}
-              maxOpacity={0.15}
-              flickerChance={0.1}
-              className="h-full"
-            />
-          </div>
+          {/* Grid Pattern Background */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808033_1px,transparent_1px),linear-gradient(to_bottom,#80808033_1px,transparent_1px)] bg-size-[60px_60px] mask-[radial-gradient(circle_at_center,white,transparent)] [-webkit-mask-image:radial-gradient(circle_at_center,white,transparent)]"></div>
+
           {/* Content */}
           <motion.div
             className="relative z-10 max-w-3xl mx-auto"
