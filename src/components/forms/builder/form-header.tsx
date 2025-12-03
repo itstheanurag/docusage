@@ -22,6 +22,7 @@ export default function FormHeader() {
     <Card className="p-8 border-t-4 border-t-primary mb-6 shadow-sm">
       {logoUrl && (
         <div className="mb-6">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={logoUrl} className="h-16 object-contain" alt="Form Logo" />
         </div>
       )}

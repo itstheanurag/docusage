@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Mail } from "lucide-react";
 import { toast } from "sonner";
-import { authClient } from "@/lib/better-auth/client";
+import { client as authClient } from "@/lib/better-auth/client";
 import Link from "next/link";
 import { BackgroundBeams } from "@/components/backgrounds/Beams";
 import { BorderBeam } from "../backgrounds/border-beam";
@@ -96,7 +96,7 @@ export default function ForgotPassword() {
           <div className="text-center text-sm text-muted-foreground py-4">
             Remembered your password?{" "}
             <Link
-              href="/auth/login"
+              href="/login"
               className="text-muted-foreground hover:text-foreground underline font-medium"
             >
               Sign in

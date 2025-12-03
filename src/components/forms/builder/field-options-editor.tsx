@@ -32,7 +32,7 @@ export default function FieldOptionsEditor() {
             variant="ghost"
             onClick={() => {
               const newOptions = selectedField.options?.filter(
-                (_: any, idx: number) => idx !== i
+                (_: string, idx: number) => idx !== i,
               );
               updateField(selectedField.id, { options: newOptions });
             }}

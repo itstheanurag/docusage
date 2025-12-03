@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { copyToClipboard, formatDate } from "@/lib/utils/apiKey";
+import { formatDate } from "@/lib/utils/apiKey";
 import { DisplayApiKey } from "@/types";
 import { Switch } from "@/components/ui/switch";
 import { Key } from "lucide-react";
@@ -13,7 +13,6 @@ import { useApiKeyStore } from "@/store/apiKeyStore";
 export function ViewApiKeyModal() {
   const { selectedKey, setSelectedKey, updateApiKey, deleteApiKey } =
     useApiKeyStore();
-  const [editing, setEditing] = useState(false);
 
   // form state
   const [name, setName] = useState("");
@@ -22,7 +21,7 @@ export function ViewApiKeyModal() {
   const [rateLimitMax, setRateLimitMax] = useState<number | null>(null);
   const [rateLimitWindowHours, setRateLimitWindowHours] = useState<number>(1);
   const [refillIntervalHours, setRefillIntervalHours] = useState<number | null>(
-    null
+    null,
   );
   const [refillAmount, setRefillAmount] = useState<number | null>(null);
   const [expiresAt, setExpiresAt] = useState<string | null>(null);
@@ -38,19 +37,19 @@ export function ViewApiKeyModal() {
     setRateLimitWindowHours(
       Math.max(
         1,
-        Math.round((selectedKey.rateLimitTimeWindow ?? 3600000) / 3600000)
-      )
+        Math.round((selectedKey.rateLimitTimeWindow ?? 3600000) / 3600000),
+      ),
     );
     setRefillIntervalHours(
       selectedKey.refillInterval
         ? Math.round(selectedKey.refillInterval / 3600000)
-        : null
+        : null,
     );
     setRefillAmount(selectedKey.refillAmount ?? null);
     setExpiresAt(
       selectedKey.expiresAt
         ? new Date(selectedKey.expiresAt).toISOString().slice(0, 16)
-        : null
+        : null,
     );
     // permissions: store as array of strings if comma or array
     if (!selectedKey.permissions) setPermissions([]);
@@ -61,7 +60,7 @@ export function ViewApiKeyModal() {
         if (Array.isArray(p)) setPermissions(p.map(String));
         else
           setPermissions(
-            selectedKey.permissions.split(",").map((s) => s.trim())
+            selectedKey.permissions.split(",").map((s) => s.trim()),
           );
       } catch {
         setPermissions(selectedKey.permissions.split(",").map((s) => s.trim()));
@@ -70,11 +69,9 @@ export function ViewApiKeyModal() {
       setPermissions(
         Array.isArray(selectedKey.permissions)
           ? selectedKey.permissions
-          : [String(selectedKey.permissions)]
+          : [String(selectedKey.permissions)],
       );
     }
-
-    setEditing(false);
   }, [selectedKey]);
 
   if (!selectedKey) return null;
@@ -98,7 +95,7 @@ export function ViewApiKeyModal() {
       await updateApiKey(selectedKey.id, patch);
       toast.success("Saved");
       setSelectedKey(null);
-    } catch (err) {
+    } catch {
       toast.error("Failed to save");
     }
   };
@@ -218,7 +215,7 @@ export function ViewApiKeyModal() {
                     value={rateLimitMax ?? undefined}
                     onChange={(e) =>
                       setRateLimitMax(
-                        e.target.value ? Number(e.target.value) : null
+                        e.target.value ? Number(e.target.value) : null,
                       )
                     }
                   />
@@ -232,7 +229,7 @@ export function ViewApiKeyModal() {
                     value={rateLimitWindowHours}
                     onChange={(e) =>
                       setRateLimitWindowHours(
-                        Math.max(1, Number(e.target.value))
+                        Math.max(1, Number(e.target.value)),
                       )
                     }
                   />
@@ -247,7 +244,7 @@ export function ViewApiKeyModal() {
                       value={refillAmount ?? undefined}
                       onChange={(e) =>
                         setRefillAmount(
-                          e.target.value ? Number(e.target.value) : null
+                          e.target.value ? Number(e.target.value) : null,
                         )
                       }
                       placeholder="amount"
@@ -258,7 +255,7 @@ export function ViewApiKeyModal() {
                       value={refillIntervalHours ?? undefined}
                       onChange={(e) =>
                         setRefillIntervalHours(
-                          e.target.value ? Number(e.target.value) : null
+                          e.target.value ? Number(e.target.value) : null,
                         )
                       }
                       placeholder="hours"

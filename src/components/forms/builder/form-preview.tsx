@@ -37,6 +37,7 @@ export default function FormPreview() {
         <Card className="p-8 border-t-4 border-t-primary">
           {logoUrl && (
             <div className="mb-6">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={logoUrl}
                 className="h-16 object-contain"

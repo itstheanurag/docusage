@@ -100,8 +100,8 @@ export function DocumentsManager() {
       doc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       doc.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
       doc.tags.some((tag) =>
-        tag.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+        tag.toLowerCase().includes(searchQuery.toLowerCase()),
+      ),
   );
 
   return (
@@ -197,12 +197,12 @@ export function DocumentsManager() {
       <div>
         {viewMode === "grid" ? (
           <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {filteredDocuments.map((doc, index) => (
+            {filteredDocuments.map((doc) => (
               <div key={doc.id}>
                 <Card className="hover:shadow-md transition-shadow">
                   <CardHeader className="pb-3">
                     <div className="flex items-start justify-between gap-2 flex-wrap">
-                      <div className="p-2 bg-primary/10 rounded-lg flex-shrink-0">
+                      <div className="p-2 bg-primary/10 rounded-lg shrink-0">
                         <FileText className="h-5 w-5 text-primary" />
                       </div>
                       <Badge
@@ -270,13 +270,13 @@ export function DocumentsManager() {
           <Card>
             <CardContent className="p-0">
               <div className="space-y-0">
-                {filteredDocuments.map((doc, index) => (
+                {filteredDocuments.map((doc) => (
                   <div
                     key={doc.id}
                     className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b last:border-b-0 hover:bg-muted/50 transition-colors gap-2"
                   >
                     <div className="flex items-start sm:items-center gap-4 flex-1 flex-wrap">
-                      <div className="p-2 bg-primary/10 rounded-lg flex-shrink-0">
+                      <div className="p-2 bg-primary/10 rounded-lg shrink-0">
                         <FileText className="h-4 w-4 text-primary" />
                       </div>
                       <div className="min-w-0">

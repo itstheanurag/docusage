@@ -19,58 +19,58 @@ const LoadingState = () => (
 const DashboardOverview = dynamic(
   () =>
     import("@/components/dashbaord/dashboard-overview").then(
-      (mod) => mod.DashboardOverview
+      (mod) => mod.DashboardOverview,
     ),
-  { loading: LoadingState }
+  { loading: LoadingState },
 );
 const DocumentsManager = dynamic(
   () =>
     import("@/components/dashbaord/documents-manager").then(
-      (mod) => mod.DocumentsManager
+      (mod) => mod.DocumentsManager,
     ),
-  { loading: LoadingState }
+  { loading: LoadingState },
 );
 const InvoicesManager = dynamic(
   () =>
     import("@/components/dashbaord/invoices-manager").then(
-      (mod) => mod.InvoicesManager
+      (mod) => mod.InvoicesManager,
     ),
-  { loading: LoadingState }
+  { loading: LoadingState },
 );
 const CodesManager = dynamic(
   () =>
     import("@/components/dashbaord/codes-manager").then(
-      (mod) => mod.CodesManager
+      (mod) => mod.CodesManager,
     ),
-  { loading: LoadingState }
+  { loading: LoadingState },
 );
 const FormsManager = dynamic(
   () =>
     import("@/components/dashbaord/forms-manager").then(
-      (mod) => mod.FormsManager
+      (mod) => mod.FormsManager,
     ),
-  { loading: LoadingState }
+  { loading: LoadingState },
 );
 const ProfileManager = dynamic(
   () =>
     import("@/components/dashbaord/profile-manager").then(
-      (mod) => mod.ProfileManager
+      (mod) => mod.ProfileManager,
     ),
-  { loading: LoadingState }
+  { loading: LoadingState },
 );
 const SettingsManager = dynamic(
   () =>
     import("@/components/dashbaord/settings-manager").then(
-      (mod) => mod.SettingsManager
+      (mod) => mod.SettingsManager,
     ),
-  { loading: LoadingState }
+  { loading: LoadingState },
 );
 const ApiKeyManager = dynamic(
   () =>
     import("@/components/dashbaord/api-key-manager").then(
-      (mod) => mod.ApiKeyManager
+      (mod) => mod.ApiKeyManager,
     ),
-  { loading: LoadingState }
+  { loading: LoadingState },
 );
 
 import { Session } from "@/lib/better-auth/auth-types";
@@ -113,7 +113,7 @@ export default function Dashboard({ session }: { session: Session }) {
       <div
         className={cn(
           "hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:flex-col transition-all duration-300",
-          isCollapsed ? "lg:w-20" : "lg:w-72"
+          isCollapsed ? "lg:w-20" : "lg:w-72",
         )}
       >
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r bg-background">
@@ -134,7 +134,7 @@ export default function Dashboard({ session }: { session: Session }) {
       <div
         className={cn(
           "lg:pl-72 transition-all duration-300",
-          isCollapsed ? "lg:pl-20" : "lg:pl-72"
+          isCollapsed ? "lg:pl-20" : "lg:pl-72",
         )}
       >
         <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center border-b bg-background px-6 shadow-sm">

@@ -2,11 +2,18 @@
 
 import { motion } from "framer-motion";
 import TemplateCard from "./template-card";
+import {
+  FileText,
+  Presentation,
+  FileSpreadsheet,
+  FileImage,
+} from "lucide-react";
 
 export interface Template {
   id: number;
   title: string;
   description: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   icon: any;
   category: string;
   rating: number;
@@ -19,7 +26,7 @@ const templates: Template[] = [
     id: 1,
     title: "Business Report",
     description: "Professional reports with charts and analytics",
-    icon: require("lucide-react").FileText,
+    icon: FileText,
     category: "Business",
     rating: 4.9,
     uses: "2.3k",
@@ -29,7 +36,7 @@ const templates: Template[] = [
     id: 2,
     title: "Presentation Deck",
     description: "Stunning slides for your next presentation",
-    icon: require("lucide-react").Presentation,
+    icon: Presentation,
     category: "Presentation",
     rating: 4.8,
     uses: "1.8k",
@@ -39,7 +46,7 @@ const templates: Template[] = [
     id: 3,
     title: "Financial Statement",
     description: "Detailed financial reports and statements",
-    icon: require("lucide-react").FileSpreadsheet,
+    icon: FileSpreadsheet,
     category: "Finance",
     rating: 4.9,
     uses: "1.2k",
@@ -49,7 +56,7 @@ const templates: Template[] = [
     id: 4,
     title: "Marketing Proposal",
     description: "Compelling proposals that win clients",
-    icon: require("lucide-react").FileImage,
+    icon: FileImage,
     category: "Marketing",
     rating: 4.7,
     uses: "956",

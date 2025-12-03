@@ -20,7 +20,7 @@ export default function FieldCard({ field }: { field: FormField }) {
   const { selectedFieldId, setSelectedFieldId, removeField } =
     useFormBuilderStore();
 
-  const remove = (e: any) => {
+  const remove = (e: React.MouseEvent) => {
     e.stopPropagation();
     removeField(field.id);
   };

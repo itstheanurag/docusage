@@ -208,11 +208,8 @@ export function SignInForm() {
               transition={{ delay: 0.8, duration: 0.3 }}
               className="text-center text-sm text-muted-foreground w-full"
             >
-              Don't have an account?{" "}
-              <Link
-                href="/register"
-                className="hover:underline font-medium"
-              >
+              Don&apos;t have an account?{" "}
+              <Link href="/register" className="hover:underline font-medium">
                 Sign up
               </Link>
             </motion.p>

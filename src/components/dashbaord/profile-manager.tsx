@@ -37,8 +37,11 @@ export function ProfileManager({ session }: { session: Session }) {
   const [profile, setProfile] = useState({
     name: user.name ?? "",
     email: user.email,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     phone: (user as any).phone ?? "",
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     location: (user as any).location ?? "",
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     bio: (user as any).bio ?? "",
     avatar: user.image ?? null,
     joinDate: user.createdAt
@@ -104,7 +107,7 @@ export function ProfileManager({ session }: { session: Session }) {
                 <AvatarFallback className="text-lg">
                   {profile.name
                     .split(" ")
-                    .map((n) => n[0])
+                    .map((n: string) => n[0])
                     .join("")}
                 </AvatarFallback>
               </Avatar>

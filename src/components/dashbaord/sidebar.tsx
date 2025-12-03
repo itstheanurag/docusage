@@ -6,6 +6,7 @@ import { useDashboardStore } from "@/store/dashboardStore";
 import { signOut } from "@/lib/better-auth/client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { DashboarSectionType } from "@/types/dashboard";
 
 export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
   const {
@@ -28,8 +29,8 @@ export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
     } else toast.error(data.error.message);
   };
 
-  const handleSectionChange = (section: any) => {
-    setCurrentSection(section);
+  const handleSectionChange = (section: string) => {
+    setCurrentSection(section as DashboarSectionType);
     setIsMobileMenuOpen(false);
   };
 
@@ -39,7 +40,7 @@ export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
       <div
         className={cn(
           "h-16 border-b flex items-center px-4",
-          isCollapsed ? "justify-center" : "justify-between"
+          isCollapsed ? "justify-center" : "justify-between",
         )}
       >
         {!isCollapsed && <h2 className="text-xl font-bold">DocuSage</h2>}
@@ -65,7 +66,7 @@ export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
             variant={currentSection === item.section ? "default" : "ghost"}
             className={cn(
               "w-full justify-start h-10 px-3",
-              isCollapsed && "justify-center px-2"
+              isCollapsed && "justify-center px-2",
             )}
             onClick={() => handleSectionChange(item.section)}
           >
@@ -81,7 +82,7 @@ export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
           variant="ghost"
           className={cn(
             "w-full justify-start h-10 px-3 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950",
-            isCollapsed && "justify-center px-2"
+            isCollapsed && "justify-center px-2",
           )}
           onClick={handleLogout}
         >

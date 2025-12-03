@@ -73,7 +73,7 @@ export default function Footer() {
                       {item}
                     </Link>
                   </motion.li>
-                )
+                ),
               )}
             </ul>
           </motion.div>
@@ -96,7 +96,7 @@ export default function Footer() {
                       {item}
                     </Link>
                   </motion.li>
-                )
+                ),
               )}
             </ul>
           </motion.div>
@@ -122,7 +122,7 @@ export default function Footer() {
                 >
                   {item}
                 </Link>
-              )
+              ),
             )}
           </div>
         </motion.div>

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Lock, Eye, EyeOff } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { authClient } from "@/lib/better-auth/client";
+import { client as authClient } from "@/lib/better-auth/client";
 import { toast } from "sonner";
 import { BackgroundBeams } from "@/components/backgrounds/Beams";
 import Link from "next/link";
@@ -161,7 +161,7 @@ export default function ResetPassword() {
           <div className="text-center text-sm text-muted-foreground py-4">
             Remember your password?{" "}
             <Link
-              href="/auth/login"
+              href="/login"
               className="text-muted-foreground hover:text-foreground underline font-medium"
             >
               Sign in

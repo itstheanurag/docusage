@@ -224,7 +224,7 @@ export function CreateApiKeyModal() {
                   value={refillIntervalHours ?? ""}
                   onChange={(e) =>
                     setRefillIntervalHours(
-                      e.target.value ? Number(e.target.value) : null
+                      e.target.value ? Number(e.target.value) : null,
                     )
                   }
                 />
@@ -237,7 +237,7 @@ export function CreateApiKeyModal() {
                   value={refillAmount ?? ""}
                   onChange={(e) =>
                     setRefillAmount(
-                      e.target.value ? Number(e.target.value) : null
+                      e.target.value ? Number(e.target.value) : null,
                     )
                   }
                 />

@@ -14,7 +14,7 @@ export function ApiKeyManager() {
 
   useEffect(() => {
     fetchApiKeys();
-  }, []);
+  }, [fetchApiKeys]);
 
   return (
     <>

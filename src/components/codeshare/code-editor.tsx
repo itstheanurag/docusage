@@ -19,7 +19,7 @@ export function CodeEditor({
   const { theme } = useTheme();
 
   return (
-    <div className="h-[calc(100vh-200px)] w-full rounded-md overflow-hidden border border-border shadow-sm">
+    <div className="h-full w-full overflow-hidden">
       <Editor
         height="100%"
         language={language}
@@ -27,7 +27,7 @@ export function CodeEditor({
         onChange={onChange}
         theme={theme === "dark" ? "vs-dark" : "light"}
         options={{
-          minimap: { enabled: false },
+          minimap: { enabled: true },
           fontSize: 14,
           readOnly,
           scrollBeyondLastLine: false,

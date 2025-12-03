@@ -99,7 +99,7 @@ export function DashboardOverview() {
 
       {/* Stats Grid */}
       <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat, index) => (
+        {stats.map((stat) => (
           <div key={stat.title}>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between pb-2 gap-2 flex-wrap">
@@ -157,13 +157,13 @@ export function DashboardOverview() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {recentDocuments.map((doc, index) => (
+              {recentDocuments.map((doc) => (
                 <div
                   key={doc.id}
                   className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors gap-2"
                 >
                   <div className="flex items-start sm:items-center gap-4 flex-1 flex-wrap min-w-0">
-                    <div className="p-2 bg-primary/10 rounded-lg flex-shrink-0">
+                    <div className="p-2 bg-primary/10 rounded-lg shrink-0">
                       <FileText className="h-4 w-4 text-primary" />
                     </div>
                     <div className="min-w-0">

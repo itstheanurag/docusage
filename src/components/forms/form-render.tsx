@@ -27,6 +27,7 @@ interface FormRendererProps {
   title: string;
   description?: string;
   fields: FormField[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSubmit: (data: any) => void;
 }
 
@@ -36,6 +37,7 @@ export function FormRenderer({
   fields,
   onSubmit,
 }: FormRendererProps) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [formData, setFormData] = useState<any>({});
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -43,7 +45,9 @@ export function FormRenderer({
     onSubmit(formData);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (id: string, value: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setFormData((prev: any) => ({ ...prev, [id]: value }));
   };
 
@@ -108,7 +112,7 @@ export function FormRenderer({
 
                 {field.type === "radio" && field.options && (
                   <RadioGroup
-                    onValueChange={(val: any) => handleChange(field.id, val)}
+                    onValueChange={(val) => handleChange(field.id, val)}
                   >
                     {field.options.map((opt, idx) => (
                       <div key={idx} className="flex items-center space-x-2">
@@ -137,7 +141,7 @@ export function FormRenderer({
                             } else {
                               handleChange(
                                 field.id,
-                                current.filter((v: string) => v !== opt)
+                                current.filter((v: string) => v !== opt),
                               );
                             }
                           }}
