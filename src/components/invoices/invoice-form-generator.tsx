@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
-import InvoiceForm from "./form";
-import InvoicePreview from "./preview";
+import InvoiceForm from "./invoice-form-builder";
+import InvoicePreview from "./invoice-form-preview";
 import { ArrowLeft } from "lucide-react";
 
 interface InvoiceGeneratorProps {
   onBack?: () => void;
 }
 
-export default function InvoiceGenerator({ onBack }: InvoiceGeneratorProps) {
+export default function InvoiceFormGenerator({
+  onBack,
+}: InvoiceGeneratorProps) {
   const [view, setView] = useState<"form" | "preview">("form");
 
   const handlePrint = () => {
@@ -55,7 +57,6 @@ export default function InvoiceGenerator({ onBack }: InvoiceGeneratorProps) {
           </div>
         </div>
 
-        {/* Content */}
         {view === "form" ? <InvoiceForm /> : <InvoicePreview />}
       </div>
     </div>

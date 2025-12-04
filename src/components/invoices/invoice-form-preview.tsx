@@ -1,4 +1,5 @@
 import { useInvoiceStore } from "@/store";
+import Image from "next/image";
 
 const InvoicePreview: React.FC = () => {
   const invoice = useInvoiceStore();
@@ -40,9 +41,11 @@ const InvoicePreview: React.FC = () => {
         <div>
           <h3 className="text-sm font-semibold text-neutral-900 mb-2">FROM</h3>
           {invoice.fromLogo && (
-            <img
+            <Image
               src={invoice.fromLogo}
               alt="From Logo"
+              width={100}
+              height={100}
               className="h-12 w-auto object-contain mb-3"
             />
           )}
@@ -59,9 +62,11 @@ const InvoicePreview: React.FC = () => {
             BILL TO
           </h3>
           {invoice.toLogo && (
-            <img
+            <Image
               src={invoice.toLogo}
               alt="To Logo"
+              width={100}
+              height={100}
               className="h-12 w-auto object-contain mb-3"
             />
           )}
