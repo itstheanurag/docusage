@@ -88,7 +88,7 @@ export function InvoicesManager() {
     (invoice) =>
       invoice.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
       invoice.client.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      invoice.description.toLowerCase().includes(searchQuery.toLowerCase())
+      invoice.description.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const getStatusColor = (status: string) => {
@@ -110,7 +110,7 @@ export function InvoicesManager() {
 
   const totalAmount = invoices.reduce(
     (sum, invoice) => sum + invoice.amount,
-    0
+    0,
   );
   const paidAmount = invoices
     .filter((inv) => inv.status === "Paid")

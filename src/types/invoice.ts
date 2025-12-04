@@ -35,7 +35,7 @@ export interface InvoiceStore extends InvoiceData {
   updateItem: (
     id: string,
     field: keyof InvoiceItem,
-    value: InvoiceItemValue
+    value: InvoiceItemValue,
   ) => void;
   removeItem: (id: string) => void;
   calculateSubtotal: () => number;
