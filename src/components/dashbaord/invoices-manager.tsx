@@ -26,8 +26,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import InvoiceGenerator from "../invoices/generator";
+
 export function InvoicesManager() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [showGenerator, setShowGenerator] = useState(false);
+
+  if (showGenerator) {
+    return <InvoiceGenerator onBack={() => setShowGenerator(false)} />;
+  }
 
   const invoices = [
     {
@@ -81,7 +88,7 @@ export function InvoicesManager() {
     (invoice) =>
       invoice.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
       invoice.client.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      invoice.description.toLowerCase().includes(searchQuery.toLowerCase()),
+      invoice.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const getStatusColor = (status: string) => {
@@ -103,7 +110,7 @@ export function InvoicesManager() {
 
   const totalAmount = invoices.reduce(
     (sum, invoice) => sum + invoice.amount,
-    0,
+    0
   );
   const paidAmount = invoices
     .filter((inv) => inv.status === "Paid")
@@ -127,7 +134,7 @@ export function InvoicesManager() {
             Manage your invoices and track payments
           </p>
         </div>
-        <Button>
+        <Button onClick={() => setShowGenerator(true)}>
           <Plus className="mr-2 h-4 w-4" />
           Create Invoice
         </Button>
@@ -260,18 +267,18 @@ export function InvoicesManager() {
                 >
                   {/* Left Section */}
                   <div className="flex flex-col sm:flex-row sm:items-center gap-4 flex-1">
-                    <div className="p-2 bg-primary/10 rounded-lg flex-shrink-0">
+                    <div className="p-2 bg-primary/10 rounded-lg shrink-0">
                       <Receipt className="h-5 w-5 text-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="font-medium truncate">{invoice.id}</p>
                       <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 text-sm text-muted-foreground">
                         <span className="flex items-center truncate">
-                          <User className="mr-1 h-3 w-3 flex-shrink-0" />
+                          <User className="mr-1 h-3 w-3 shrink-0" />
                           {invoice.client}
                         </span>
                         <span className="flex items-center truncate">
-                          <Calendar className="mr-1 h-3 w-3 flex-shrink-0" />
+                          <Calendar className="mr-1 h-3 w-3 shrink-0" />
                           Due {invoice.dueDate}
                         </span>
                       </div>
@@ -282,7 +289,7 @@ export function InvoicesManager() {
                   </div>
 
                   {/* Right Section */}
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 mt-4 lg:mt-0 flex-shrink-0">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 mt-4 lg:mt-0 shrink-0">
                     <div className="text-right">
                       <p className="font-bold text-lg">
                         ${invoice.amount.toLocaleString()}

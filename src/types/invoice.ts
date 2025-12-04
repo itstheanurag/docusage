@@ -13,12 +13,17 @@ export interface InvoiceData {
   fromName: string;
   fromEmail: string;
   fromAddress: string;
+  fromLogo?: string;
   toName: string;
   toEmail: string;
   toAddress: string;
+  toLogo?: string;
   items: InvoiceItem[];
   notes: string;
   tax: number;
+  taxLabel: string;
+  currency: string;
+  recurrence: "one-time" | "weekly" | "monthly" | "yearly";
 }
 
 export type InvoiceDataValue = string | number | InvoiceItem[];
@@ -30,7 +35,7 @@ export interface InvoiceStore extends InvoiceData {
   updateItem: (
     id: string,
     field: keyof InvoiceItem,
-    value: InvoiceItemValue,
+    value: InvoiceItemValue
   ) => void;
   removeItem: (id: string) => void;
   calculateSubtotal: () => number;

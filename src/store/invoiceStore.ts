@@ -10,12 +10,17 @@ export const useInvoiceStore = create<InvoiceStore>((set, get) => ({
   fromName: "",
   fromEmail: "",
   fromAddress: "",
+  fromLogo: "",
   toName: "",
   toEmail: "",
   toAddress: "",
+  toLogo: "",
   items: [{ id: "1", description: "", quantity: 1, rate: 0, amount: 0 }],
   notes: "",
   tax: 0,
+  taxLabel: "Tax",
+  currency: "USD",
+  recurrence: "one-time",
 
   updateField: (field, value) => set({ [field]: value }),
 

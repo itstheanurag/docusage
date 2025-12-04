@@ -6,6 +6,14 @@ const InvoicePreview: React.FC = () => {
   const taxAmount = invoice.calculateTax();
   const total = invoice.calculateTotal();
 
+  const currencySymbols: Record<string, string> = {
+    USD: "$",
+    EUR: "€",
+    GBP: "£",
+    INR: "₹",
+  };
+  const symbol = currencySymbols[invoice.currency] || invoice.currency;
+
   return (
     <div className="bg-white p-8 rounded-lg border border-neutral-200 shadow-sm">
       {/* Header */}
@@ -13,6 +21,11 @@ const InvoicePreview: React.FC = () => {
         <div>
           <h1 className="text-3xl font-bold text-neutral-900 mb-2">INVOICE</h1>
           <p className="text-neutral-600">#{invoice.invoiceNumber}</p>
+          {invoice.recurrence !== "one-time" && (
+            <span className="inline-block mt-2 px-2 py-1 bg-neutral-100 text-neutral-600 text-xs rounded-full capitalize">
+              {invoice.recurrence}
+            </span>
+          )}
         </div>
         <div className="text-right">
           <p className="text-sm text-neutral-600">Invoice Date</p>
@@ -26,6 +39,13 @@ const InvoicePreview: React.FC = () => {
       <div className="grid grid-cols-2 gap-8 mb-8">
         <div>
           <h3 className="text-sm font-semibold text-neutral-900 mb-2">FROM</h3>
+          {invoice.fromLogo && (
+            <img
+              src={invoice.fromLogo}
+              alt="From Logo"
+              className="h-12 w-auto object-contain mb-3"
+            />
+          )}
           <p className="font-medium text-neutral-900">
             {invoice.fromName || "Your Name"}
           </p>
@@ -38,6 +58,13 @@ const InvoicePreview: React.FC = () => {
           <h3 className="text-sm font-semibold text-neutral-900 mb-2">
             BILL TO
           </h3>
+          {invoice.toLogo && (
+            <img
+              src={invoice.toLogo}
+              alt="To Logo"
+              className="h-12 w-auto object-contain mb-3"
+            />
+          )}
           <p className="font-medium text-neutral-900">
             {invoice.toName || "Client Name"}
           </p>
@@ -77,10 +104,12 @@ const InvoicePreview: React.FC = () => {
                   {item.quantity}
                 </td>
                 <td className="text-right py-3 text-neutral-700">
-                  ${item.rate.toFixed(2)}
+                  {symbol}
+                  {item.rate.toFixed(2)}
                 </td>
                 <td className="text-right py-3 text-neutral-900 font-medium">
-                  ${item.amount.toFixed(2)}
+                  {symbol}
+                  {item.amount.toFixed(2)}
                 </td>
               </tr>
             ))}
@@ -94,19 +123,24 @@ const InvoicePreview: React.FC = () => {
           <div className="flex justify-between py-2">
             <span className="text-neutral-600">Subtotal</span>
             <span className="text-neutral-900 font-medium">
-              ${subtotal.toFixed(2)}
+              {symbol}
+              {subtotal.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between py-2">
-            <span className="text-neutral-600">Tax ({invoice.tax}%)</span>
+            <span className="text-neutral-600">
+              {invoice.taxLabel || "Tax"} ({invoice.tax}%)
+            </span>
             <span className="text-neutral-900 font-medium">
-              ${taxAmount.toFixed(2)}
+              {symbol}
+              {taxAmount.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between py-3 border-t-2 border-neutral-900">
             <span className="font-semibold text-neutral-900">Total</span>
             <span className="font-bold text-xl text-neutral-900">
-              ${total.toFixed(2)}
+              {symbol}
+              {total.toFixed(2)}
             </span>
           </div>
         </div>

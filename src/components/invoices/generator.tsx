@@ -2,8 +2,13 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import InvoiceForm from "./form";
 import InvoicePreview from "./preview";
+import { ArrowLeft } from "lucide-react";
 
-export default function InvoiceGenerator() {
+interface InvoiceGeneratorProps {
+  onBack?: () => void;
+}
+
+export default function InvoiceGenerator({ onBack }: InvoiceGeneratorProps) {
   const [view, setView] = useState<"form" | "preview">("form");
 
   const handlePrint = () => {
@@ -15,9 +20,16 @@ export default function InvoiceGenerator() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-neutral-900">
-            Invoice Generator
-          </h1>
+          <div className="flex items-center gap-4">
+            {onBack && (
+              <Button variant="ghost" size="icon" onClick={onBack}>
+                <ArrowLeft className="h-4 w-4" />
+              </Button>
+            )}
+            <h1 className="text-3xl font-bold text-neutral-900">
+              Invoice Generator
+            </h1>
+          </div>
           <div className="flex gap-3">
             <Button
               variant={view === "form" ? "default" : "outline"}
@@ -31,8 +43,14 @@ export default function InvoiceGenerator() {
             >
               Preview
             </Button>
-            <Button onClick={handlePrint} className="bg-neutral-900">
-              Print / Save PDF
+            <Button onClick={handlePrint} variant="outline">
+              Print / PDF
+            </Button>
+            <Button
+              className="bg-neutral-900"
+              onClick={() => alert("Sending email functionality coming soon!")}
+            >
+              Send Email
             </Button>
           </div>
         </div>

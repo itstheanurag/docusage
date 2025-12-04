@@ -2,6 +2,13 @@ import { useInvoiceStore } from "@/store";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const InvoiceForm: React.FC = () => {
   const invoice = useInvoiceStore();
@@ -13,7 +20,7 @@ const InvoiceForm: React.FC = () => {
         <h2 className="text-lg font-semibold text-neutral-900 mb-4">
           Invoice Details
         </h2>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-medium text-neutral-700 mb-1">
               Invoice Number
@@ -47,6 +54,46 @@ const InvoiceForm: React.FC = () => {
               onChange={(e) => invoice.updateField("dueDate", e.target.value)}
             />
           </div>
+          <div>
+            <label className="block text-sm font-medium text-neutral-700 mb-1">
+              Recurrence
+            </label>
+            <Select
+              value={invoice.recurrence}
+              onValueChange={(value) =>
+                invoice.updateField("recurrence", value)
+              }
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select recurrence" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="one-time">One-time</SelectItem>
+                <SelectItem value="weekly">Weekly</SelectItem>
+                <SelectItem value="monthly">Monthly</SelectItem>
+                <SelectItem value="yearly">Yearly</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-neutral-700 mb-1">
+              Currency
+            </label>
+            <Select
+              value={invoice.currency}
+              onValueChange={(value) => invoice.updateField("currency", value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select currency" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="USD">USD ($)</SelectItem>
+                <SelectItem value="EUR">EUR (€)</SelectItem>
+                <SelectItem value="GBP">GBP (£)</SelectItem>
+                <SelectItem value="INR">INR (₹)</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
 
@@ -55,6 +102,18 @@ const InvoiceForm: React.FC = () => {
         <div className="bg-white p-6 rounded-lg border border-neutral-200">
           <h2 className="text-lg font-semibold text-neutral-900 mb-4">From</h2>
           <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-neutral-700 mb-1">
+                Logo URL
+              </label>
+              <Input
+                value={invoice.fromLogo || ""}
+                onChange={(e) =>
+                  invoice.updateField("fromLogo", e.target.value)
+                }
+                placeholder="https://example.com/logo.png"
+              />
+            </div>
             <div>
               <label className="block text-sm font-medium text-neutral-700 mb-1">
                 Name
@@ -101,6 +160,16 @@ const InvoiceForm: React.FC = () => {
             Bill To
           </h2>
           <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-neutral-700 mb-1">
+                Logo URL
+              </label>
+              <Input
+                value={invoice.toLogo || ""}
+                onChange={(e) => invoice.updateField("toLogo", e.target.value)}
+                placeholder="https://example.com/client-logo.png"
+              />
+            </div>
             <div>
               <label className="block text-sm font-medium text-neutral-700 mb-1">
                 Name
@@ -167,7 +236,7 @@ const InvoiceForm: React.FC = () => {
                     invoice.updateItem(
                       item.id,
                       "quantity",
-                      parseFloat(e.target.value) || 0,
+                      parseFloat(e.target.value) || 0
                     )
                   }
                   placeholder="Qty"
@@ -182,7 +251,7 @@ const InvoiceForm: React.FC = () => {
                     invoice.updateItem(
                       item.id,
                       "rate",
-                      parseFloat(e.target.value) || 0,
+                      parseFloat(e.target.value) || 0
                     )
                   }
                   placeholder="Rate"
@@ -216,19 +285,38 @@ const InvoiceForm: React.FC = () => {
       <div className="grid grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-lg border border-neutral-200">
           <h2 className="text-lg font-semibold text-neutral-900 mb-4">Tax</h2>
-          <div className="flex items-center gap-2">
-            <Input
-              type="number"
-              value={invoice.tax}
-              onChange={(e) =>
-                invoice.updateField("tax", parseFloat(e.target.value) || 0)
-              }
-              placeholder="0"
-              min="0"
-              max="100"
-              step="0.1"
-            />
-            <span className="text-neutral-700">%</span>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-neutral-700 mb-1">
+                Tax Label
+              </label>
+              <Input
+                value={invoice.taxLabel}
+                onChange={(e) =>
+                  invoice.updateField("taxLabel", e.target.value)
+                }
+                placeholder="VAT, GST, etc."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-neutral-700 mb-1">
+                Rate (%)
+              </label>
+              <div className="flex items-center gap-2">
+                <Input
+                  type="number"
+                  value={invoice.tax}
+                  onChange={(e) =>
+                    invoice.updateField("tax", parseFloat(e.target.value) || 0)
+                  }
+                  placeholder="0"
+                  min="0"
+                  max="100"
+                  step="0.1"
+                />
+                <span className="text-neutral-700">%</span>
+              </div>
+            </div>
           </div>
         </div>
 
