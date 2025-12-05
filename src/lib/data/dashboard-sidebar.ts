@@ -6,7 +6,6 @@ import {
   Code2,
   FormInput,
   User,
-  Settings,
   Key,
 } from "lucide-react";
 
@@ -37,11 +36,6 @@ export const sidebarItems = [
     section: "forms" as DashboarSectionType,
   },
   { icon: User, label: "Profile", section: "profile" as DashboarSectionType },
-  {
-    icon: Settings,
-    label: "Settings",
-    section: "settings" as DashboarSectionType,
-  },
   {
     icon: Key,
     label: "API Keys",
