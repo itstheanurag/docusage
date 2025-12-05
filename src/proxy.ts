@@ -2,32 +2,21 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
 
 export async function proxy(request: NextRequest) {
-  const allCookies = request.cookies.getAll();
-  const sessionCookie = allCookies.find((c) =>
-    c.name.endsWith("session_token")
-  );
-
-  const isLoggedIn = !!sessionCookie || !!getSessionCookie(request);
-
   const url = request.nextUrl.clone();
 
-  const authRoutes = [
-    "/login",
-    "/register",
-    "/forgot-password",
-    "/reset-password",
-  ];
-  const isAuthRoute = authRoutes.some((route) =>
-    url.pathname.startsWith(route)
-  );
+  const sessionCookie =
+    request.cookies.getAll().find((c) => c.name.endsWith("session_token")) ??
+    getSessionCookie(request);
 
-  // Redirect logged-in users away from public auth pages and home page
-  if (isLoggedIn && (url.pathname === "/" || isAuthRoute)) {
-    url.pathname = "/dashboard";
-    return NextResponse.redirect(url);
-  } else if (!isLoggedIn && url.pathname.startsWith("/dashboard")) {
-    url.pathname = "/login";
-    return NextResponse.redirect(url);
+  const isLoggedIn = !!sessionCookie;
+  /**
+   * 🔴 Rule 2: Non-logged-in users should NOT access dashboard pages.
+   */
+  if (!isLoggedIn && url.pathname.startsWith("/dashboard")) {
+    if (url.pathname !== "/login") {
+      url.pathname = "/login";
+      return NextResponse.redirect(url);
+    }
   }
 
   return NextResponse.next();

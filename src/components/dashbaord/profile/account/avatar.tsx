@@ -22,7 +22,7 @@ const AvatarSection = ({ profile }: AvatarSectionProps) => {
   return (
     <div className="flex items-center space-x-4">
       <Avatar className="h-20 w-20">
-        <AvatarImage src={profile.avatar || "/placeholder.svg"} />
+        <AvatarImage src={profile.avatar ?? initials} />
         <AvatarFallback className="text-lg">{initials}</AvatarFallback>
       </Avatar>
 

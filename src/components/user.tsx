@@ -30,7 +30,7 @@ export default function UserAvatar({ session }: { session?: Session }) {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar className="h-10 w-10 cursor-pointer bg-background text-foreground ">
-          <AvatarImage src={session.user?.image || "/placeholder.svg"} />
+          <AvatarImage src={session.user?.image} />
           <AvatarFallback>
             {session.user?.name
               .split(" ")

@@ -6,12 +6,12 @@ import { useDashboardStore } from "@/store/dashboardStore";
 import { signOut } from "@/lib/better-auth/client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { DashboarSectionType } from "@/types/dashboard";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
   const {
-    currentSection,
-    setCurrentSection,
     isCollapsed: storeIsCollapsed,
     toggleCollapse,
     setIsMobileMenuOpen,
@@ -19,6 +19,7 @@ export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
 
   const isCollapsed = mobile ? false : storeIsCollapsed;
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = async () => {
     const data = await signOut();
@@ -29,18 +30,13 @@ export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
     } else toast.error(data.error.message);
   };
 
-  const handleSectionChange = (section: string) => {
-    setCurrentSection(section as DashboarSectionType);
-    setIsMobileMenuOpen(false);
-  };
-
   return (
     <div className="flex flex-col h-full">
       {/* Logo / Header */}
       <div
         className={cn(
           "h-16 border-b flex items-center px-4",
-          isCollapsed ? "justify-center" : "justify-between",
+          isCollapsed ? "justify-center" : "justify-between"
         )}
       >
         {!isCollapsed && <h2 className="text-xl font-bold">DocuSage</h2>}
@@ -60,20 +56,28 @@ export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
 
       {/* Navigation */}
       <nav className="flex-1 px-4 py-4 space-y-1">
-        {sidebarItems.map((item) => (
-          <Button
-            key={item.section}
-            variant={currentSection === item.section ? "default" : "ghost"}
-            className={cn(
-              "w-full justify-start h-10 px-3",
-              isCollapsed && "justify-center px-2",
-            )}
-            onClick={() => handleSectionChange(item.section)}
-          >
-            <item.icon className={cn("h-4 w-4", !isCollapsed && "mr-3")} />
-            {!isCollapsed && item.label}
-          </Button>
-        ))}
+        {sidebarItems.map((item) => {
+          const isActive =
+            item.href === "/dashboard"
+              ? pathname === "/dashboard"
+              : pathname.startsWith(item.href);
+
+          return (
+            <Link href={item.href} key={item.section} className="block w-full">
+              <Button
+                variant={isActive ? "default" : "ghost"}
+                className={cn(
+                  "w-full justify-start h-10 px-3",
+                  isCollapsed && "justify-center px-2"
+                )}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <item.icon className={cn("h-4 w-4", !isCollapsed && "mr-3")} />
+                {!isCollapsed && item.label}
+              </Button>
+            </Link>
+          );
+        })}
       </nav>
 
       {/* Logout */}
@@ -82,7 +86,7 @@ export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
           variant="ghost"
           className={cn(
             "w-full justify-start h-10 px-3 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950",
-            isCollapsed && "justify-center px-2",
+            isCollapsed && "justify-center px-2"
           )}
           onClick={handleLogout}
         >
