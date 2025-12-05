@@ -1,165 +1,33 @@
 import { useInvoiceStore } from "@/store";
-import Image from "next/image";
-
-const InvoicePreview: React.FC = () => {
+import PreviewFrom from "./preview/billed-by-section";
+import PreviewBillTo from "./preview/billed-to-section";
+import PreviewItems from "./preview/items-table";
+import PreviewNotes from "./preview/notes";
+import PreviewTotals from "./preview/preview-total";
+import PreviewInoviceHeader from "./preview/preview-header";
+const InvoicePreview = () => {
   const invoice = useInvoiceStore();
-  const subtotal = invoice.calculateSubtotal();
-  const taxAmount = invoice.calculateTax();
-  const total = invoice.calculateTotal();
-
-  const currencySymbols: Record<string, string> = {
-    USD: "$",
-    EUR: "€",
-    GBP: "£",
-    INR: "₹",
-  };
-  const symbol = currencySymbols[invoice.currency] || invoice.currency;
 
   return (
-    <div className="bg-white p-8 rounded-lg border border-neutral-200 shadow-sm">
-      {/* Header */}
-      <div className="flex justify-between items-start mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-neutral-900 mb-2">INVOICE</h1>
-          <p className="text-neutral-600">#{invoice.invoiceNumber}</p>
-          {invoice.recurrence !== "one-time" && (
-            <span className="inline-block mt-2 px-2 py-1 bg-neutral-100 text-neutral-600 text-xs rounded-full capitalize">
-              {invoice.recurrence}
-            </span>
-          )}
-        </div>
-        <div className="text-right">
-          <p className="text-sm text-neutral-600">Invoice Date</p>
-          <p className="font-medium text-neutral-900">{invoice.invoiceDate}</p>
-          <p className="text-sm text-neutral-600 mt-2">Due Date</p>
-          <p className="font-medium text-neutral-900">{invoice.dueDate}</p>
-        </div>
-      </div>
+    <div
+      className="
+        p-8 rounded-lg border shadow-sm
+        bg-white border-neutral-200 
+        dark:bg-neutral-900 dark:border-neutral-700
+      "
+    >
+      <PreviewInoviceHeader invoice={invoice} />
 
-      {/* From/To Section */}
       <div className="grid grid-cols-2 gap-8 mb-8">
-        <div>
-          <h3 className="text-sm font-semibold text-neutral-900 mb-2">FROM</h3>
-          {invoice.fromLogo && (
-            <Image
-              src={invoice.fromLogo}
-              alt="From Logo"
-              width={100}
-              height={100}
-              className="h-12 w-auto object-contain mb-3"
-            />
-          )}
-          <p className="font-medium text-neutral-900">
-            {invoice.fromName || "Your Name"}
-          </p>
-          <p className="text-sm text-neutral-600">{invoice.fromEmail}</p>
-          <p className="text-sm text-neutral-600 whitespace-pre-line">
-            {invoice.fromAddress}
-          </p>
-        </div>
-        <div>
-          <h3 className="text-sm font-semibold text-neutral-900 mb-2">
-            BILL TO
-          </h3>
-          {invoice.toLogo && (
-            <Image
-              src={invoice.toLogo}
-              alt="To Logo"
-              width={100}
-              height={100}
-              className="h-12 w-auto object-contain mb-3"
-            />
-          )}
-          <p className="font-medium text-neutral-900">
-            {invoice.toName || "Client Name"}
-          </p>
-          <p className="text-sm text-neutral-600">{invoice.toEmail}</p>
-          <p className="text-sm text-neutral-600 whitespace-pre-line">
-            {invoice.toAddress}
-          </p>
-        </div>
+        <PreviewFrom invoice={invoice} />
+        <PreviewBillTo invoice={invoice} />
       </div>
 
-      {/* Items Table */}
-      <div className="mb-8">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-neutral-300">
-              <th className="text-left py-3 text-sm font-semibold text-neutral-900">
-                Description
-              </th>
-              <th className="text-right py-3 text-sm font-semibold text-neutral-900 w-20">
-                Qty
-              </th>
-              <th className="text-right py-3 text-sm font-semibold text-neutral-900 w-24">
-                Rate
-              </th>
-              <th className="text-right py-3 text-sm font-semibold text-neutral-900 w-28">
-                Amount
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {invoice.items.map((item) => (
-              <tr key={item.id} className="border-b border-neutral-200">
-                <td className="py-3 text-neutral-700">
-                  {item.description || "Item description"}
-                </td>
-                <td className="text-right py-3 text-neutral-700">
-                  {item.quantity}
-                </td>
-                <td className="text-right py-3 text-neutral-700">
-                  {symbol}
-                  {item.rate.toFixed(2)}
-                </td>
-                <td className="text-right py-3 text-neutral-900 font-medium">
-                  {symbol}
-                  {item.amount.toFixed(2)}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <PreviewItems invoice={invoice} />
 
-      {/* Totals */}
-      <div className="flex justify-end mb-8">
-        <div className="w-64">
-          <div className="flex justify-between py-2">
-            <span className="text-neutral-600">Subtotal</span>
-            <span className="text-neutral-900 font-medium">
-              {symbol}
-              {subtotal.toFixed(2)}
-            </span>
-          </div>
-          <div className="flex justify-between py-2">
-            <span className="text-neutral-600">
-              {invoice.taxLabel || "Tax"} ({invoice.tax}%)
-            </span>
-            <span className="text-neutral-900 font-medium">
-              {symbol}
-              {taxAmount.toFixed(2)}
-            </span>
-          </div>
-          <div className="flex justify-between py-3 border-t-2 border-neutral-900">
-            <span className="font-semibold text-neutral-900">Total</span>
-            <span className="font-bold text-xl text-neutral-900">
-              {symbol}
-              {total.toFixed(2)}
-            </span>
-          </div>
-        </div>
-      </div>
+      <PreviewTotals invoice={invoice} />
 
-      {/* Notes */}
-      {invoice.notes && (
-        <div className="border-t border-neutral-200 pt-6">
-          <h3 className="text-sm font-semibold text-neutral-900 mb-2">NOTES</h3>
-          <p className="text-sm text-neutral-600 whitespace-pre-line">
-            {invoice.notes}
-          </p>
-        </div>
-      )}
+      {invoice.notes && <PreviewNotes notes={invoice.notes} />}
     </div>
   );
 };

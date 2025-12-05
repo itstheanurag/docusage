@@ -8,13 +8,31 @@ const SendToDetails = () => {
   const invoice = useInvoiceStore();
 
   return (
-    <div className="bg-white p-6 rounded-lg border border-neutral-200">
-      <h2 className="text-lg font-semibold text-neutral-900 mb-4">Bill To</h2>
+    <div
+      className="
+        p-6 rounded-lg border
+        bg-white border-neutral-200
+        dark:bg-neutral-900 dark:border-neutral-700
+      "
+    >
+      <h2
+        className="
+          text-lg font-semibold mb-4
+          text-neutral-900 dark:text-neutral-100
+        "
+      >
+        Bill To
+      </h2>
 
       <div className="space-y-4">
         {/* Logo URL */}
         <div>
-          <label className="block text-sm font-medium text-neutral-700 mb-1">
+          <label
+            className="
+              block text-sm font-medium mb-1
+              text-neutral-700 dark:text-neutral-300
+            "
+          >
             Logo URL
           </label>
           <Input
@@ -26,7 +44,12 @@ const SendToDetails = () => {
 
         {/* Name */}
         <div>
-          <label className="block text-sm font-medium text-neutral-700 mb-1">
+          <label
+            className="
+              block text-sm font-medium mb-1
+              text-neutral-700 dark:text-neutral-300
+            "
+          >
             Name
           </label>
           <Input
@@ -38,7 +61,12 @@ const SendToDetails = () => {
 
         {/* Email */}
         <div>
-          <label className="block text-sm font-medium text-neutral-700 mb-1">
+          <label
+            className="
+              block text-sm font-medium mb-1
+              text-neutral-700 dark:text-neutral-300
+            "
+          >
             Email
           </label>
           <Input
@@ -51,7 +79,12 @@ const SendToDetails = () => {
 
         {/* Address */}
         <div>
-          <label className="block text-sm font-medium text-neutral-700 mb-1">
+          <label
+            className="
+              block text-sm font-medium mb-1
+              text-neutral-700 dark:text-neutral-300
+            "
+          >
             Address
           </label>
           <Textarea
@@ -59,6 +92,11 @@ const SendToDetails = () => {
             value={invoice.toAddress}
             onChange={(e) => invoice.updateField("toAddress", e.target.value)}
             placeholder="Client address"
+            className="
+              dark:bg-neutral-800 
+              dark:text-neutral-100 
+              dark:border-neutral-700
+            "
           />
         </div>
       </div>

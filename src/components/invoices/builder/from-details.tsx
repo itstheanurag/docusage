@@ -8,13 +8,25 @@ const FromDetails = () => {
   const invoice = useInvoiceStore();
 
   return (
-    <div className="bg-white p-6 rounded-lg border border-neutral-200">
-      <h2 className="text-lg font-semibold text-neutral-900 mb-4">From</h2>
+    <div
+      className="p-6 rounded-lg border 
+      bg-white border-neutral-200 
+      dark:bg-neutral-900 dark:border-neutral-700"
+    >
+      <h2
+        className="text-lg font-semibold 
+        text-neutral-900 dark:text-neutral-100 mb-4"
+      >
+        From
+      </h2>
 
       <div className="space-y-4">
         {/* Logo URL */}
         <div>
-          <label className="block text-sm font-medium text-neutral-700 mb-1">
+          <label
+            className="block text-sm font-medium 
+            text-neutral-700 dark:text-neutral-300 mb-1"
+          >
             Logo URL
           </label>
           <Input
@@ -26,7 +38,10 @@ const FromDetails = () => {
 
         {/* Name */}
         <div>
-          <label className="block text-sm font-medium text-neutral-700 mb-1">
+          <label
+            className="block text-sm font-medium 
+            text-neutral-700 dark:text-neutral-300 mb-1"
+          >
             Name
           </label>
           <Input
@@ -38,7 +53,10 @@ const FromDetails = () => {
 
         {/* Email */}
         <div>
-          <label className="block text-sm font-medium text-neutral-700 mb-1">
+          <label
+            className="block text-sm font-medium 
+            text-neutral-700 dark:text-neutral-300 mb-1"
+          >
             Email
           </label>
           <Input
@@ -51,7 +69,10 @@ const FromDetails = () => {
 
         {/* Address */}
         <div>
-          <label className="block text-sm font-medium text-neutral-700 mb-1">
+          <label
+            className="block text-sm font-medium 
+            text-neutral-700 dark:text-neutral-300 mb-1"
+          >
             Address
           </label>
           <Textarea

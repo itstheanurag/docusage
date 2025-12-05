@@ -7,13 +7,31 @@ const TaxSection = () => {
   const invoice = useInvoiceStore();
 
   return (
-    <div className="bg-white p-6 rounded-lg border border-neutral-200">
-      <h2 className="text-lg font-semibold text-neutral-900 mb-4">Tax</h2>
+    <div
+      className="
+        p-6 rounded-lg border
+        bg-white border-neutral-200
+        dark:bg-neutral-900 dark:border-neutral-700
+      "
+    >
+      <h2
+        className="
+          text-lg font-semibold mb-4
+          text-neutral-900 dark:text-neutral-100
+        "
+      >
+        Tax
+      </h2>
 
       <div className="space-y-4">
         {/* Tax Label */}
         <div>
-          <label className="block text-sm font-medium text-neutral-700 mb-1">
+          <label
+            className="
+              block text-sm font-medium mb-1
+              text-neutral-700 dark:text-neutral-300
+            "
+          >
             Tax Label
           </label>
           <Input
@@ -25,9 +43,15 @@ const TaxSection = () => {
 
         {/* Tax Rate */}
         <div>
-          <label className="block text-sm font-medium text-neutral-700 mb-1">
+          <label
+            className="
+              block text-sm font-medium mb-1
+              text-neutral-700 dark:text-neutral-300
+            "
+          >
             Rate (%)
           </label>
+
           <div className="flex items-center gap-2">
             <Input
               type="number"
@@ -40,7 +64,15 @@ const TaxSection = () => {
               max="100"
               step="0.1"
             />
-            <span className="text-neutral-700">%</span>
+
+            <span
+              className="
+                text-neutral-700 
+                dark:text-neutral-300
+              "
+            >
+              %
+            </span>
           </div>
         </div>
       </div>
