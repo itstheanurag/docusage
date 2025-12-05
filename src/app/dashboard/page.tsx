@@ -1,13 +1,5 @@
-import { getSession } from "@/lib/better-auth";
-import Dashboard from "@/components/dashbaord/dashboard";
-import { redirect } from "next/navigation";
+import { DashboardOverview } from "@/components/dashbaord/dashboard-overview";
 
-export default async function DashboardPage() {
-  const session = await getSession();
-
-  if (!session) {
-    redirect("/login");
-  }
-
-  return <Dashboard session={session} />;
+export default function DashboardPage() {
+  return <DashboardOverview />;
 }
