@@ -13,7 +13,9 @@ export function FormBuilder() {
 
   return (
     <div className="flex flex-col h-[calc(100vh-64px)]">
-      <BuilderToolbar />
+      <header>
+        <BuilderToolbar />
+      </header>
 
       {isPreviewMode ? (
         <FormPreview />
@@ -22,7 +24,6 @@ export function FormBuilder() {
           {/* LEFT */}
           <LeftSidebar />
 
-          {/* CENTER */}
           {activeTab === "build" ? <BuilderCanvas /> : <SettingsPanel />}
 
           {/* RIGHT */}

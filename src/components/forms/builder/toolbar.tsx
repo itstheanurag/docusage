@@ -2,7 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { useFormBuilderStore } from "@/store/form-builder-store";
-import { Eye, Settings, LayoutTemplate } from "lucide-react";
+import { Eye, Settings, LayoutTemplate, ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 export default function BuilderToolbar() {
   const { activeTab, setActiveTab, isPreviewMode, togglePreview } =
@@ -11,6 +12,12 @@ export default function BuilderToolbar() {
   return (
     <div className="h-14 border-b bg-background flex items-center justify-between px-4">
       <div className="flex items-center gap-2">
+        <Link
+          href="/dashboard"
+          className="text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft className="h-5 w-5" />
+        </Link>
         <Button
           variant={activeTab === "build" ? "secondary" : "ghost"}
           size="sm"
@@ -45,6 +52,9 @@ export default function BuilderToolbar() {
         </Button>
         <Button size="sm" disabled={isPreviewMode}>
           Publish
+        </Button>
+          <Button variant="outline"  size="sm" disabled={isPreviewMode}>
+          Send Email
         </Button>
       </div>
     </div>
