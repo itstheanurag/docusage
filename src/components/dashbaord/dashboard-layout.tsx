@@ -51,7 +51,7 @@ export default function DashboardLayout({
           isCollapsed ? "lg:pl-20" : "lg:pl-72"
         )}
       >
-        <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center border-b bg-background px-6 shadow-sm">
+        <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center border-b bg-background px-6">
           <Button
             variant="ghost"
             size="icon"
