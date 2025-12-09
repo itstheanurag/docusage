@@ -6,7 +6,11 @@ import { FormatCommandEvent } from "@/types/document";
 
 import Toolbar from "./toolbar";
 import UserPresence from "./user";
-import Preview from "./preview";
+import dynamic from "next/dynamic";
+
+const Preview = dynamic(() => import("./preview"), {
+  loading: () => <div className="p-8">Loading preview...</div>,
+});
 
 import {
   Dialog,

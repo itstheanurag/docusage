@@ -1,10 +1,7 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import { config } from "dotenv";
 import { neon } from "@neondatabase/serverless";
 import { drizzle as neondatabase } from "drizzle-orm/neon-http";
-
-config();
 
 export const getDb = () => {
   if (!process.env.DATABASE_URL) {

@@ -3,7 +3,12 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, FileText, Zap, Users, Sparkles } from "lucide-react";
-import { BackgroundBeams } from "@/components/backgrounds/Beams";
+import dynamic from "next/dynamic";
+
+const BackgroundBeams = dynamic(
+  () => import("@/components/backgrounds/Beams").then((mod) => mod.BackgroundBeams),
+  { ssr: false }
+);
 export default function HeroSection() {
   return (
     <section className="relative overflow-hidden py-20 sm:py-32 bg-linear-to-br from-background via-background to-muted/20">

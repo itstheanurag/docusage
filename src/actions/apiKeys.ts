@@ -4,7 +4,6 @@ import { client } from "@/lib/better-auth/client";
 import { DisplayApiKey } from "@/types";
 
 export async function listApiKeys() {
-  // @ts-expect-error - list method signature mismatch
   const res = await client.apiKey.list({});
   if (res.error) throw new Error(res.error.message);
   const keys = res.data.map(normalizeApiKey) as DisplayApiKey[];
