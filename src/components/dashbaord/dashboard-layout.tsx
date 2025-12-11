@@ -5,7 +5,7 @@ import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { DialogTitle } from "@/components/ui/dialog";
 import { Menu, Bell } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { ModeToggle } from "@/components/mode-toggle";
+import { ModeToggle } from "@/components/theme/mode-toggle";
 import UserAvatar from "../user";
 import Sidebar from "./sidebar";
 import { useDashboardStore } from "@/store/dashboardStore";

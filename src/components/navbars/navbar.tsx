@@ -3,115 +3,142 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/mode-toggle";
+import { ModeToggle } from "@/components/theme/mode-toggle";
 import { FileText, Menu, X } from "lucide-react";
 import Link from "next/link";
+import { AuthModal } from "../(auth)/auth-modal";
+
+function LogoBlock() {
+  return (
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      className="flex items-center"
+    >
+      <Link href="/" className="flex items-center space-x-2">
+        <span className="flex h-8 w-8 items-center justify-center rounded-md bg-primary pulse-glow">
+          <FileText className="size-5 text-primary-foreground" />
+        </span>
+        <span className="text-xl font-bold tracking-tight text-foreground">
+          Docusage
+        </span>
+      </Link>
+    </motion.div>
+  );
+}
+
+function DesktopNavigation() {
+  const links = ["Products", "Features", "Pricing"];
+
+  return (
+    <div className="hidden md:flex flex-1 justify-center">
+      <nav className="flex items-center space-x-8">
+        {links.map((item) => (
+          <motion.a
+            key={item}
+            href={`#${item.toLowerCase()}`}
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            whileHover={{ y: -2 }}
+          >
+            {item}
+          </motion.a>
+        ))}
+      </nav>
+    </div>
+  );
+}
+
+
+function DesktopActions({ onOpenAuth }: { onOpenAuth: () => void }) {
+  return (
+    <div className="hidden md:flex items-center space-x-4">
+      <ModeToggle />
+      <Button
+        size="sm"
+        onClick={onOpenAuth}
+        className="bg-foreground text-background hover:bg-foreground/90 font-medium px-6"
+      >
+        Get Started
+      </Button>
+    </div>
+  );
+}
+
+function MobileMenuButton({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }) {
+  return (
+    <div className="md:hidden flex items-center space-x-2">
+      <ModeToggle />
+      <Button variant="ghost" size="sm" onClick={toggle}>
+        {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+      </Button>
+    </div>
+  );
+}
+
+function MobileNavigation({ isOpen, close, onOpenAuth }: { isOpen: boolean; close: () => void; onOpenAuth: () => void }) {
+  const links = ["Products", "Features", "Pricing"];
+
+  if (!isOpen) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: "auto" }}
+      exit={{ opacity: 0, height: 0 }}
+      className="md:hidden border-t border-border/40 py-4"
+    >
+      <nav className="flex flex-col space-y-4">
+        {links.map((item) => (
+          <a
+            key={item}
+            href={`#${item.toLowerCase()}`}
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            onClick={close}
+          >
+            {item}
+          </a>
+        ))}
+
+        <div className="flex flex-col space-y-2 pt-4 border-t border-border/40">
+            <Button 
+                onClick={() => { close(); onOpenAuth(); }}
+                className="w-full bg-foreground text-background hover:bg-foreground/90" 
+                size="sm"
+            >
+              Get Started
+            </Button>
+        </div>
+      </nav>
+    </motion.div>
+  );
+}
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+
+  const toggleMenu = () => setIsOpen((v) => !v);
+  const closeMenu = () => setIsOpen(false);
+
   return (
-    <motion.nav
-      initial={{ y: 0, opacity: 1 }}
-      animate={{ y: 0, opacity: 1 }}
-      className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"
-    >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center space-x-2"
-          >
-            <Link href="/" className="flex items-center space-x-2">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary pulse-glow">
-                <FileText className="h-5 w-5 text-primary-foreground " />
-              </span>
-              <span className="text-xl font-serif font-bold text-foreground">
-                DocuSage
-              </span>
-            </Link>
-          </motion.div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <nav className="flex items-center space-x-6">
-              {["Features", "Templates", "Pricing", "About"].map((item) => (
-                <motion.a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-                  whileHover={{ y: -2, scale: 1.05 }}
-                >
-                  {item}
-                </motion.a>
-              ))}
-            </nav>
-            <div className="flex items-center space-x-4">
-              <ModeToggle />
-              <Link href="/login">
-                <Button variant="ghost" size="sm">
-                  Login
-                </Button>
-              </Link>
-              <Link href="/register">
-                <Button size="sm">Sign Up</Button>
-              </Link>
-            </div>
+    <>
+      <motion.nav
+        initial={{ y: 0, opacity: 1 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="w-full sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"
+      >
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-l border-r">
+          <div className="flex h-16 items-center justify-between">
+            <LogoBlock />
+            <DesktopNavigation />
+            <DesktopActions onOpenAuth={() => setIsAuthOpen(true)} />
+            <MobileMenuButton isOpen={isOpen} toggle={toggleMenu} />
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center space-x-2">
-            <ModeToggle />
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              {isOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
-            </Button>
-          </div>
+          <MobileNavigation isOpen={isOpen} close={closeMenu} onOpenAuth={() => setIsAuthOpen(true)} />
         </div>
-
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-border/40 py-4"
-          >
-            <nav className="flex flex-col space-y-4">
-              {["Features", "Templates", "Pricing", "About"].map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item}
-                </a>
-              ))}
-              <div className="flex flex-col space-y-2 pt-4 border-t border-border/40">
-                <Link href="/login">
-                  <Button variant="ghost" size="sm" className="w-full">
-                    Login
-                  </Button>
-                </Link>
-                <Link href="/register">
-                  <Button size="sm" className="w-full">
-                    Sign Up
-                  </Button>
-                </Link>
-              </div>
-            </nav>
-          </motion.div>
-        )}
-      </div>
-    </motion.nav>
+      </motion.nav>
+      <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
+    </>
   );
 }

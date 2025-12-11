@@ -1,7 +1,11 @@
 import type React from "react";
 import type { Metadata } from "next";
+import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
-import ThemeWrapper from "@/components/theme";
+import ThemeWrapper from "@/components/theme/theme";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
 export const metadata: Metadata = {
   title: {
@@ -76,12 +80,17 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning className="font-outfit">
+      <body
+        suppressHydrationWarning
+        className={`${inter.variable} ${outfit.variable} font-sans antialiased`}
+      >
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <ThemeWrapper>{children}</ThemeWrapper>
+        <ThemeWrapper>
+            {children}
+        </ThemeWrapper>
       </body>
     </html>
   );
