@@ -1,11 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react"
-import { AuthModal } from "./(auth)/auth-modal";
-import { useState } from "react";
-
+import { ArrowRight, FileText, FilePlus, DollarSign, Share2 } from "lucide-react";
+import { AuthModal } from "../(auth)/auth-modal";
+import { useEffect, useState } from "react";
 
 function Badge() {
   return (
@@ -22,7 +21,6 @@ function Badge() {
     </motion.div>
   );
 }
-
 
 function Headline() {
   return (
@@ -42,7 +40,6 @@ function Headline() {
   );
 }
 
-
 function Subtitle() {
   return (
     <motion.p
@@ -57,22 +54,21 @@ function Subtitle() {
   );
 }
 
-
 function CTAButtons({ onOpenAuth }: { onOpenAuth: () => void }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.6 }}
-      className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-24"
+      className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
     >
       <Button
         size="lg"
         onClick={onOpenAuth}
         className="bg-foreground text-background hover:bg-foreground/90 h-12 px-8 text-base "
       >
-          Start Building Free
-          <ArrowRight className="ml-2 h-4 w-4" />
+        Start Building Free
+        <ArrowRight className="ml-2 h-4 w-4" />
       </Button>
       <Button
         variant="outline"
@@ -86,6 +82,74 @@ function CTAButtons({ onOpenAuth }: { onOpenAuth: () => void }) {
   );
 }
 
+const ROTATING_FEATURES = [
+  {
+    title: "Build Forms in One Step",
+    description: "Create single or multi-step forms with validations and logic.",
+    icon: FilePlus,
+  },
+  {
+    title: "Reusable Document Templates",
+    description: "Generate contracts, letters, and templated documents instantly.",
+    icon: FileText,
+  },
+  {
+    title: "Smart Invoicing",
+    description: "Create invoices, compute totals, and export professionally.",
+    icon: DollarSign,
+  },
+  {
+    title: "Share & Collaborate",
+    description: "Share links, embed forms, or collaborate in real time.",
+    icon: Share2,
+  },
+];
+
+function RotatingHeroCard() {
+  const [index, setIndex] = useState(0);
+
+  // Rotate every 3 seconds
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIndex((prev) => (prev + 1) % ROTATING_FEATURES.length);
+    }, 3000);
+
+    return () => clearInterval(id);
+  }, []);
+
+  const feature = ROTATING_FEATURES[index];
+  const Icon = feature.icon;
+
+  return (
+    <div className="mt-10 w-full flex justify-center">
+      <motion.div
+        key={index}
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -12 }}
+        transition={{ duration: 0.5 }}
+        className="w-full sm:w-[420px] md:w-[460px] p-6 rounded-xl border border-border/40 bg-card/80 backdrop-blur-md shadow-lg"
+      >
+        <div className="flex items-start gap-4">
+          <div className="p-3 rounded-lg bg-muted flex items-center justify-center">
+            <Icon className="h-6 w-6 text-foreground" />
+          </div>
+
+          <div>
+            <h4 className="text-lg font-semibold text-foreground mb-1">
+              {feature.title}
+            </h4>
+            <p className="text-sm text-muted-foreground leading-snug">
+              {feature.description}
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+/* --- Hero Section --- */
 export default function HeroSection() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
 
@@ -97,8 +161,12 @@ export default function HeroSection() {
           <Headline />
           <Subtitle />
           <CTAButtons onOpenAuth={() => setIsAuthOpen(true)} />
+          <AnimatePresence mode="wait">
+            <RotatingHeroCard />  
+          </AnimatePresence>
         </div>
       </section>
+
       <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
     </>
   );

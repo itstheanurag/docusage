@@ -66,18 +66,9 @@ const templates: Template[] = [
 
 export default function TemplateGrid() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-12">
       {templates.map((template, index) => (
-        <motion.div
-          key={template.id}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: index * 0.1 }}
-          viewport={{ once: true }}
-          whileHover={{ y: -8, scale: 1.02 }}
-        >
-          <TemplateCard template={template} />
-        </motion.div>
+        <TemplateCard template={template} />
       ))}
     </div>
   );

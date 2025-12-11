@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/mode-toggle";
+import { ModeToggle } from "@/components/theme/mode-toggle";
 import { FileText, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { AuthModal } from "../(auth)/auth-modal";
