@@ -50,7 +50,6 @@ export default function FeaturesSection({
   const fallback: Category[] = [formFeatures, documentFeatures, codeFeatures, invoiceFeatures];
   const cats = categories && categories.length ? categories : fallback;
 
-  // choose first category to show as example (you can map all categories similarly)
   const category = cats[0];
 
   return (
@@ -83,8 +82,8 @@ export default function FeaturesSection({
             {/* container that creates shared borders for the grid (like the screenshot) */}
             <div className="overflow-hidden border-t border-l border-border bg-white">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                {category.features.slice(0, 6).map((feature) => (
-                  <div className="group border-r border-b border-border hover:bg-muted/20 transition-colors">
+                {category.features.slice(0, 6).map((feature, idx) => (
+                  <div className="group border-r border-b border-border hover:bg-muted/20 transition-colors" key={idx}>
                     <FeatureCard feature={feature} />
                   </div>
 

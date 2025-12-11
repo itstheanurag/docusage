@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 import { FileText, Menu, X } from "lucide-react";
 import Link from "next/link";
+import { AuthModal } from "../(auth)/auth-modal";
 
 function LogoBlock() {
   return (
@@ -48,18 +49,17 @@ function DesktopNavigation() {
 }
 
 
-function DesktopActions() {
+function DesktopActions({ onOpenAuth }: { onOpenAuth: () => void }) {
   return (
     <div className="hidden md:flex items-center space-x-4">
       <ModeToggle />
-      <Link href="/register">
-        <Button
-          size="sm"
-          className="bg-foreground text-background hover:bg-foreground/90 font-medium px-6"
-        >
-          Get Started
-        </Button>
-      </Link>
+      <Button
+        size="sm"
+        onClick={onOpenAuth}
+        className="bg-foreground text-background hover:bg-foreground/90 font-medium px-6"
+      >
+        Get Started
+      </Button>
     </div>
   );
 }
@@ -75,7 +75,7 @@ function MobileMenuButton({ isOpen, toggle }: { isOpen: boolean; toggle: () => v
   );
 }
 
-function MobileNavigation({ isOpen, close }: { isOpen: boolean; close: () => void }) {
+function MobileNavigation({ isOpen, close, onOpenAuth }: { isOpen: boolean; close: () => void; onOpenAuth: () => void }) {
   const links = ["Products", "Features", "Pricing"];
 
   if (!isOpen) return null;
@@ -100,11 +100,13 @@ function MobileNavigation({ isOpen, close }: { isOpen: boolean; close: () => voi
         ))}
 
         <div className="flex flex-col space-y-2 pt-4 border-t border-border/40">
-          <Link href="/register">
-            <Button className="w-full bg-foreground text-background hover:bg-foreground/90" size="sm">
+            <Button 
+                onClick={() => { close(); onOpenAuth(); }}
+                className="w-full bg-foreground text-background hover:bg-foreground/90" 
+                size="sm"
+            >
               Get Started
             </Button>
-          </Link>
         </div>
       </nav>
     </motion.div>
@@ -113,26 +115,30 @@ function MobileNavigation({ isOpen, close }: { isOpen: boolean; close: () => voi
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen((v) => !v);
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <motion.nav
-      initial={{ y: 0, opacity: 1 }}
-      animate={{ y: 0, opacity: 1 }}
-      className="w-full sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"
-    >
-      <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-l border-r">
-        <div className="flex h-16 items-center justify-between">
-          <LogoBlock />
-          <DesktopNavigation />
-          <DesktopActions />
-          <MobileMenuButton isOpen={isOpen} toggle={toggleMenu} />
-        </div>
+    <>
+      <motion.nav
+        initial={{ y: 0, opacity: 1 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="w-full sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"
+      >
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-l border-r">
+          <div className="flex h-16 items-center justify-between">
+            <LogoBlock />
+            <DesktopNavigation />
+            <DesktopActions onOpenAuth={() => setIsAuthOpen(true)} />
+            <MobileMenuButton isOpen={isOpen} toggle={toggleMenu} />
+          </div>
 
-        <MobileNavigation isOpen={isOpen} close={closeMenu} />
-      </div>
-    </motion.nav>
+          <MobileNavigation isOpen={isOpen} close={closeMenu} onOpenAuth={() => setIsAuthOpen(true)} />
+        </div>
+      </motion.nav>
+      <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
+    </>
   );
 }

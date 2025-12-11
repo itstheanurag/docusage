@@ -2,8 +2,9 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { ArrowRight } from "lucide-react"
+import { AuthModal } from "./(auth)/auth-modal";
+import { useState } from "react";
 
 
 function Badge() {
@@ -57,7 +58,7 @@ function Subtitle() {
 }
 
 
-function CTAButtons() {
+function CTAButtons({ onOpenAuth }: { onOpenAuth: () => void }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -67,14 +68,11 @@ function CTAButtons() {
     >
       <Button
         size="lg"
+        onClick={onOpenAuth}
         className="bg-foreground text-background hover:bg-foreground/90 h-12 px-8 text-base "
-        asChild
       >
-
-          <Link  href="/register" className="flex items-center">
           Start Building Free
           <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
       </Button>
       <Button
         variant="outline"
@@ -88,18 +86,20 @@ function CTAButtons() {
   );
 }
 
-
-
 export default function HeroSection() {
-  return (
-    <section className="relative overflow-hidden pt-20 pb-32 bg-background min-h-screen flex flex-col items-center">
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center">
-        <Badge />
-        <Headline />
-        <Subtitle />
-        <CTAButtons />
-      </div>
-    </section>
+  return (
+    <>
+      <section className="relative overflow-hidden pt-20 pb-32 bg-background min-h-screen flex flex-col items-center">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center">
+          <Badge />
+          <Headline />
+          <Subtitle />
+          <CTAButtons onOpenAuth={() => setIsAuthOpen(true)} />
+        </div>
+      </section>
+      <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
+    </>
   );
 }
