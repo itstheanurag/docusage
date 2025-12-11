@@ -7,7 +7,7 @@ export default function BuilderCanvas() {
   const { fields, currentStep } = useFormBuilderStore();
 
   return (
-    <div className="flex-1 bg-muted/30 p-8 overflow-y-auto flex flex-col">
+    <div className="w-full max-w-3xl flex flex-col gap-6">
       <FormHeader />
 
       {/* Fields */}

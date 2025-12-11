@@ -5,7 +5,9 @@ import React, { useState, useRef, useEffect } from "react";
 import { FormatCommandEvent } from "@/types/document";
 
 import Toolbar from "./toolbar";
-import UserPresence from "./user";
+import { BuilderLayout, BuilderHeader, BuilderSidebar, BuilderCanvas } from "@/components/builders/shared/builder-layout";
+import { DocumentLeftSidebar } from "./components/left-sidebar";
+import { DocumentRightSidebar } from "./components/right-sidebar";
 import dynamic from "next/dynamic";
 
 const Preview = dynamic(() => import("./preview"), {
@@ -152,108 +154,84 @@ const Editor: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100 dark:bg-neutral-900 text-foreground overflow-hidden">
-      {/* Left: Component Palette */}
-      <div className="w-64 flex flex-col border-r border-border bg-background p-4 gap-4 z-10 shadow-sm">
-        <div className="font-semibold text-sm text-muted-foreground uppercase tracking-wider">
-          Form Elements
+    <BuilderLayout
+      header={
+        <div className="flex flex-col">
+          <BuilderHeader 
+            title={
+              <div className="flex items-center gap-4">
+                 <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="Untitled Form"
+                  className="text-lg font-semibold bg-transparent outline-none w-full max-w-xs"
+                />
+                 <div className="h-6 w-px bg-border mx-2"></div>
+                <Select
+                  value={pageSize}
+                  onValueChange={(v) => setPageSize(v as keyof typeof PAGE_SIZES)}
+                >
+                  <SelectTrigger className="w-[180px] h-8">
+                    <SelectValue placeholder="Page Size" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Object.entries(PAGE_SIZES).map(([key, size]) => (
+                      <SelectItem key={key} value={key}>
+                        {size.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            }
+            backHref="/dashboard"
+          >
+             <div className="flex items-center gap-2">
+              <button
+                onClick={() => setIsPreview(!isPreview)}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  isPreview
+                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                    : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                }`}
+              >
+                {isPreview ? "Edit Form" : "Preview"}
+              </button>
+            </div>
+          </BuilderHeader>
+          
+          {/* Toolbar */}
+          {!isPreview && (
+            <div className="bg-background/20 backdrop-blur-md border-t border-border/40 p-1.5 flex justify-center shadow-sm z-10">
+              <Toolbar onFormat={handleFormat} />
+            </div>
+          )}
         </div>
-        <div className="grid gap-3">
-          <button
-            onClick={() => handleInsertField("text-input", "Text Input")}
-            className="flex items-center gap-3 p-3 rounded-lg border border-border bg-card hover:bg-accent hover:text-accent-foreground transition-all text-sm font-medium shadow-sm hover:shadow-md text-left"
-          >
-            <span className="p-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded">
-              T
-            </span>
-            Text Field
-          </button>
-          <button
-            onClick={() => handleInsertField("checkbox", "Checkbox")}
-            className="flex items-center gap-3 p-3 rounded-lg border border-border bg-card hover:bg-accent hover:text-accent-foreground transition-all text-sm font-medium shadow-sm hover:shadow-md text-left"
-          >
-            <span className="p-1.5 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded">
-              ☑
-            </span>
-            Checkbox
-          </button>
-          <button
-            onClick={() => handleInsertField("date", "Date")}
-            className="flex items-center gap-3 p-3 rounded-lg border border-border bg-card hover:bg-accent hover:text-accent-foreground transition-all text-sm font-medium shadow-sm hover:shadow-md text-left"
-          >
-            <span className="p-1.5 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded">
-              📅
-            </span>
-            Date Picker
-          </button>
-          <button
-            onClick={() => handleInsertField("signature", "Signature")}
-            className="flex items-center gap-3 p-3 rounded-lg border border-border bg-card hover:bg-accent hover:text-accent-foreground transition-all text-sm font-medium shadow-sm hover:shadow-md text-left"
-          >
-            <span className="p-1.5 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded">
-              ✍️
-            </span>
-            Signature
-          </button>
-        </div>
-      </div>
-
-      {/* Center: Editor Area */}
-      <div className="flex-1 flex flex-col relative min-w-0">
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-border bg-background p-3 px-6 shadow-sm z-10">
-          <div className="flex items-center gap-4 flex-1">
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Untitled Form"
-              className="text-lg font-semibold bg-transparent outline-none w-full max-w-xs"
-            />
-            <div className="h-6 w-px bg-border mx-2"></div>
-            <Select
-              value={pageSize}
-              onValueChange={(v) => setPageSize(v as keyof typeof PAGE_SIZES)}
-            >
-              <SelectTrigger className="w-[180px] h-8">
-                <SelectValue placeholder="Page Size" />
-              </SelectTrigger>
-              <SelectContent>
-                {Object.entries(PAGE_SIZES).map(([key, size]) => (
-                  <SelectItem key={key} value={key}>
-                    {size.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setIsPreview(!isPreview)}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                isPreview
-                  ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-              }`}
-            >
-              {isPreview ? "Edit Form" : "Preview"}
-            </button>
-          </div>
-        </div>
-
-        {/* Toolbar */}
-        {!isPreview && (
-          <div className="bg-background border-b border-border p-2 flex justify-center shadow-sm z-10">
-            <Toolbar onFormat={handleFormat} />
-          </div>
-        )}
-
-        {/* Scrollable Canvas */}
-        <div className="flex-1 overflow-auto p-8 bg-gray-100 dark:bg-neutral-900 flex justify-center">
+      }
+      leftSidebar={
+         !isPreview && (
+          <BuilderSidebar header="Form Elements">
+            <DocumentLeftSidebar onInsertField={handleInsertField} />
+          </BuilderSidebar>
+         )
+      }
+      rightSidebar={
+        !isPreview && (
+           <BuilderSidebar header="Stats">
+              <DocumentRightSidebar
+                wordCount={wordCount}
+                characterCount={content.replace(/<[^>]*>/g, "").length}
+                pageSizeLabel={PAGE_SIZES[pageSize].label.split("(")[0].trim()}
+              />
+           </BuilderSidebar>
+        )
+      }
+    >
+        <BuilderCanvas>
           {isPreview ? (
             <div
-              className="bg-white dark:bg-card text-black dark:text-card-foreground shadow-2xl rounded-sm p-[20mm] mx-auto transition-all duration-300"
+              className="bg-white dark:bg-card text-black dark:text-card-foreground shadow-2xl rounded-sm p-[20mm] transition-all duration-300"
               style={{
                 width: PAGE_SIZES[pageSize].width,
                 minHeight: PAGE_SIZES[pageSize].height,
@@ -263,7 +241,7 @@ const Editor: React.FC = () => {
             </div>
           ) : (
             <div
-              className="bg-white dark:bg-card text-black dark:text-card-foreground shadow-2xl rounded-sm mx-auto transition-all duration-300"
+              className="bg-white dark:bg-card text-black dark:text-card-foreground shadow-2xl rounded-sm transition-all duration-300"
               style={{
                 width: PAGE_SIZES[pageSize].width,
                 minHeight: PAGE_SIZES[pageSize].height,
@@ -280,35 +258,10 @@ const Editor: React.FC = () => {
               />
             </div>
           )}
-        </div>
-      </div>
-
-      {/* Right: Stats & Presence */}
-      <div className="w-72 flex-col border-l border-border bg-background p-4 gap-4 z-10 shadow-sm hidden xl:flex">
-        <div className="text-sm text-muted-foreground">
-          <div className="font-medium text-foreground mb-2">Document Stats</div>
-          <div className="flex justify-between py-1 border-b border-border/50">
-            <span>Words</span>
-            <span className="font-mono">{wordCount}</span>
-          </div>
-          <div className="flex justify-between py-1 border-b border-border/50">
-            <span>Characters</span>
-            <span className="font-mono">
-              {content.replace(/<[^>]*>/g, "").length}
-            </span>
-          </div>
-          <div className="flex justify-between py-1 border-b border-border/50">
-            <span>Size</span>
-            <span className="font-mono">
-              {PAGE_SIZES[pageSize].label.split("(")[0].trim()}
-            </span>
-          </div>
-        </div>
-        <UserPresence />
-      </div>
+        </BuilderCanvas>
 
       {/* Field Configuration Dialog */}
-      <Dialog
+            <Dialog
         open={!!selectedField}
         onOpenChange={(open) => !open && setSelectedField(null)}
       >
@@ -355,7 +308,7 @@ const Editor: React.FC = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+    </BuilderLayout>
   );
 };
 

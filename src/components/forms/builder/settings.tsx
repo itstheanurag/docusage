@@ -10,7 +10,7 @@ export default function SettingsPanel() {
   const { logoUrl, setLogoUrl } = useFormBuilderStore();
 
   return (
-    <div className="flex-1 p-8 overflow-y-auto max-w-3xl mx-auto">
+    <div className="w-full max-w-3xl">
       <Card className="p-6">
         <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
           <Settings className="h-5 w-5" />

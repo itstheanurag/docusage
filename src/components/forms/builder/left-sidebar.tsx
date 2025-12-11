@@ -6,7 +6,7 @@ export default function FieldPalette() {
   const { addField } = useFormBuilderStore();
 
   return (
-    <div className="w-64 border-r bg-background p-4 flex flex-col gap-4 overflow-y-auto">
+    <div className="flex flex-col gap-4 h-full">
       <div>
         <h2 className="font-semibold mb-2 text-sm text-muted-foreground uppercase tracking-wider">
           Add Fields

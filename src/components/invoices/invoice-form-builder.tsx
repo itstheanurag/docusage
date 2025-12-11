@@ -5,20 +5,33 @@ import NotesSection from "./builder/notes-section";
 import SendToDetails from "./builder/send-to-details";
 import TaxSection from "./builder/tax-section";
 
+import { BuilderLayout, BuilderHeader, BuilderCanvas } from "../builders/shared/builder-layout";
+
 const InvoiceFormBuilder = () => {
   return (
-    <div className="space-y-6">
-      <InvoiceDetails />
-      <div className="grid grid-cols-2 gap-6">
-        <FromDetails />
-        <SendToDetails />
-      </div>
-      <ItemsSection />
-      <div className="grid grid-cols-2 gap-6">
-        <TaxSection />
-        <NotesSection />
-      </div>
-    </div>
+    <BuilderLayout
+      header={
+        <BuilderHeader 
+          title="Invoice Builder" 
+          backHref="/dashboard/invoices" 
+        />
+      }
+    >
+      <BuilderCanvas>
+        <div className="space-y-6 max-w-4xl w-full">
+          <InvoiceDetails />
+          <div className="grid grid-cols-2 gap-6">
+            <FromDetails />
+            <SendToDetails />
+          </div>
+          <ItemsSection />
+          <div className="grid grid-cols-2 gap-6">
+            <TaxSection />
+            <NotesSection />
+          </div>
+        </div>
+      </BuilderCanvas>
+    </BuilderLayout>
   );
 };
 

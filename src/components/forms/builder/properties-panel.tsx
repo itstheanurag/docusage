@@ -18,7 +18,7 @@ export default function PropertiesPanel() {
   }
 
   return (
-    <div className="w-80 border-l bg-background p-4 overflow-y-auto space-y-6">
+    <div className="space-y-6 h-full">
       <div className="space-y-2">
         <Label>Label</Label>
         <Input
