@@ -1,7 +1,7 @@
 import { StarIcon } from "lucide-react";
 import SectionHeader from "../section-header";
 const testimonialsData = [
-    { quote: "Lumina changed how we handle client contracts. It's incredibly fast and the output looks professional.", author: "Sarah Jenkins", role: "Freelance Designer" },
+    { quote: "Docusage changed how we handle client contracts. It's incredibly fast and the output looks professional.", author: "Sarah Jenkins", role: "Freelance Designer" },
     { quote: "The AI features are actually useful, not just gimmicks. Structuring complex forms is a breeze now.", author: "Mark Thompson", role: "CTO, TechFlow" },
     { quote: "Cleanest invoice builder I've used. My clients actually compliment my bills now. Totally worth it.", author: "Elena Rodriguez", role: "Consultant" }
 ]
@@ -9,7 +9,7 @@ const Testimonials = () => (
     <section className="bg-white dark:bg-neutral-950 transition-colors duration-300">
         <div className="max-w-7xl mx-auto">
             <div className="border-b border-neutral-200 dark:border-neutral-800 p-8 md:p-12">
-                <SectionHeader title="Trusted by builders." subtitle="Thousands of teams rely on Lumina for their critical document infrastructure." />
+                <SectionHeader title="Trusted by builders." subtitle="Thousands of teams rely on Docusage for their critical document infrastructure." />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3">

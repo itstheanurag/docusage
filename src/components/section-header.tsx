@@ -17,7 +17,7 @@ const SectionHeader = ({
     </h2>
 
     {subtitle && (
-      <p className="text-md text-neutral-500 dark:text-neutral-400 leading-relaxed font-light transition-colors duration-300">
+      <p className="font-bold text-lg text-neutral-500 dark:text-neutral-400 leading-relaxed font-light transition-colors duration-300">
         {subtitle}
       </p>
     )}

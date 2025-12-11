@@ -23,22 +23,24 @@ export default function CallToActionSection() {
 
 
   return (
-    <section className="bg-background ">
+    <section className="bg-background">
       <div className="container ">
         <div className="relative overflow-hidden bg-primary/5 py-20 sm:py-32">
 
-          <div className="absolute inset-0">
-
-
-            <FlickeringGrid
-              squareSize={4}
-              gridGap={6}
-              color={gridColor}
-              maxOpacity={0.15}
-              flickerChance={0.1}
-              className="h-full"
-            />
+          {/* full-bleed grid — forces viewport width centered under the section */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute left-1/2 top-0 -translate-x-1/2 w-screen h-full">
+              <FlickeringGrid
+                squareSize={4}
+                gridGap={6}
+                color={gridColor}
+                maxOpacity={0.15}
+                flickerChance={0.1}
+                className="h-full w-full"
+              />
+            </div>
           </div>
+
 
           <div className="relative z-10 text-center">
             <SectionHeader

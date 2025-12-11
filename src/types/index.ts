@@ -82,3 +82,9 @@ export type DisplayApiKey = {
   permissions: string | null;
   metadata: string | null;
 };
+
+export enum BuilderType {
+  INVOICE = "INVOICE",
+  FORM = "FORM",
+  DOCUMENT = "DOCUMENT",
+}

@@ -8,7 +8,7 @@ export default function TemplateCard({ template }: { template: Template }) {
   const Icon = template.icon;
 
   return (
-    <div className="h-full border border-border/50 bg-card transition-all duration-300 overflow-hidden">
+    <div className="h-full border bg-card transition-all duration-300 overflow-hidden">
       <div className="p-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">

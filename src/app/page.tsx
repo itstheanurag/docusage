@@ -3,8 +3,9 @@ import HeroSection from "@/components/home/hero-section";
 import Navbar from "@/components/navbars/navbar";
 import Pricing from "@/components/home/pricing";
 import Testimonials from "@/components/home/testimonials";
-import { documentFeatures } from "@/lib/data/feature";
 import dynamic from "next/dynamic";
+import ProductShowcase from "@/components/home/product-showcase";
+import { BuilderType } from "@/types";
 
 const PreviewSection = dynamic(() => import("@/components/home/preview-section"));
 const CallToActionSection = dynamic(
@@ -13,7 +14,7 @@ const CallToActionSection = dynamic(
 const Features = dynamic(() => import("@/components/home/features/features-section"));
 const Footer = dynamic(() => import("@/components/footer"));
 
-export default function HomePage() {  
+export default function HomePage() {
   return (
     <main className="min-h-screen">
       <Navbar />
@@ -26,6 +27,10 @@ export default function HomePage() {
       </Container>
 
       <Container>
+        <ProductShowcase />
+      </Container>
+
+      <Container>
         <PreviewSection />
       </Container>
 
@@ -33,16 +38,13 @@ export default function HomePage() {
         <Testimonials />
       </Container>
 
-       <Container>
+      <Container>
         <Pricing />
       </Container>
 
-
-<Container >
-
-
-      <CallToActionSection />
-</Container>
+      <Container >
+        <CallToActionSection />
+      </Container>
       <Footer />
     </main>
   );

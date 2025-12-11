@@ -63,7 +63,7 @@ const Features = ({ items }: { items?: FeatureItem[] }) => {
       id="features"
       className="bg-white dark:bg-neutral-950 transition-colors duration-300"
     >
-      <div className="max-w-7xl mx-auto border-t">
+      <div className="max-w-7xl mx-auto">
         <div className="p-8 md:p-12">
           <SectionHeader
             title="Engineered for efficiency."
@@ -76,6 +76,7 @@ const Features = ({ items }: { items?: FeatureItem[] }) => {
           {features.map((item, index) => (
             <GridItem
               key={index}
+              index={index}
               title={item.title}
               description={item.description}
               icon={item.icon}
