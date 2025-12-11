@@ -126,7 +126,7 @@ const Pricing = ({ plans }: { plans?: Plan[] }) => {
                 >
                   {/* decorative accent (only rendered when provided) */}
                   {isHighlight && plan.accentIcon && (
-                    <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
+                    <div className="absolute top-0 right-0 p-4 pointer-events-none text-muted-foreground">
                       {plan.accentIcon}
                     </div>
                   )}

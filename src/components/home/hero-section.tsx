@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, FileText, FilePlus, DollarSign, Share2 } from "lucide-react";
 import { AuthModal } from "../(auth)/auth-modal";
 import { useEffect, useState } from "react";
+import InteractiveWireframe from "./interactive-wireframe";
 
 function Badge() {
   return (
@@ -82,74 +83,6 @@ function CTAButtons({ onOpenAuth }: { onOpenAuth: () => void }) {
   );
 }
 
-const ROTATING_FEATURES = [
-  {
-    title: "Build Forms in One Step",
-    description: "Create single or multi-step forms with validations and logic.",
-    icon: FilePlus,
-  },
-  {
-    title: "Reusable Document Templates",
-    description: "Generate contracts, letters, and templated documents instantly.",
-    icon: FileText,
-  },
-  {
-    title: "Smart Invoicing",
-    description: "Create invoices, compute totals, and export professionally.",
-    icon: DollarSign,
-  },
-  {
-    title: "Share & Collaborate",
-    description: "Share links, embed forms, or collaborate in real time.",
-    icon: Share2,
-  },
-];
-
-function RotatingHeroCard() {
-  const [index, setIndex] = useState(0);
-
-  // Rotate every 3 seconds
-  useEffect(() => {
-    const id = setInterval(() => {
-      setIndex((prev) => (prev + 1) % ROTATING_FEATURES.length);
-    }, 3000);
-
-    return () => clearInterval(id);
-  }, []);
-
-  const feature = ROTATING_FEATURES[index];
-  const Icon = feature.icon;
-
-  return (
-    <div className="mt-10 w-full flex justify-center">
-      <motion.div
-        key={index}
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -12 }}
-        transition={{ duration: 0.5 }}
-        className="w-full sm:w-[420px] md:w-[460px] p-6 rounded-xl border border-border/40 bg-card/80 backdrop-blur-md shadow-lg"
-      >
-        <div className="flex items-start gap-4">
-          <div className="p-3 rounded-lg bg-muted flex items-center justify-center">
-            <Icon className="h-6 w-6 text-foreground" />
-          </div>
-
-          <div>
-            <h4 className="text-lg font-semibold text-foreground mb-1">
-              {feature.title}
-            </h4>
-            <p className="text-sm text-muted-foreground leading-snug">
-              {feature.description}
-            </p>
-          </div>
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
-/* --- Hero Section --- */
 export default function HeroSection() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
 
@@ -161,10 +94,9 @@ export default function HeroSection() {
           <Headline />
           <Subtitle />
           <CTAButtons onOpenAuth={() => setIsAuthOpen(true)} />
-          <AnimatePresence mode="wait">
-            <RotatingHeroCard />  
-          </AnimatePresence>
+            
         </div>
+        <InteractiveWireframe />  
       </section>
 
       <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />

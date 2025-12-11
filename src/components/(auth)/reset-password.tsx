@@ -16,9 +16,9 @@ import { Lock, Eye, EyeOff } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { client as authClient } from "@/lib/better-auth/client";
 import { toast } from "sonner";
-import { BackgroundBeams } from "@/components/backgrounds/Beams";
 import Link from "next/link";
 import { BorderBeam } from "../backgrounds/border-beam";
+
 export default function ResetPassword() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -59,8 +59,6 @@ export default function ResetPassword() {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <BackgroundBeams />
-
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

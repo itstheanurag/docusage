@@ -16,7 +16,6 @@ import { Mail } from "lucide-react";
 import { toast } from "sonner";
 import { client as authClient } from "@/lib/better-auth/client";
 import Link from "next/link";
-import { BackgroundBeams } from "@/components/backgrounds/Beams";
 import { BorderBeam } from "../backgrounds/border-beam";
 
 export default function ForgotPassword() {
@@ -40,8 +39,6 @@ export default function ForgotPassword() {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center  overflow-hidden sc">
-      <BackgroundBeams />
-
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
