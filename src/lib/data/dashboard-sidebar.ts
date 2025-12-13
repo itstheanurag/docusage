@@ -7,6 +7,7 @@ import {
   FormInput,
   User,
   Key,
+  PenTool,
 } from "lucide-react";
 
 export const sidebarItems = [
@@ -51,5 +52,11 @@ export const sidebarItems = [
     label: "API Keys",
     section: "api-keys" as DashboarSectionType,
     href: "/dashboard/api-keys",
+  },
+  {
+    icon: PenTool,
+    label: "Whiteboard",
+    section: "whiteboard" as DashboarSectionType,
+    href: "/dashboard/whiteboard",
   },
 ];

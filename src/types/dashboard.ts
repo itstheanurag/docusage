@@ -10,4 +10,5 @@ export type DashboarSectionType =
   | "forms"
   | "profile"
   | "settings"
-  | "api-keys";
+  | "api-keys"
+  | "whiteboard";
