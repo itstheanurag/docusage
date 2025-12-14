@@ -7,8 +7,7 @@ import PropertiesPanel from "./builder/properties-panel";
 import SettingsPanel from "./builder/settings";
 import LeftSidebar from "./builder/left-sidebar";
 import FormPreview from "./builder/form-preview";
-import { Button } from "@/components/ui/button";
-import { Eye, Settings, LayoutTemplate } from "lucide-react";
+import FormBuilderDock from "./form-builder-dock";
 
 
 export function FormBuilder() {
@@ -17,53 +16,24 @@ export function FormBuilder() {
   return (
     <BuilderLayout
       header={
-        <BuilderHeader 
-          title="Form Builder" 
-          backHref="/dashboard"
-        >
-          {/* Left Controls */}
-          <div className="flex items-center gap-2">
-            <Button
-              variant={activeTab === "build" ? "secondary" : "ghost"}
-              size="sm"
-              onClick={() => setActiveTab("build")}
-              className="gap-2"
-              disabled={isPreviewMode}
-            >
-              <LayoutTemplate className="h-4 w-4" />
-              Build
-            </Button>
-            <Button
-              variant={activeTab === "settings" ? "secondary" : "ghost"}
-              size="sm"
-              onClick={() => setActiveTab("settings")}
-              className="gap-2"
-              disabled={isPreviewMode}
-            >
-              <Settings className="h-4 w-4" />
-              Settings
-            </Button>
+        <div className="flex flex-col">
+          <BuilderHeader 
+            title="Form Builder" 
+            backHref="/dashboard"
+          />
+          
+          {/* Dock Toolbar */}
+          <div className="bg-background/20 backdrop-blur-md border-t border-border/40 p-1.5 flex justify-center shadow-sm z-10">
+            <FormBuilderDock
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+              isPreviewMode={isPreviewMode}
+              onTogglePreview={togglePreview}
+              onPublish={() => console.log("Publish form")}
+              onSendEmail={() => console.log("Send email")}
+            />
           </div>
-
-          {/* Right Actions */}
-          <div className="flex items-center gap-2">
-            <Button
-              variant={isPreviewMode ? "default" : "outline"}
-              size="sm"
-              className="gap-2"
-              onClick={togglePreview}
-            >
-              <Eye className="h-4 w-4" />
-              {isPreviewMode ? "Exit Preview" : "Preview"}
-            </Button>
-            <Button size="sm" disabled={isPreviewMode}>
-              Publish
-            </Button>
-            <Button variant="outline" size="sm" disabled={isPreviewMode}>
-              Send Email
-            </Button>
-          </div>
-        </BuilderHeader>
+        </div>
       }
       leftSidebar={
         !isPreviewMode && (
@@ -92,3 +62,4 @@ export function FormBuilder() {
 }
 
 export default FormBuilder;
+

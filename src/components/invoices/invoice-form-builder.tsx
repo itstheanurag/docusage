@@ -6,15 +6,29 @@ import SendToDetails from "./builder/send-to-details";
 import TaxSection from "./builder/tax-section";
 
 import { BuilderLayout, BuilderHeader, BuilderCanvas } from "../builders/shared/builder-layout";
+import InvoiceBuilderDock from "./invoice-builder-dock";
 
 const InvoiceFormBuilder = () => {
   return (
     <BuilderLayout
       header={
-        <BuilderHeader 
-          title="Invoice Builder" 
-          backHref="/dashboard/invoices" 
-        />
+        <div className="flex flex-col">
+          <BuilderHeader 
+            title="Invoice Builder" 
+            backHref="/dashboard/invoices" 
+          />
+          
+          {/* Dock Toolbar */}
+          <div className="bg-background/20 backdrop-blur-md border-t border-border/40 p-1.5 flex justify-center shadow-sm z-10">
+            <InvoiceBuilderDock
+              onPreview={() => console.log("Preview invoice")}
+              onSave={() => console.log("Save invoice")}
+              onDownload={() => console.log("Download PDF")}
+              onSend={() => console.log("Send invoice")}
+              onPrint={() => window.print()}
+            />
+          </div>
+        </div>
       }
     >
       <BuilderCanvas>
@@ -36,3 +50,4 @@ const InvoiceFormBuilder = () => {
 };
 
 export default InvoiceFormBuilder;
+
