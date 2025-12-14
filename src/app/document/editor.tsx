@@ -4,7 +4,7 @@ import { useDocumentStore } from "@/store/documentStore";
 import React, { useState, useRef, useEffect } from "react";
 import { FormatCommandEvent } from "@/types/document";
 
-import Toolbar from "./toolbar";
+import DocumentDock from "./document-dock";
 import { BuilderLayout, BuilderHeader, BuilderSidebar, BuilderCanvas } from "@/components/builders/shared/builder-layout";
 import { DocumentLeftSidebar } from "./components/left-sidebar";
 import { DocumentRightSidebar } from "./components/right-sidebar";
@@ -43,7 +43,7 @@ const PAGE_SIZES = {
 
 const Editor: React.FC = () => {
   const editorRef = useRef<HTMLDivElement>(null);
-  const { title, setTitle, content, setContent } = useDocumentStore();
+  const { title, setTitle, content, setContent, undo, redo, historyIndex, history } = useDocumentStore();
   const [wordCount, setWordCount] = useState(0);
   const [isPreview, setIsPreview] = useState(false);
   const [pageSize, setPageSize] = useState<keyof typeof PAGE_SIZES>("a4");
@@ -204,7 +204,13 @@ const Editor: React.FC = () => {
           {/* Toolbar */}
           {!isPreview && (
             <div className="bg-background/20 backdrop-blur-md border-t border-border/40 p-1.5 flex justify-center shadow-sm z-10">
-              <Toolbar onFormat={handleFormat} />
+              <DocumentDock
+                onFormat={handleFormat}
+                canUndo={historyIndex > 0}
+                canRedo={historyIndex < history.length - 1}
+                onUndo={undo}
+                onRedo={redo}
+              />
             </div>
           )}
         </div>
