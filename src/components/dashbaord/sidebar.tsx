@@ -66,7 +66,7 @@ export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-2 py-4 space-y-2">
+      <nav className="flex-1 px-2 py-2 space-y-2">
         {sidebarItems.map((item) => {
           const isActive =
             item.href === "/dashboard"
@@ -78,7 +78,7 @@ export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
               <Button
                 variant={isActive ? "secondary" : "ghost"}
                 className={cn(
-                  "w-full justify-start h-11 mb-1 rounded-xl transition-all duration-200 group relative overflow-hidden",
+                  "w-full justify-start h-11 rounded-xl transition-all duration-200 group relative overflow-hidden",
                   isCollapsed && "justify-center",
                   isActive && "bg-white dark:bg-zinc-800 shadow-sm"
                 )}
@@ -124,7 +124,7 @@ export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
       </nav>
 
       {/* Logout */}
-      <div className="px-2 py-4">
+      <div className="px-2 py-2">
         <Button
           variant="ghost"
           className={cn(

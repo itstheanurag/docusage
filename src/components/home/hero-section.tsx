@@ -62,14 +62,14 @@ function Headline() {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.15 }}
-      className="mb-8 text-center max-w-5xl mx-auto"
+      className="mb-8 text-center max-w-5xl mx-auto tracking-tighter leading-tighter"
     >
-      <span className="block text-6xl font-bold tracking-tight sm:text-7xl lg:text-8xl leading-[1.1]">
+      <span className="block text-6xl font-bold sm:text-7xl lg:text-8xl">
         <span className="bg-gradient-to-b from-foreground to-foreground/70 bg-clip-text text-transparent">
           Construct with
         </span>
       </span>
-      <span className="block text-6xl font-bold tracking-tight sm:text-7xl lg:text-8xl leading-[1.1] mt-2">
+      <span className="block text-6xl font-bold  sm:text-7xl lg:text-8xl">
         <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent p-2">
           Intelligence
         </span>
@@ -160,7 +160,7 @@ export default function HeroSection() {
         </div>
 
         {/* Main Content */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center max-w-7xl">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center max-w-7xl tracking-tighter leading-tight">
           <Badge />
           <Headline />
           <Subtitle />
@@ -176,13 +176,8 @@ export default function HeroSection() {
           className="w-full max-w-6xl mx-auto px-4 perspective-1000"
         >
           <div className="relative transform-preserve-3d transition-transform duration-700 hover:rotate-x-0">
-             {/* Glow behind the board */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-primary/30 to-purple-500/30 blur-2xl opacity-30 rounded-[3rem] -z-10" />
-            
             <InteractiveWireframe />
-            
-             {/* Reflection overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none rounded-2xl" />
+
           </div>
         </motion.div>
       </section>

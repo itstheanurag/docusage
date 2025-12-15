@@ -31,7 +31,7 @@ export default function DashboardLayout({
           "m-3 h-[calc(100vh-1.5rem)] rounded-2xl overflow-hidden shadow-sm"
         )}
       >
-        <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-background/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-border/50 rounded-2xl">
+        <div className="flex grow flex-col gap-y-2 overflow-y-auto bg-background/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-border/50 rounded-2xl">
           <Sidebar />
         </div>
       </div>

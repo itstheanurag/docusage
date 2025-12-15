@@ -60,7 +60,7 @@ export default function InteractiveWireframe() {
 
   return (
     <motion.div
-      className="mt-8 w-full max-w-5xl mx-auto h-[480px] overflow-hidden flex flex-col rounded-xl border border-white/20 bg-black/5 dark:bg-white/5 backdrop-blur-xl shadow-2xl relative group"
+      className="w-full max-w-5xl mx-auto h-[480px] overflow-hidden flex flex-col rounded-xl border border-white/20 bg-black/5 dark:bg-white/5 backdrop-blur-xl shadow-2xl relative group"
       variants={containerVariants}
       initial="idle"
       animate={state}
