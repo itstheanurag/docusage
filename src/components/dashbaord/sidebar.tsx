@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -6,6 +8,7 @@ import { useDashboardStore } from "@/store/dashboardStore";
 import { signOut } from "@/lib/better-auth/client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -35,27 +38,35 @@ export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
       {/* Logo / Header */}
       <div
         className={cn(
-          "h-16 border-b flex items-center px-4",
+          "h-16 flex items-center border-b border-border/50 gap-2",
           isCollapsed ? "justify-center" : "justify-between"
         )}
       >
-        {!isCollapsed && <h2 className="text-xl font-bold">DocuSage</h2>}
+        {!isCollapsed && (
+          <motion.h2
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent px-4"
+          >
+            DocuSage
+          </motion.h2>
+        )}
         <Button
           variant="ghost"
           size="icon"
           onClick={toggleCollapse}
-          className="hidden lg:flex"
+          className="hidden lg:flex rounded-full"
         >
           {isCollapsed ? (
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="size-4" />
           ) : (
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="size-4" />
           )}
         </Button>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-4 py-4 space-y-1">
+      <nav className="flex-1 px-2 py-2 space-y-2">
         {sidebarItems.map((item) => {
           const isActive =
             item.href === "/dashboard"
@@ -65,15 +76,47 @@ export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
           return (
             <Link href={item.href} key={item.section} className="block w-full">
               <Button
-                variant={isActive ? "default" : "ghost"}
+                variant={isActive ? "secondary" : "ghost"}
                 className={cn(
-                  "w-full justify-start h-10 px-3",
-                  isCollapsed && "justify-center px-2"
+                  "w-full justify-start h-11 rounded-xl transition-all duration-200 group relative overflow-hidden",
+                  isCollapsed && "justify-center",
+                  isActive && "bg-white dark:bg-zinc-800 shadow-sm"
                 )}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                <item.icon className={cn("h-4 w-4", !isCollapsed && "mr-3")} />
-                {!isCollapsed && item.label}
+                {isActive && (
+                  <motion.div
+                    layoutId="active-pill"
+                    className="absolute inset-0 bg-white dark:bg-zinc-800 border border-border/50 rounded-xl z-0"
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  />
+                )}
+                <div className="relative z-10 flex items-center w-full">
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <item.icon
+                      className={cn(
+                        "size-4 transition-colors",
+                        !isCollapsed && "mr-2",
+                        isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground"
+                      )}
+                    />
+                  </motion.div>
+                  {!isCollapsed && (
+                    <motion.span
+                      initial={{ opacity: 0, x: -8 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className={cn(
+                        "font-medium",
+                         isActive ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
+                      )}
+                    >
+                      {item.label}
+                    </motion.span>
+                  )}
+                </div>
               </Button>
             </Link>
           );
@@ -81,16 +124,18 @@ export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
       </nav>
 
       {/* Logout */}
-      <div className="px-4 py-4 border-t">
+      <div className="px-2 py-2">
         <Button
           variant="ghost"
           className={cn(
-            "w-full justify-start h-10 px-3 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950",
-            isCollapsed && "justify-center px-2"
+            "w-full justify-start h-11 px-3 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-xl",
+            isCollapsed && "justify-center"
           )}
           onClick={handleLogout}
         >
-          <LogOut className={cn("h-4 w-4", !isCollapsed && "mr-3")} />
+          <motion.div whileHover={{ scale: 1.1, rotate: -5 }}>
+            <LogOut className={cn("h-5 w-5", !isCollapsed && "mr-2")} />
+          </motion.div>
           {!isCollapsed && "Logout"}
         </Button>
       </div>

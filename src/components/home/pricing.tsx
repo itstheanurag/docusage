@@ -91,40 +91,29 @@ const Pricing = ({ plans }: { plans?: Plan[] }) => {
   return (
     <section
       id="pricing"
-      className="bg-white dark:bg-neutral-950 transition-colors duration-300"
+      className="bg-transparent dark:bg-transparent transition-colors duration-300"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="p-8 md:p-12">
-          <SectionHeader title="Transparent Pricing." />
+        <div className="mb-12 md:text-center max-w-3xl mx-auto">
+          <SectionHeader title="Transparent Pricing." subtitle="Simple, predictable pricing for teams of all sizes." />
         </div>
 
-        {/* Parent draws top & left borders; cells draw right & bottom as needed */}
-        <div className="pt-0 overflow-hidden border-t border-l border-neutral-200 dark:border-neutral-800 bg-background">
-          <div className="grid grid-cols-1 md:grid-cols-3">
+        <div className="relative">
+          {/* Grid background serves as the borders via gap-px */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border">
             {items.map((plan, idx) => {
               const isHighlight = !!plan.highlight;
-
-              const colIndex = idx % cols; // 0 .. cols-1
-              const rowIndex = Math.floor(idx / cols); // 0 .. rows-1
-
-              const isRightMost = colIndex === cols - 1;
-              const isBottomMost = rowIndex === rows - 1;
-
-              const borderRight = !isRightMost ? "border-r" : "";
-              const borderBottom = !isBottomMost ? "border-b" : "";
-
-              const baseCardClasses =
-                "p-12 flex flex-col justify-between transition-colors duration-300";
-              const cardBg = isHighlight
-                ? "bg-neutral-900 dark:bg-black text-neutral-200 relative overflow-hidden"
-                : "bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100";
 
               return (
                 <div
                   key={plan.id ?? idx}
-                  className={`${baseCardClasses} ${borderBottom} ${borderRight} border-neutral-200 dark:border-neutral-800 ${cardBg}`}
+                  className={`relative p-8 md:p-12 flex flex-col justify-between transition-colors duration-300 ${
+                    isHighlight
+                      ? "bg-neutral-800 dark:bg-black text-neutral-200"
+                      : "bg-background text-foreground"
+                  }`}
                 >
-                  {/* decorative accent (only rendered when provided) */}
+                  {/* decorative accent */}
                   {isHighlight && plan.accentIcon && (
                     <div className="absolute top-0 right-0 p-4 pointer-events-none text-muted-foreground">
                       {plan.accentIcon}
@@ -152,14 +141,16 @@ const Pricing = ({ plans }: { plans?: Plan[] }) => {
                     {plan.description && (
                       <p
                         className={`mb-8 ${
-                          isHighlight ? "text-neutral-400 dark:text-neutral-500" : "text-neutral-500 dark:text-neutral-400"
+                          isHighlight
+                            ? "text-neutral-400 dark:text-neutral-500"
+                            : "text-neutral-500 dark:text-neutral-400"
                         }`}
                       >
                         {plan.description}
                       </p>
                     )}
 
-                    <ul className={`space-y-4 mb-8 ${isHighlight ? "text-neutral-300" : ""}`}>
+   <ul className={`space-y-4 mb-8 ${isHighlight ? "text-neutral-300" : ""}`}>
                       {plan.features.map((f, i) => (
                         <li
                           key={i}
@@ -177,31 +168,18 @@ const Pricing = ({ plans }: { plans?: Plan[] }) => {
                   {/* CTA button area */}
                   <div>
                     {plan.button ? (
-                      plan.button.variant === "solid" ? (
-                        <a
-                          href={plan.button.href ?? "#"}
-                          className={`w-full py-3 inline-flex items-center justify-center font-bold hover:bg-neutral-200 transition-colors ${
-                            isHighlight
-                              ? "bg-white text-neutral-900"
-                              : "bg-white dark:bg-white/5 text-neutral-900 dark:text-neutral-100 border border-neutral-200 dark:border-neutral-700"
-                          }`}
-                        >
-                          {plan.button.label}
-                        </a>
-                      ) : (
-                        <a
-                          href={plan.button.href ?? "#"}
-                          className={`w-full py-3 inline-flex items-center justify-center font-bold hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors ${
-                            isHighlight
-                              ? "border text-neutral-200 bg-transparent"
-                              : "border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-neutral-100 bg-transparent"
-                          }`}
-                        >
-                          {plan.button.label}
-                        </a>
-                      )
+                      <a
+                        href={plan.button.href ?? "#"}
+                        className={`w-full py-3 inline-flex items-center justify-center font-bold text-sm uppercase tracking-wide transition-all ${
+                          isHighlight
+                            ? "bg-white text-neutral-900 hover:bg-neutral-100"
+                            : "bg-primary text-primary-foreground hover:bg-primary/90"
+                        }`}
+                      >
+                        {plan.button.label}
+                      </a>
                     ) : (
-                      <button className="w-full py-3 border border-neutral-200 dark:border-neutral-700 font-bold hover:bg-neutral-50 dark:hover:bg-neutral-800 dark:text-neutral-100 transition-colors">
+                      <button className="w-full py-3 bg-secondary text-secondary-foreground font-bold hover:bg-secondary/80 transition-colors uppercase text-sm tracking-wide">
                         Choose
                       </button>
                     )}

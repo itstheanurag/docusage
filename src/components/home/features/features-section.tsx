@@ -61,7 +61,7 @@ const Features = ({ items }: { items?: FeatureItem[] }) => {
   return (
     <section
       id="features"
-      className="bg-white dark:bg-neutral-950 transition-colors duration-300"
+      className="transition-colors duration-300"
     >
       <div className="max-w-7xl mx-auto">
         <div className="p-8 md:p-12">
@@ -72,16 +72,18 @@ const Features = ({ items }: { items?: FeatureItem[] }) => {
         </div>
 
         {/* Collapsing Border Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3">
-          {features.map((item, index) => (
-            <GridItem
-              key={index}
-              index={index}
-              title={item.title}
-              description={item.description}
-              icon={item.icon}
-            />
-          ))}
+        <div className="relative">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border">
+            {features.map((item, index) => (
+              <GridItem
+                key={index}
+                index={index}
+                title={item.title}
+                description={item.description}
+                icon={item.icon}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>

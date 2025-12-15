@@ -16,35 +16,40 @@ const Footer = dynamic(() => import("@/components/footer"));
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navbar />
-      <Container>
-        <HeroSection />
-      </Container>
+      
+      {/* Hero Section - Full Bleed */}
+      <HeroSection />
 
-      <Container>
+      {/* Features - Contained with Alt Background */}
+      <Container className="py-24 bg-muted/30">
         <Features />
       </Container>
 
-      <Container>
+      {/* Product Showcase - Contained */}
+      <Container className="py-24">
         <ProductShowcase />
       </Container>
 
-      <Container>
+      {/* Preview - Contained with Alt Background */}
+      <Container className="py-24 bg-muted/30">
         <PreviewSection />
       </Container>
 
-      <Container>
+      {/* Testimonials - Contained */}
+      <Container className="py-24">
         <Testimonials />
       </Container>
 
-      <Container>
+      {/* Pricing - Contained with Alt Background */}
+      <Container className="py-24 bg-muted/30">
         <Pricing />
       </Container>
 
-      <Container >
-        <CallToActionSection />
-      </Container>
+      {/* Call to Action - Full Bleed */}
+      <CallToActionSection />
+      
       <Footer />
     </main>
   );
