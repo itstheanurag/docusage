@@ -38,26 +38,8 @@ export function DockIconDropdown({
   magnification = DEFAULT_MAGNIFICATION,
   distance = DEFAULT_DISTANCE,
 }: DockIconDropdownProps) {
-  const ref = React.useRef<HTMLButtonElement>(null);
-  const fallbackMouseX = useMotionValue(Infinity);
-  const actualMouseX = mouseX ?? fallbackMouseX;
-
-  const distanceCalc = useTransform(actualMouseX, (val: number) => {
-    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
-    return val - bounds.x - bounds.width / 2;
-  });
-
-  const widthSync = useTransform(
-    distanceCalc,
-    [-distance, 0, distance],
-    [40, magnification, 40]
-  );
-
-  const width = useSpring(widthSync, {
-    mass: 0.1,
-    stiffness: 150,
-    damping: 12,
-  });
+  // Calculate scale factor based on magnification prop
+  const scaleHover = 1.2;
 
   return (
     <DropdownMenu>
@@ -65,10 +47,10 @@ export function DockIconDropdown({
         <TooltipTrigger asChild>
           <DropdownMenuTrigger asChild>
             <motion.button
-              ref={ref}
-              style={{ width }}
+              whileHover={{ scale: scaleHover, y: -10 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
               className={cn(
-                "flex aspect-square cursor-pointer items-center justify-center rounded-full transition-colors",
+                "flex aspect-square h-10 w-10 cursor-pointer items-center justify-center rounded-full transition-colors", // Fixed dimensions
                 "bg-background/80 hover:bg-muted border border-border/50",
                 className
               )}

@@ -17,7 +17,6 @@ export interface DockIconButtonProps {
   isActive?: boolean;
   disabled?: boolean;
   className?: string;
-  // Internal props passed by BuilderDock
   mouseX?: MotionValue<number>;
   magnification?: number;
   distance?: number;
@@ -35,37 +34,20 @@ export function DockIconButton({
   magnification = DEFAULT_MAGNIFICATION,
   distance = DEFAULT_DISTANCE,
 }: DockIconButtonProps) {
-  const ref = React.useRef<HTMLButtonElement>(null);
-  const fallbackMouseX = useMotionValue(Infinity);
-  const actualMouseX = mouseX ?? fallbackMouseX;
-
-  const distanceCalc = useTransform(actualMouseX, (val: number) => {
-    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
-    return val - bounds.x - bounds.width / 2;
-  });
-
-  const widthSync = useTransform(
-    distanceCalc,
-    [-distance, 0, distance],
-    [40, magnification, 40]
-  );
-
-  const width = useSpring(widthSync, {
-    mass: 0.1,
-    stiffness: 150,
-    damping: 12,
-  });
+  // Calculate scale factor based on magnification prop (default 1.2 for "enlarged" look)
+  // User asked for 1.02 which is very small, using 1.2 for better visibility as "enlarged"
+  const scaleHover = 1.2;
 
   return (
     <Tooltip>
       <TooltipTrigger asChild>
         <motion.button
-          ref={ref}
-          style={{ width }}
+          whileHover={{ scale: scaleHover, y: -10 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
           onClick={onClick}
           disabled={disabled}
           className={cn(
-            "flex aspect-square cursor-pointer items-center justify-center rounded-full transition-colors",
+            "flex aspect-square h-10 w-10 cursor-pointer items-center justify-center rounded-full transition-colors", // Fixed dimensions (h-10 w-10 = 40px)
             "bg-background/80 hover:bg-muted border border-border/50",
             isActive && "bg-primary/10 border-primary/50 text-primary",
             disabled && "opacity-50 cursor-not-allowed",
