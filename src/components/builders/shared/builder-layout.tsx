@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { ModeToggle } from "@/components/theme/mode-toggle";
 
 interface BuilderLayoutProps {
   children: ReactNode;
@@ -92,6 +93,10 @@ export function BuilderHeader({
       <div className="flex-1 flex items-center justify-between gap-4">
           {children}
       </div>
+      
+      <div className="flex-none">
+        <ModeToggle />
+      </div>
     </header>
   );
 }
@@ -106,7 +111,7 @@ export function BuilderSidebar({ children, header, className }: BuilderSidebarPr
   return (
     <div className={cn("flex flex-col h-full w-full", className)}>
       {header && (
-         <div className="flex-none p-4 py-3 border-b border-border/40 font-medium text-xs text-muted-foreground uppercase tracking-wider bg-muted/5 select-none">
+        <div className="flex-none px-4 py-3.5 border-b border-border/30 font-semibold text-xs text-muted-foreground uppercase tracking-wider bg-gradient-to-r from-muted/20 to-transparent select-none backdrop-blur-sm">
           {header}
         </div>
       )}

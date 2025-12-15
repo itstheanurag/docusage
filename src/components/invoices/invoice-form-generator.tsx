@@ -1,8 +1,16 @@
+"use client";
+
 import { useState } from "react";
-import { Button } from "../ui/button";
-import InvoiceForm from "./invoice-form-builder";
+import FromDetails from "./builder/from-details";
+import InvoiceDetails from "./builder/invoice-details";
+import ItemsSection from "./builder/items-section";
+import NotesSection from "./builder/notes-section";
+import SendToDetails from "./builder/send-to-details";
+import TaxSection from "./builder/tax-section";
 import InvoicePreview from "./invoice-form-preview";
-import { ArrowLeft } from "lucide-react";
+import InvoiceBuilderDock from "./invoice-builder-dock";
+
+import { BuilderLayout, BuilderHeader, BuilderCanvas } from "../builders/shared/builder-layout";
 
 interface InvoiceGeneratorProps {
   onBack?: () => void;
@@ -11,58 +19,53 @@ interface InvoiceGeneratorProps {
 export default function InvoiceFormGenerator({
   onBack,
 }: InvoiceGeneratorProps) {
-  const [view, setView] = useState<"form" | "preview">("form");
+  const [isPreviewMode, setIsPreviewMode] = useState(false);
 
   const handlePrint = () => {
     window.print();
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex items-center gap-4">
-            {onBack && (
-              <Button variant="ghost" size="icon" onClick={onBack}>
-                <ArrowLeft className="h-4 w-4" />
-              </Button>
-            )}
-            <h1 className="text-3xl font-bold text-neutral-900 dark:text-neutral-100">
-              Invoice Generator
-            </h1>
+    <BuilderLayout
+      header={
+        <BuilderHeader 
+          title="Invoice Builder" 
+          backHref="/dashboard/invoices"
+        />
+      }
+    >
+      <BuilderCanvas>
+        {isPreviewMode ? (
+          <InvoicePreview />
+        ) : (
+          <div className="space-y-6 max-w-4xl w-full pb-24">
+            <InvoiceDetails />
+            <div className="grid grid-cols-2 gap-6">
+              <FromDetails />
+              <SendToDetails />
+            </div>
+            <ItemsSection />
+            <div className="grid grid-cols-2 gap-6">
+              <TaxSection />
+              <NotesSection />
+            </div>
           </div>
+        )}
+      </BuilderCanvas>
 
-          <div className="flex gap-3">
-            <Button
-              variant={view === "form" ? "default" : "outline"}
-              onClick={() => setView("form")}
-            >
-              Edit
-            </Button>
-
-            <Button
-              variant={view === "preview" ? "default" : "outline"}
-              onClick={() => setView("preview")}
-            >
-              Preview
-            </Button>
-
-            <Button onClick={handlePrint} variant="outline">
-              Print / PDF
-            </Button>
-
-            <Button
-              className="bg-neutral-900 dark:bg-neutral-100 dark:text-neutral-900"
-              onClick={() => alert("Sending email functionality coming soon!")}
-            >
-              Send Email
-            </Button>
-          </div>
+      {/* Dock Toolbar - Fixed at bottom */}
+      <div className="fixed bottom-6 left-0 right-0 z-50 flex justify-center pointer-events-none">
+        <div className="pointer-events-auto">
+          <InvoiceBuilderDock
+            onPreview={() => setIsPreviewMode(!isPreviewMode)}
+            onSave={() => console.log("Save invoice")}
+            onDownload={() => console.log("Download PDF")}
+            onSend={() => alert("Sending email functionality coming soon!")}
+            onPrint={handlePrint}
+          />
         </div>
-
-        {view === "form" ? <InvoiceForm /> : <InvoicePreview />}
       </div>
-    </div>
+    </BuilderLayout>
   );
 }
+

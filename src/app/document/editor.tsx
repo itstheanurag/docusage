@@ -4,7 +4,7 @@ import { useDocumentStore } from "@/store/documentStore";
 import React, { useState, useRef, useEffect } from "react";
 import { FormatCommandEvent } from "@/types/document";
 
-import Toolbar from "./toolbar";
+import DocumentDock from "./document-dock";
 import { BuilderLayout, BuilderHeader, BuilderSidebar, BuilderCanvas } from "@/components/builders/shared/builder-layout";
 import { DocumentLeftSidebar } from "./components/left-sidebar";
 import { DocumentRightSidebar } from "./components/right-sidebar";
@@ -43,7 +43,7 @@ const PAGE_SIZES = {
 
 const Editor: React.FC = () => {
   const editorRef = useRef<HTMLDivElement>(null);
-  const { title, setTitle, content, setContent } = useDocumentStore();
+  const { title, setTitle, content, setContent, undo, redo, historyIndex, history } = useDocumentStore();
   const [wordCount, setWordCount] = useState(0);
   const [isPreview, setIsPreview] = useState(false);
   const [pageSize, setPageSize] = useState<keyof typeof PAGE_SIZES>("a4");
@@ -56,12 +56,21 @@ const Editor: React.FC = () => {
     required: false,
   });
 
+
+
   useEffect(() => {
     if (editorRef.current && !isPreview) {
       const text = editorRef.current.innerText || "";
       setWordCount(text.trim().split(/\s+/).filter(Boolean).length);
     }
   }, [content, isPreview]);
+
+  // Sync content state to DOM without resetting cursor
+  useEffect(() => {
+    if (editorRef.current && editorRef.current.innerHTML !== content) {
+      editorRef.current.innerHTML = content;
+    }
+  }, [content]);
 
   // Handle clicking on fields to configure them
   useEffect(() => {
@@ -200,34 +209,10 @@ const Editor: React.FC = () => {
               </button>
             </div>
           </BuilderHeader>
-          
-          {/* Toolbar */}
-          {!isPreview && (
-            <div className="bg-background/20 backdrop-blur-md border-t border-border/40 p-1.5 flex justify-center shadow-sm z-10">
-              <Toolbar onFormat={handleFormat} />
-            </div>
-          )}
         </div>
       }
-      leftSidebar={
-         !isPreview && (
-          <BuilderSidebar header="Form Elements">
-            <DocumentLeftSidebar onInsertField={handleInsertField} />
-          </BuilderSidebar>
-         )
-      }
-      rightSidebar={
-        !isPreview && (
-           <BuilderSidebar header="Stats">
-              <DocumentRightSidebar
-                wordCount={wordCount}
-                characterCount={content.replace(/<[^>]*>/g, "").length}
-                pageSizeLabel={PAGE_SIZES[pageSize].label.split("(")[0].trim()}
-              />
-           </BuilderSidebar>
-        )
-      }
     >
+      <div className="h-full pb-24 overflow-y-auto w-full">
         <BuilderCanvas>
           {isPreview ? (
             <div
@@ -250,15 +235,31 @@ const Editor: React.FC = () => {
               <div
                 ref={editorRef}
                 contentEditable
+                suppressContentEditableWarning
                 onInput={handleInput}
                 onPaste={handlePaste}
                 dir="ltr"
                 className="w-full h-full p-[20mm] outline-none prose prose-neutral dark:prose-invert max-w-none text-left"
-                dangerouslySetInnerHTML={{ __html: content }}
               />
             </div>
           )}
         </BuilderCanvas>
+      </div>
+
+      {/* Dock Toolbar - Fixed at bottom */}
+      {!isPreview && (
+        <div className="fixed bottom-6 left-0 right-0 z-50 flex justify-center pointer-events-none">
+          <div className="pointer-events-auto">
+            <DocumentDock
+              onFormat={handleFormat}
+              canUndo={historyIndex > 0}
+              canRedo={historyIndex < history.length - 1}
+              onUndo={undo}
+              onRedo={redo}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Field Configuration Dialog */}
             <Dialog

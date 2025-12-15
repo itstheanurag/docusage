@@ -7,8 +7,7 @@ import PropertiesPanel from "./builder/properties-panel";
 import SettingsPanel from "./builder/settings";
 import LeftSidebar from "./builder/left-sidebar";
 import FormPreview from "./builder/form-preview";
-import { Button } from "@/components/ui/button";
-import { Eye, Settings, LayoutTemplate } from "lucide-react";
+import FormBuilderDock from "./form-builder-dock";
 
 
 export function FormBuilder() {
@@ -19,51 +18,8 @@ export function FormBuilder() {
       header={
         <BuilderHeader 
           title="Form Builder" 
-          backHref="/dashboard"
-        >
-          {/* Left Controls */}
-          <div className="flex items-center gap-2">
-            <Button
-              variant={activeTab === "build" ? "secondary" : "ghost"}
-              size="sm"
-              onClick={() => setActiveTab("build")}
-              className="gap-2"
-              disabled={isPreviewMode}
-            >
-              <LayoutTemplate className="h-4 w-4" />
-              Build
-            </Button>
-            <Button
-              variant={activeTab === "settings" ? "secondary" : "ghost"}
-              size="sm"
-              onClick={() => setActiveTab("settings")}
-              className="gap-2"
-              disabled={isPreviewMode}
-            >
-              <Settings className="h-4 w-4" />
-              Settings
-            </Button>
-          </div>
-
-          {/* Right Actions */}
-          <div className="flex items-center gap-2">
-            <Button
-              variant={isPreviewMode ? "default" : "outline"}
-              size="sm"
-              className="gap-2"
-              onClick={togglePreview}
-            >
-              <Eye className="h-4 w-4" />
-              {isPreviewMode ? "Exit Preview" : "Preview"}
-            </Button>
-            <Button size="sm" disabled={isPreviewMode}>
-              Publish
-            </Button>
-            <Button variant="outline" size="sm" disabled={isPreviewMode}>
-              Send Email
-            </Button>
-          </div>
-        </BuilderHeader>
+          backHref="/dashboard/forms" 
+        />
       }
       leftSidebar={
         !isPreviewMode && (
@@ -80,15 +36,32 @@ export function FormBuilder() {
         )
       }
     >
-      {isPreviewMode ? (
-        <FormPreview />
-      ) : (
-        <BuilderCanvas>
-          {activeTab === "build" ? <BuilderCanvasContent /> : <SettingsPanel />}
-        </BuilderCanvas>
-      )}
+      <div className="h-full pb-24 overflow-y-auto">
+        {isPreviewMode ? (
+          <FormPreview />
+        ) : (
+          <BuilderCanvas>
+            {activeTab === "build" ? <BuilderCanvasContent /> : <SettingsPanel />}
+          </BuilderCanvas>
+        )}
+      </div>
+
+      {/* Dock Toolbar - Fixed at bottom */}
+      <div className="fixed bottom-6 left-0 right-0 z-50 flex justify-center pointer-events-none">
+        <div className="pointer-events-auto">
+          <FormBuilderDock
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            isPreviewMode={isPreviewMode}
+            onTogglePreview={togglePreview}
+            onPublish={() => console.log("Publish form")}
+            onSendEmail={() => console.log("Send email")}
+          />
+        </div>
+      </div>
     </BuilderLayout>
   );
 }
 
 export default FormBuilder;
+

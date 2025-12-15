@@ -2,53 +2,31 @@
 
 import { useInvoiceStore } from "@/store";
 import { Input } from "@/components/ui/input";
+import { BuilderPanel } from "@/components/builders/shared/builder-panel";
+import { Percent } from "lucide-react";
 
 const TaxSection = () => {
   const invoice = useInvoiceStore();
 
   return (
-    <div
-      className="
-        p-6 rounded-lg border
-        bg-white border-neutral-200
-        dark:bg-neutral-900 dark:border-neutral-700
-      "
-    >
-      <h2
-        className="
-          text-lg font-semibold mb-4
-          text-neutral-900 dark:text-neutral-100
-        "
-      >
-        Tax
-      </h2>
-
+    <BuilderPanel title="Tax" icon={Percent}>
       <div className="space-y-4">
         {/* Tax Label */}
         <div>
-          <label
-            className="
-              block text-sm font-medium mb-1
-              text-neutral-700 dark:text-neutral-300
-            "
-          >
+          <label className="block text-sm font-medium text-muted-foreground mb-1.5">
             Tax Label
           </label>
           <Input
             value={invoice.taxLabel}
             onChange={(e) => invoice.updateField("taxLabel", e.target.value)}
             placeholder="VAT, GST, etc."
+            className="bg-background/50"
           />
         </div>
 
         {/* Tax Rate */}
         <div>
-          <label
-            className="
-              block text-sm font-medium mb-1
-              text-neutral-700 dark:text-neutral-300
-            "
-          >
+          <label className="block text-sm font-medium text-muted-foreground mb-1.5">
             Rate (%)
           </label>
 
@@ -63,21 +41,16 @@ const TaxSection = () => {
               min="0"
               max="100"
               step="0.1"
+              className="bg-background/50"
             />
 
-            <span
-              className="
-                text-neutral-700 
-                dark:text-neutral-300
-              "
-            >
-              %
-            </span>
+            <span className="text-muted-foreground font-medium">%</span>
           </div>
         </div>
       </div>
-    </div>
+    </BuilderPanel>
   );
 };
 
 export default TaxSection;
+

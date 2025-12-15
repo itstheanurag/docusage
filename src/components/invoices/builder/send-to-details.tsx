@@ -3,70 +3,44 @@
 import { useInvoiceStore } from "@/store";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { BuilderPanel } from "@/components/builders/shared/builder-panel";
+import { User } from "lucide-react";
 
 const SendToDetails = () => {
   const invoice = useInvoiceStore();
 
   return (
-    <div
-      className="
-        p-6 rounded-lg border
-        bg-white border-neutral-200
-        dark:bg-neutral-900 dark:border-neutral-700
-      "
-    >
-      <h2
-        className="
-          text-lg font-semibold mb-4
-          text-neutral-900 dark:text-neutral-100
-        "
-      >
-        Bill To
-      </h2>
-
+    <BuilderPanel title="Bill To" icon={User}>
       <div className="space-y-4">
         {/* Logo URL */}
         <div>
-          <label
-            className="
-              block text-sm font-medium mb-1
-              text-neutral-700 dark:text-neutral-300
-            "
-          >
+          <label className="block text-sm font-medium text-muted-foreground mb-1.5">
             Logo URL
           </label>
           <Input
             value={invoice.toLogo || ""}
             onChange={(e) => invoice.updateField("toLogo", e.target.value)}
             placeholder="https://example.com/client-logo.png"
+            className="bg-background/50"
           />
         </div>
 
         {/* Name */}
         <div>
-          <label
-            className="
-              block text-sm font-medium mb-1
-              text-neutral-700 dark:text-neutral-300
-            "
-          >
+          <label className="block text-sm font-medium text-muted-foreground mb-1.5">
             Name
           </label>
           <Input
             value={invoice.toName}
             onChange={(e) => invoice.updateField("toName", e.target.value)}
             placeholder="Client name"
+            className="bg-background/50"
           />
         </div>
 
         {/* Email */}
         <div>
-          <label
-            className="
-              block text-sm font-medium mb-1
-              text-neutral-700 dark:text-neutral-300
-            "
-          >
+          <label className="block text-sm font-medium text-muted-foreground mb-1.5">
             Email
           </label>
           <Input
@@ -74,17 +48,13 @@ const SendToDetails = () => {
             value={invoice.toEmail}
             onChange={(e) => invoice.updateField("toEmail", e.target.value)}
             placeholder="client@email.com"
+            className="bg-background/50"
           />
         </div>
 
         {/* Address */}
         <div>
-          <label
-            className="
-              block text-sm font-medium mb-1
-              text-neutral-700 dark:text-neutral-300
-            "
-          >
+          <label className="block text-sm font-medium text-muted-foreground mb-1.5">
             Address
           </label>
           <Textarea
@@ -92,16 +62,13 @@ const SendToDetails = () => {
             value={invoice.toAddress}
             onChange={(e) => invoice.updateField("toAddress", e.target.value)}
             placeholder="Client address"
-            className="
-              dark:bg-neutral-800 
-              dark:text-neutral-100 
-              dark:border-neutral-700
-            "
+            className="bg-background/50"
           />
         </div>
       </div>
-    </div>
+    </BuilderPanel>
   );
 };
 
 export default SendToDetails;
+
