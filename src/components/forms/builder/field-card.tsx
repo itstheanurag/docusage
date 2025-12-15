@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Trash2, Calendar, Clock, Upload, Star, PenTool } from "lucide-react";
+import { Trash2, Calendar, Clock, Upload, Star, PenTool, GripVertical } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { useFormBuilderStore } from "@/store/form-builder-store";
 import { FormField } from "@/types/form";
+import { cn } from "@/lib/utils";
 
 export default function FieldCard({ field }: { field: FormField }) {
   const { selectedFieldId, setSelectedFieldId, removeField } =
@@ -25,15 +26,33 @@ export default function FieldCard({ field }: { field: FormField }) {
     removeField(field.id);
   };
 
+  const isSelected = selectedFieldId === field.id;
+
   return (
-    <Card
-      className={`p-6 cursor-pointer transition-all ${
-        selectedFieldId === field.id
-          ? "ring-2 ring-primary border-primary"
-          : "hover:border-primary/50"
-      }`}
+    <div
+      className={cn(
+        // Base panel styling
+        "relative rounded-xl overflow-hidden cursor-pointer",
+        // Glassmorphism effect
+        "bg-card/60 backdrop-blur-md",
+        "border border-border/40",
+        // Subtle shadow for depth
+        "shadow-lg shadow-black/5",
+        // Smooth transitions
+        "transition-all duration-200",
+        // Selection and hover states
+        isSelected
+          ? "ring-2 ring-primary/70 border-primary/40 shadow-primary/10 shadow-xl"
+          : "hover:shadow-xl hover:shadow-black/[0.07] hover:border-border/60"
+      )}
       onClick={() => setSelectedFieldId(field.id)}
     >
+      {/* Drag Handle Indicator */}
+      <div className="absolute left-0 top-0 bottom-0 w-6 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+        <GripVertical className="h-4 w-4 text-muted-foreground/50" />
+      </div>
+      
+      <div className="p-5 pl-6">
       <div className="flex justify-between items-start mb-4">
         <Label className="text-base font-medium">
           {field.label}
@@ -158,6 +177,7 @@ export default function FieldCard({ field }: { field: FormField }) {
           </div>
         )}
       </div>
-    </Card>
+      </div>
+    </div>
   );
 }

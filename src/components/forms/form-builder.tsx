@@ -16,24 +16,10 @@ export function FormBuilder() {
   return (
     <BuilderLayout
       header={
-        <div className="flex flex-col">
-          <BuilderHeader 
-            title="Form Builder" 
-            backHref="/dashboard"
-          />
-          
-          {/* Dock Toolbar */}
-          <div className="bg-background/20 backdrop-blur-md border-t border-border/40 p-1.5 flex justify-center shadow-sm z-10">
-            <FormBuilderDock
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-              isPreviewMode={isPreviewMode}
-              onTogglePreview={togglePreview}
-              onPublish={() => console.log("Publish form")}
-              onSendEmail={() => console.log("Send email")}
-            />
-          </div>
-        </div>
+        <BuilderHeader 
+          title="Form Builder" 
+          backHref="/dashboard/forms" 
+        />
       }
       leftSidebar={
         !isPreviewMode && (
@@ -50,13 +36,29 @@ export function FormBuilder() {
         )
       }
     >
-      {isPreviewMode ? (
-        <FormPreview />
-      ) : (
-        <BuilderCanvas>
-          {activeTab === "build" ? <BuilderCanvasContent /> : <SettingsPanel />}
-        </BuilderCanvas>
-      )}
+      <div className="h-full pb-24 overflow-y-auto">
+        {isPreviewMode ? (
+          <FormPreview />
+        ) : (
+          <BuilderCanvas>
+            {activeTab === "build" ? <BuilderCanvasContent /> : <SettingsPanel />}
+          </BuilderCanvas>
+        )}
+      </div>
+
+      {/* Dock Toolbar - Fixed at bottom */}
+      <div className="fixed bottom-6 left-0 right-0 z-50 flex justify-center pointer-events-none">
+        <div className="pointer-events-auto">
+          <FormBuilderDock
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            isPreviewMode={isPreviewMode}
+            onTogglePreview={togglePreview}
+            onPublish={() => console.log("Publish form")}
+            onSendEmail={() => console.log("Send email")}
+          />
+        </div>
+      </div>
     </BuilderLayout>
   );
 }
