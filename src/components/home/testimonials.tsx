@@ -6,22 +6,27 @@ const testimonialsData = [
     { quote: "Cleanest invoice builder I've used. My clients actually compliment my bills now. Totally worth it.", author: "Elena Rodriguez", role: "Consultant" }
 ]
 const Testimonials = () => (
-    <section className="bg-white dark:bg-neutral-950 transition-colors duration-300">
+    <section className="bg-transparent dark:bg-transparent transition-colors duration-300">
         <div className="max-w-7xl mx-auto">
-            <div className="border-b border-neutral-200 dark:border-neutral-800 p-8 md:p-12">
+            <div className="mb-16 md:text-center max-w-3xl mx-auto">
                 <SectionHeader title="Trusted by builders." subtitle="Thousands of teams rely on Docusage for their critical document infrastructure." />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border">
                 {testimonialsData.map((t, i) => (
-                    <div key={i} className="p-12 border-r border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900">
-                        <div className="flex gap-1 text-neutral-900 dark:text-neutral-100 mb-6">
-                            {[1, 2, 3, 4, 5].map(s => <StarIcon key={s} className="w-4 h-4" />)}
+                    <div key={i} className="p-12 bg-background hover:bg-muted/5 transition-colors duration-300">
+                        <div className="flex gap-1 text-primary mb-6">
+                            {[1, 2, 3, 4, 5].map(s => <StarIcon key={s} className="w-5 h-5 fill-current" />)}
                         </div>
-                        <p className="text-lg font-medium text-neutral-700 dark:text-neutral-300 mb-8 leading-relaxed">"{t.quote}"</p>
-                        <div>
-                            <p className="font-bold text-neutral-900 dark:text-neutral-100">{t.author}</p>
-                            <p className="text-sm text-neutral-500 dark:text-neutral-400">{t.role}</p>
+                        <p className="text-lg font-medium text-foreground mb-8 leading-relaxed">"{t.quote}"</p>
+                        <div className="flex items-center gap-4">
+                            <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-xl">
+                                {t.author[0]}
+                            </div>
+                            <div>
+                                <p className="font-bold text-foreground">{t.author}</p>
+                                <p className="text-sm text-muted-foreground">{t.role}</p>
+                            </div>
                         </div>
                     </div>
                 ))}
