@@ -34,22 +34,20 @@ export function DockIconButton({
   magnification = DEFAULT_MAGNIFICATION,
   distance = DEFAULT_DISTANCE,
 }: DockIconButtonProps) {
-  // Calculate scale factor based on magnification prop (default 1.2 for "enlarged" look)
-  // User asked for 1.02 which is very small, using 1.2 for better visibility as "enlarged"
-  const scaleHover = 1.2;
 
   return (
     <Tooltip>
       <TooltipTrigger asChild>
         <motion.button
-          whileHover={{ scale: scaleHover, y: -10 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          whileHover={{ scale: 1.15 }}
+          whileTap={{ scale: 0.95 }}
           onClick={onClick}
           disabled={disabled}
           className={cn(
-            "flex aspect-square h-10 w-10 cursor-pointer items-center justify-center rounded-full transition-colors", // Fixed dimensions (h-10 w-10 = 40px)
-            "bg-background/80 hover:bg-muted border border-border/50",
-            isActive && "bg-primary/10 border-primary/50 text-primary",
+            "relative p-3 rounded-xl transition-all duration-200 cursor-pointer",
+            isActive
+              ? "bg-primary text-primary-foreground"
+              : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
             disabled && "opacity-50 cursor-not-allowed",
             className
           )}

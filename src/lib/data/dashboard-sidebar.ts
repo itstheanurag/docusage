@@ -47,12 +47,12 @@ export const sidebarItems = [
     section: "profile" as DashboarSectionType,
     href: "/dashboard/profile",
   },
-  {
-    icon: Key,
-    label: "API Keys",
-    section: "api-keys" as DashboarSectionType,
-    href: "/dashboard/api-keys",
-  },
+  // {
+  //   icon: Key,
+  //   label: "API Keys",
+  //   section: "api-keys" as DashboarSectionType,
+  //   href: "/dashboard/api-keys",
+  // },
   {
     icon: PenTool,
     label: "Whiteboard",

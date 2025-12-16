@@ -55,7 +55,7 @@ export default function DashboardLayout({
         )}
       >
         <div className="flex flex-col min-h-screen lg:min-h-[calc(100vh-1.5rem)] lg:h-[calc(100vh-1.5rem)] lg:my-3 lg:mr-3 lg:rounded-2xl lg:border lg:border-border/50 lg:bg-background/60 lg:backdrop-blur-xl lg:shadow-sm lg:overflow-hidden">
-          <header className="sticky top-0 lg:static z-40 flex h-16 shrink-0 items-center border-b border-border/50 bg-background/50 backdrop-blur-xl px-6">
+          <header className="sticky top-0 lg:static z-40 flex h-16 shrink-0 items-center border-b border-border/50 bg-background/60 dark:bg-zinc-900/60 backdrop-blur-xl px-6">
             <Button
               variant="ghost"
               size="icon"

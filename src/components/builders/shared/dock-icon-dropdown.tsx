@@ -38,8 +38,6 @@ export function DockIconDropdown({
   magnification = DEFAULT_MAGNIFICATION,
   distance = DEFAULT_DISTANCE,
 }: DockIconDropdownProps) {
-  // Calculate scale factor based on magnification prop
-  const scaleHover = 1.2;
 
   return (
     <DropdownMenu>
@@ -47,11 +45,11 @@ export function DockIconDropdown({
         <TooltipTrigger asChild>
           <DropdownMenuTrigger asChild>
             <motion.button
-              whileHover={{ scale: scaleHover, y: -10 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.95 }}
               className={cn(
-                "flex aspect-square h-10 w-10 cursor-pointer items-center justify-center rounded-full transition-colors", // Fixed dimensions
-                "bg-background/80 hover:bg-muted border border-border/50",
+                "relative p-3 rounded-xl transition-all duration-200 cursor-pointer",
+                "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
                 className
               )}
             >

@@ -41,14 +41,16 @@ export function BuilderDock({
   return (
     <TooltipProvider delayDuration={100}>
       <motion.div
+        initial={{ y: 100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
         onMouseMove={(e) => mouseX.set(e.pageX)}
         onMouseLeave={() => mouseX.set(Infinity)}
         className={cn(
-          // Base dock styling
-          "flex items-end gap-2 p-2 rounded-2xl",
-          // Glassmorphism effect
-          "border border-border/40 bg-background/60 backdrop-blur-xl",
-          "shadow-lg shadow-black/5",
+          "flex items-center gap-1 px-2 py-2 rounded-2xl",
+          "bg-background/80 backdrop-blur-xl",
+          "border border-border/50",
+          "shadow-lg",
           className
         )}
       >
