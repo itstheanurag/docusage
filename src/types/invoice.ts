@@ -24,6 +24,7 @@ export interface InvoiceData {
   taxLabel: string;
   currency: string;
   recurrence: "one-time" | "weekly" | "monthly" | "yearly";
+  isPreviewMode: boolean;
 }
 
 export type InvoiceDataValue = string | number | InvoiceItem[];
@@ -35,10 +36,11 @@ export interface InvoiceStore extends InvoiceData {
   updateItem: (
     id: string,
     field: keyof InvoiceItem,
-    value: InvoiceItemValue,
+    value: InvoiceItemValue
   ) => void;
   removeItem: (id: string) => void;
   calculateSubtotal: () => number;
   calculateTax: () => number;
   calculateTotal: () => number;
+  togglePreview: () => void;
 }

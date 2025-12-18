@@ -12,3 +12,12 @@ export type DashboarSectionType =
   | "settings"
   | "api-keys"
   | "whiteboard";
+
+export interface DashboardState {
+  isMobileMenuOpen: boolean;
+  isCollapsed: boolean;
+  setIsMobileMenuOpen: (isOpen: boolean) => void;
+  setIsCollapsed: (isCollapsed: boolean) => void;
+  toggleMobileMenu: () => void;
+  toggleCollapse: () => void;
+}
