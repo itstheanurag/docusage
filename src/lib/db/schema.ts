@@ -19,6 +19,13 @@ import {
   formAnalytics,
 } from "./schema/forms-schema";
 
+import {
+  documents,
+  templateVariables,
+  documentDataSets,
+} from "./schema/documents-schema";
+
+// exports
 export const schema = {
   user,
   session,
@@ -32,4 +39,7 @@ export const schema = {
   formFields,
   formResponses,
   formAnalytics,
+  documents,
+  templateVariables,
+  documentDataSets,
 };
