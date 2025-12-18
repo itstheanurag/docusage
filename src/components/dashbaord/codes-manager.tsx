@@ -10,8 +10,16 @@ import {
 } from "@/components/ui/card";
 import { Plus, Code2 } from "lucide-react";
 import Link from "next/link";
+import { useManagementStore } from "@/store/managementStore";
+import { useEffect } from "react";
 
 export function CodesManager() {
+  const { codeSnippets, fetchData } = useManagementStore();
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -30,26 +38,23 @@ export function CodesManager() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {/* Placeholder cards */}
-        {[1, 2, 3].map((i) => (
+        {codeSnippets.map((snippet) => (
           <Card
-            key={i}
+            key={snippet.id}
             className="hover:border-primary/50 transition-colors cursor-pointer group"
           >
             <CardHeader className="pb-2">
               <div className="flex justify-between items-start">
                 <CardTitle className="text-lg group-hover:text-primary transition-colors">
-                  Algorithm Practice {i}
+                  {snippet.title}
                 </CardTitle>
                 <Code2 className="h-5 w-5 text-muted-foreground" />
               </div>
-              <CardDescription>JavaScript • Created 2 days ago</CardDescription>
+              <CardDescription>{snippet.language} • Created {snippet.createdAt}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="text-muted-foreground line-clamp-3 font-mono bg-muted/50 p-3 rounded-md border text-xs">
-                function bubbleSort(arr) {"{"}
-                {"// implementation here return arr.sort();"}
-                {"}"}
+                {snippet.code}
               </div>
             </CardContent>
           </Card>
