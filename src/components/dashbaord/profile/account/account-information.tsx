@@ -4,12 +4,10 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Calendar } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import React from "react";
+import { useProfileStore } from "@/store/profileStore";
 
-interface AccountInfoCardProps {
-  joinDate: string;
-}
-
-const AccountInfoCard = ({ joinDate }: AccountInfoCardProps) => {
+const AccountInfoCard = () => {
+  const { profile } = useProfileStore();
   return (
     <Card>
       <CardHeader>
@@ -19,7 +17,7 @@ const AccountInfoCard = ({ joinDate }: AccountInfoCardProps) => {
       <CardContent className="space-y-3">
         <div className="flex items-center space-x-2">
           <Calendar className="h-4 w-4 text-muted-foreground" />
-          <span className="text-sm">Joined {joinDate}</span>
+          <span className="text-sm">Joined {profile.joinDate}</span>
         </div>
 
         <div className="flex items-center space-x-2">

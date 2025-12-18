@@ -7,7 +7,14 @@ import { Button } from "@/components/ui/button";
 import { useFormBuilderStore } from "@/store/form-builder-store";
 
 export default function SettingsPanel() {
-  const { logoUrl, setLogoUrl } = useFormBuilderStore();
+  const { 
+    logoUrl, 
+    setLogoUrl, 
+    submitButtonText, 
+    setSubmitButtonText, 
+    successMessage, 
+    setSuccessMessage 
+  } = useFormBuilderStore();
 
   return (
     <div className="w-full max-w-3xl">
@@ -36,12 +43,18 @@ export default function SettingsPanel() {
 
           <div>
             <Label>Submit Button Text</Label>
-            <Input defaultValue="Submit" />
+            <Input 
+              value={submitButtonText} 
+              onChange={(e) => setSubmitButtonText(e.target.value)}
+            />
           </div>
 
           <div>
             <Label>Success Message</Label>
-            <Input defaultValue="Thank you for your submission!" />
+            <Input 
+              value={successMessage} 
+              onChange={(e) => setSuccessMessage(e.target.value)}
+            />
           </div>
         </div>
       </Card>

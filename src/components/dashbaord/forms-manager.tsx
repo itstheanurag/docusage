@@ -10,8 +10,16 @@ import {
 } from "@/components/ui/card";
 import { Plus, FileText, Users, BarChart } from "lucide-react";
 import Link from "next/link";
+import { useManagementStore } from "@/store/managementStore";
+import { useEffect } from "react";
 
 export function FormsManager() {
+  const { forms, fetchData } = useManagementStore();
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -30,30 +38,31 @@ export function FormsManager() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {/* Placeholder cards */}
-        {[1, 2].map((i) => (
+        {forms.map((form) => (
           <Card
-            key={i}
+            key={form.id}
             className="hover:border-primary/50 transition-colors cursor-pointer group"
           >
             <CardHeader className="pb-2">
               <div className="flex justify-between items-start">
                 <CardTitle className="text-lg group-hover:text-primary transition-colors">
-                  Customer Feedback {i}
+                  {form.title}
                 </CardTitle>
                 <FileText className="h-5 w-5 text-muted-foreground" />
               </div>
-              <CardDescription>Active • 24 Responses</CardDescription>
+              <CardDescription>
+                {form.status} • {form.responses} Responses
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex justify-between text-sm text-muted-foreground mt-4 pt-4 border-t">
                 <div className="flex items-center gap-1.5">
                   <Users className="h-4 w-4" />
-                  <span>128 Views</span>
+                  <span>{form.views} Views</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <BarChart className="h-4 w-4" />
-                  <span>18% Conv.</span>
+                  <span>{form.conversion} Conv.</span>
                 </div>
               </div>
             </CardContent>

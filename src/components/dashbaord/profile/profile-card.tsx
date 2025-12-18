@@ -12,20 +12,10 @@ import { Textarea } from "@/components/ui/textarea";
 import AvatarSection from "./account/avatar";
 import EditField from "./edit-fields";
 import React from "react";
+import { useProfileStore } from "@/store/profileStore";
 
-interface ProfileCardProps {
-  profile: any;
-  editedProfile: any;
-  setEditedProfile: (value: any) => void;
-  isEditing: boolean;
-}
-
-const ProfileCard = ({
-  profile,
-  editedProfile,
-  setEditedProfile,
-  isEditing,
-}: ProfileCardProps) => {
+const ProfileCard = () => {
+  const { profile, editedProfile, isEditing, updateEditedProfile } = useProfileStore();
   return (
     <Card>
       <CardHeader>
@@ -37,7 +27,7 @@ const ProfileCard = ({
 
       <CardContent className="space-y-6">
         {/* Avatar + Name */}
-        <AvatarSection profile={profile} />
+        <AvatarSection />
 
         {/* Contact Fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -47,7 +37,7 @@ const ProfileCard = ({
             value={profile.name}
             editingValue={editedProfile.name}
             isEditing={isEditing}
-            onChange={(v) => setEditedProfile({ ...editedProfile, name: v })}
+            onChange={(v) => updateEditedProfile({ name: v })}
           />
 
           <EditField
@@ -57,7 +47,7 @@ const ProfileCard = ({
             editingValue={editedProfile.email}
             isEditing={isEditing}
             type="email"
-            onChange={(v) => setEditedProfile({ ...editedProfile, email: v })}
+            onChange={(v) => updateEditedProfile({ email: v })}
           />
 
           <EditField
@@ -66,7 +56,7 @@ const ProfileCard = ({
             value={profile.phone}
             editingValue={editedProfile.phone}
             isEditing={isEditing}
-            onChange={(v) => setEditedProfile({ ...editedProfile, phone: v })}
+            onChange={(v) => updateEditedProfile({ phone: v })}
           />
 
           <EditField
@@ -75,9 +65,7 @@ const ProfileCard = ({
             value={profile.location}
             editingValue={editedProfile.location}
             isEditing={isEditing}
-            onChange={(v) =>
-              setEditedProfile({ ...editedProfile, location: v })
-            }
+            onChange={(v) => updateEditedProfile({ location: v })}
           />
         </div>
 
@@ -89,9 +77,7 @@ const ProfileCard = ({
               id="bio"
               rows={3}
               value={editedProfile.bio}
-              onChange={(e) =>
-                setEditedProfile({ ...editedProfile, bio: e.target.value })
-              }
+              onChange={(e) => updateEditedProfile({ bio: e.target.value })}
             />
           ) : (
             <div className="p-3 border rounded-md bg-muted/50">

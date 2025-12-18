@@ -31,3 +31,33 @@ export interface FormField {
     allowSpaces?: boolean;
   };
 }
+
+export interface FormBuilderState {
+  fields: FormField[];
+  selectedFieldId: string | null;
+  formTitle: string;
+  formDescription: string;
+  activeTab: "build" | "settings";
+  steps: number[];
+  currentStep: number;
+  logoUrl: string;
+  isPreviewMode: boolean;
+  submitButtonText: string;
+  successMessage: string;
+
+  // Actions
+  setFields: (fields: FormField[]) => void;
+  setSelectedFieldId: (id: string | null) => void;
+  setFormTitle: (title: string) => void;
+  setFormDescription: (description: string) => void;
+  setActiveTab: (tab: "build" | "settings") => void;
+  setSteps: (steps: number[]) => void;
+  setCurrentStep: (step: number) => void;
+  setLogoUrl: (url: string) => void;
+  setSubmitButtonText: (text: string) => void;
+  setSuccessMessage: (message: string) => void;
+  togglePreview: () => void;
+  addField: (type: FormField["type"]) => void;
+  removeField: (id: string) => void;
+  updateField: (id: string, updates: Partial<FormField>) => void;
+}

@@ -1,13 +1,5 @@
 import { create } from "zustand";
-
-interface DashboardState {
-  isMobileMenuOpen: boolean;
-  isCollapsed: boolean;
-  setIsMobileMenuOpen: (isOpen: boolean) => void;
-  setIsCollapsed: (isCollapsed: boolean) => void;
-  toggleMobileMenu: () => void;
-  toggleCollapse: () => void;
-}
+import { DashboardState } from "@/types/dashboard";
 
 export const useDashboardStore = create<DashboardState>((set) => ({
   isMobileMenuOpen: false,

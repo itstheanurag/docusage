@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useInvoiceStore } from "@/store/invoiceStore";
 import FromDetails from "./builder/from-details";
 import InvoiceDetails from "./builder/invoice-details";
 import ItemsSection from "./builder/items-section";
@@ -19,7 +19,7 @@ interface InvoiceGeneratorProps {
 export default function InvoiceFormGenerator({
   onBack,
 }: InvoiceGeneratorProps) {
-  const [isPreviewMode, setIsPreviewMode] = useState(false);
+  const { isPreviewMode, togglePreview } = useInvoiceStore();
 
   const handlePrint = () => {
     window.print();
@@ -57,7 +57,7 @@ export default function InvoiceFormGenerator({
       <div className="fixed bottom-6 left-0 right-0 z-50 flex justify-center pointer-events-none">
         <div className="pointer-events-auto">
           <InvoiceBuilderDock
-            onPreview={() => setIsPreviewMode(!isPreviewMode)}
+            onPreview={togglePreview}
             onSave={() => console.log("Save invoice")}
             onDownload={() => console.log("Download PDF")}
             onSend={() => alert("Sending email functionality coming soon!")}

@@ -21,6 +21,7 @@ export const useInvoiceStore = create<InvoiceStore>((set, get) => ({
   taxLabel: "Tax",
   currency: "USD",
   recurrence: "one-time",
+  isPreviewMode: false,
 
   updateField: (field, value) => set({ [field]: value }),
 
@@ -69,4 +70,6 @@ export const useInvoiceStore = create<InvoiceStore>((set, get) => ({
   calculateTotal: () => {
     return get().calculateSubtotal() + get().calculateTax();
   },
+  togglePreview: () =>
+    set((state) => ({ isPreviewMode: !state.isPreviewMode })),
 }));

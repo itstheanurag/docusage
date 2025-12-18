@@ -1,5 +1,3 @@
-import React from "react";
-
 interface DocumentLeftSidebarProps {
   onInsertField: (type: string, label: string) => void;
 }

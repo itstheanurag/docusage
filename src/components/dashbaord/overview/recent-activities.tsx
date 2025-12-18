@@ -5,47 +5,17 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FileText, Eye, Edit, Download } from "lucide-react";
+import { useManagementStore } from "@/store/managementStore";
+import { useEffect } from "react";
 
-const recentDocuments = [
-  {
-    id: 1,
-    name: "Project Proposal - ABC Corp",
-    type: "Proposal",
-    status: "Draft",
-    lastModified: "2 hours ago",
-    bgColor: "bg-blue-100 dark:bg-blue-900/20",
-    iconColor: "text-blue-600",
-  },
-  {
-    id: 2,
-    name: "Invoice #INV-2024-001",
-    type: "Invoice",
-    status: "Sent",
-    lastModified: "1 day ago",
-    bgColor: "bg-green-100 dark:bg-green-900/20",
-    iconColor: "text-green-600",
-  },
-  {
-    id: 3,
-    name: "Contract Agreement - XYZ Ltd",
-    type: "Contract",
-    status: "Completed",
-    lastModified: "3 days ago",
-    bgColor: "bg-purple-100 dark:bg-purple-900/20",
-    iconColor: "text-purple-600",
-  },
-  {
-    id: 4,
-    name: "Marketing Report Q1",
-    type: "Report",
-    status: "Review",
-    lastModified: "1 week ago",
-    bgColor: "bg-orange-100 dark:bg-orange-900/20",
-    iconColor: "text-orange-600",
-  },
-];
 
 const RecentActivity = memo(() => {
+  const { recentActivities, fetchData } = useManagementStore();
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
   return (
     <Card>
       <CardHeader>
@@ -54,7 +24,7 @@ const RecentActivity = memo(() => {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {recentDocuments.map((doc) => (
+          {recentActivities.map((doc) => (
             <div
               key={doc.id}
               className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-xl hover:bg-muted/30 transition-all gap-2"

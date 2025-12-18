@@ -3,11 +3,14 @@
 import { useDocumentStore } from "@/store/documentStore";
 import React, { useState, useRef, useEffect } from "react";
 import { FormatCommandEvent } from "@/types/document";
+import { cn } from "@/lib/utils";
 
 import DocumentDock from "./document-dock";
 import { BuilderLayout, BuilderHeader, BuilderSidebar, BuilderCanvas } from "@/components/builders/shared/builder-layout";
 import { DocumentLeftSidebar } from "./components/left-sidebar";
 import { DocumentRightSidebar } from "./components/right-sidebar";
+import { DocumentVariableSidebar } from "./components/variable-sidebar";
+import { DocumentDataSetManager } from "./components/dataset-manager";
 import dynamic from "next/dynamic";
 
 const Preview = dynamic(() => import("./preview"), {
@@ -43,9 +46,9 @@ const PAGE_SIZES = {
 
 const Editor: React.FC = () => {
   const editorRef = useRef<HTMLDivElement>(null);
-  const { title, setTitle, content, setContent, undo, redo, historyIndex, history } = useDocumentStore();
+  const { title, setTitle, content, setContent, undo, redo, historyIndex, history, isTemplate } = useDocumentStore();
   const [wordCount, setWordCount] = useState(0);
-  const [isPreview, setIsPreview] = useState(false);
+  const [activeTab, setActiveTab] = useState<"edit" | "preview" | "data">("edit");
   const [pageSize, setPageSize] = useState<keyof typeof PAGE_SIZES>("a4");
 
   // Field Config State
@@ -59,11 +62,11 @@ const Editor: React.FC = () => {
 
 
   useEffect(() => {
-    if (editorRef.current && !isPreview) {
+    if (editorRef.current && activeTab === "edit") {
       const text = editorRef.current.innerText || "";
       setWordCount(text.trim().split(/\s+/).filter(Boolean).length);
     }
-  }, [content, isPreview]);
+  }, [content, activeTab]);
 
   // Sync content state to DOM without resetting cursor
   useEffect(() => {
@@ -75,7 +78,7 @@ const Editor: React.FC = () => {
   // Handle clicking on fields to configure them
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
-      if (isPreview) return;
+      if (activeTab !== "edit") return;
 
       const target = e.target as HTMLElement;
       if (target.classList.contains("docusage-field")) {
@@ -93,7 +96,7 @@ const Editor: React.FC = () => {
       editor.addEventListener("click", handleClick);
     }
     return () => editor?.removeEventListener("click", handleClick);
-  }, [isPreview]);
+  }, [activeTab]);
 
   const handleSaveFieldConfig = () => {
     if (selectedField && editorRef.current) {
@@ -164,6 +167,23 @@ const Editor: React.FC = () => {
 
   return (
     <BuilderLayout
+      leftSidebar={
+        <BuilderSidebar header="Editor Tools">
+           <DocumentLeftSidebar onInsertField={handleInsertField} />
+        </BuilderSidebar>
+      }
+      rightSidebar={
+        <div className="flex flex-col h-full overflow-hidden">
+          <BuilderSidebar header="Document Settings">
+            <DocumentRightSidebar 
+              wordCount={wordCount}
+              characterCount={content.length}
+              pageSizeLabel={PAGE_SIZES[pageSize].label}
+            />
+          </BuilderSidebar>
+          <DocumentVariableSidebar />
+        </div>
+      }
       header={
         <div className="flex flex-col">
           <BuilderHeader 
@@ -196,17 +216,42 @@ const Editor: React.FC = () => {
             }
             backHref="/dashboard"
           >
-             <div className="flex items-center gap-2">
-              <button
-                onClick={() => setIsPreview(!isPreview)}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                  isPreview
-                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                    : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                }`}
-              >
-                {isPreview ? "Edit Form" : "Preview"}
-              </button>
+             <div className="flex items-center gap-1 bg-muted/50 p-1 rounded-lg">
+                <button
+                  onClick={() => setActiveTab("edit")}
+                  className={cn(
+                    "px-4 py-1.5 rounded-md text-sm font-medium transition-all",
+                    activeTab === "edit" 
+                      ? "bg-background shadow-sm text-foreground" 
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => setActiveTab("preview")}
+                  className={cn(
+                    "px-4 py-1.5 rounded-md text-sm font-medium transition-all",
+                    activeTab === "preview" 
+                      ? "bg-background shadow-sm text-foreground" 
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  Preview
+                </button>
+                {isTemplate && (
+                  <button
+                    onClick={() => setActiveTab("data")}
+                    className={cn(
+                      "px-4 py-1.5 rounded-md text-sm font-medium transition-all",
+                      activeTab === "data" 
+                        ? "bg-background shadow-sm text-foreground" 
+                        : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    Data
+                  </button>
+                )}
             </div>
           </BuilderHeader>
         </div>
@@ -214,7 +259,7 @@ const Editor: React.FC = () => {
     >
       <div className="h-full pb-24 overflow-y-auto w-full">
         <BuilderCanvas>
-          {isPreview ? (
+          {activeTab === "preview" ? (
             <div
               className="bg-white dark:bg-card text-black dark:text-card-foreground shadow-2xl rounded-sm p-[20mm] transition-all duration-300"
               style={{
@@ -223,6 +268,10 @@ const Editor: React.FC = () => {
               }}
             >
               <Preview content={content} />
+            </div>
+          ) : activeTab === "data" ? (
+            <div className="w-full max-w-5xl bg-card rounded-lg border shadow-sm p-6">
+              <DocumentDataSetManager />
             </div>
           ) : (
             <div
@@ -247,7 +296,7 @@ const Editor: React.FC = () => {
       </div>
 
       {/* Dock Toolbar - Fixed at bottom */}
-      {!isPreview && (
+      {activeTab === "edit" && (
         <div className="fixed bottom-6 left-0 right-0 z-50 flex justify-center pointer-events-none">
           <div className="pointer-events-auto">
             <DocumentDock

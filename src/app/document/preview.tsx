@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import ReactSignatureCanvas from "react-signature-canvas";
+import { useDocumentStore } from "@/store/documentStore";
+import { interpolateVariables } from "@/lib/utils/interpolation";
 
 interface PreviewProps {
   content: string;
@@ -12,13 +14,19 @@ interface PreviewProps {
 
 const Preview: React.FC<PreviewProps> = ({ content }) => {
   const [nodes, setNodes] = useState<React.ReactNode[]>([]);
+  const { dataSets, selectedDataSetId } = useDocumentStore();
+
+  const interpolatedContent = useMemo(() => {
+    const selectedSet = dataSets.find(d => d.id === selectedDataSetId);
+    return interpolateVariables(content, selectedSet?.data || {});
+  }, [content, dataSets, selectedDataSetId]);
 
   useEffect(() => {
-    if (!content) return;
+    if (!interpolatedContent) return;
 
     // Create a temporary container to parse HTML
     const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = content;
+    tempDiv.innerHTML = interpolatedContent;
 
     // Helper to traverse nodes
     const traverse = (node: Node, index: number): React.ReactNode => {
@@ -183,7 +191,7 @@ const Preview: React.FC<PreviewProps> = ({ content }) => {
       traverse(node, i),
     );
     setNodes(parsedNodes);
-  }, [content]);
+  }, [interpolatedContent]);
 
   return (
     <div className="prose prose-neutral dark:prose-invert max-w-none w-full">
