@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { DisplayApiKey } from "@/types";
+import { ApiKeyStore } from "@/types/api-key";
 import {
   listApiKeys,
   createApiKey,
@@ -8,51 +8,6 @@ import {
   toggleApiKeyEnabled,
 } from "@/actions/apiKeys";
 import { toast } from "sonner";
-
-interface ApiKeyStore {
-  apiKeys: DisplayApiKey[];
-  isLoading: boolean;
-  isCreateModalOpen: boolean;
-  newKeyName: string;
-  isCreating: boolean;
-  newlyCreatedKey: DisplayApiKey | null;
-  // Form State
-  permissions: string;
-  expiresAt: string | null;
-  rateLimitEnabled: boolean;
-  rateLimitMax: number;
-  rateLimitWindowHours: number;
-  refillIntervalHours: number | null;
-  refillAmount: number | null;
-  metadata: string;
-
-  selectedKey: DisplayApiKey | null;
-
-  setPermissions: (permissions: string) => void;
-  setExpiresAt: (date: string | null) => void;
-  setRateLimitEnabled: (enabled: boolean) => void;
-  setRateLimitMax: (max: number) => void;
-  setRateLimitWindowHours: (hours: number) => void;
-  setRefillIntervalHours: (hours: number | null) => void;
-  setRefillAmount: (amount: number | null) => void;
-  setMetadata: (metadata: string) => void;
-
-  setApiKeys: (keys: DisplayApiKey[]) => void;
-  setIsLoading: (isLoading: boolean) => void;
-  setIsCreateModalOpen: (isOpen: boolean) => void;
-  setNewKeyName: (name: string) => void;
-  setIsCreating: (isCreating: boolean) => void;
-  setNewlyCreatedKey: (key: DisplayApiKey | null) => void;
-  setSelectedKey: (key: DisplayApiKey | null) => void;
-
-  fetchApiKeys: () => Promise<void>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  createApiKey: (payload: any) => Promise<void>;
-  deleteApiKey: (id: string) => Promise<void>;
-  toggleApiKey: (id: string, enabled: boolean) => Promise<void>;
-  updateApiKey: (id: string, patch: Partial<DisplayApiKey>) => Promise<void>;
-  closeCreateModal: () => void;
-}
 
 export const useApiKeyStore = create<ApiKeyStore>((set) => ({
   apiKeys: [],
@@ -139,7 +94,7 @@ export const useApiKeyStore = create<ApiKeyStore>((set) => ({
       await toggleApiKeyEnabled(id, enabled);
       set((state) => ({
         apiKeys: state.apiKeys.map((key) =>
-          key.id === id ? { ...key, enabled } : key,
+          key.id === id ? { ...key, enabled } : key
         ),
       }));
       toast.success(`API key ${enabled ? "enabled" : "disabled"}`);
@@ -153,7 +108,7 @@ export const useApiKeyStore = create<ApiKeyStore>((set) => ({
       await updateApiKey(id, patch);
       set((state) => ({
         apiKeys: state.apiKeys.map((key) =>
-          key.id === id ? { ...key, ...patch } : key,
+          key.id === id ? { ...key, ...patch } : key
         ),
         selectedKey:
           state.selectedKey?.id === id
