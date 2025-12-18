@@ -9,12 +9,10 @@ import {
 } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import React from "react";
+import { useProfileStore } from "@/store/profileStore";
 
-interface StatsCardProps {
-  stats: { label: string; value: string }[];
-}
-
-const StatsCard = ({ stats }: StatsCardProps) => {
+const StatsCard = () => {
+  const { stats } = useProfileStore();
   return (
     <Card>
       <CardHeader>

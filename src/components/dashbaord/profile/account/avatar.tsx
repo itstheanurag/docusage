@@ -1,18 +1,12 @@
 "use client";
 
 import React from "react";
+import { useProfileStore } from "@/store/profileStore";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 
-interface AvatarSectionProps {
-  profile: {
-    avatar: string | null;
-    name: string;
-    email: string;
-  };
-}
-
-const AvatarSection = ({ profile }: AvatarSectionProps) => {
+const AvatarSection = () => {
+  const { profile } = useProfileStore();
   const initials =
     profile.name
       ?.split(" ")

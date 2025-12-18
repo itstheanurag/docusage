@@ -11,20 +11,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import React from "react";
+import { useProfileStore } from "@/store/profileStore";
 
-interface BrandingCardProps {
-  profile: any;
-  editedProfile: any;
-  setEditedProfile: (value: any) => void;
-  isEditing: boolean;
-}
-
-const BrandingCard = ({
-  profile,
-  editedProfile,
-  setEditedProfile,
-  isEditing,
-}: BrandingCardProps) => {
+const BrandingCard = () => {
+  const { profile, editedProfile, isEditing, updateEditedProfile } = useProfileStore();
   return (
     <Card>
       <CardHeader>
@@ -44,7 +34,7 @@ const BrandingCard = ({
               placeholder="https://example.com/logo.png"
               value={editedProfile.logoUrl}
               onChange={(e) =>
-                setEditedProfile({ ...editedProfile, logoUrl: e.target.value })
+                updateEditedProfile({ logoUrl: e.target.value })
               }
             />
           ) : (
