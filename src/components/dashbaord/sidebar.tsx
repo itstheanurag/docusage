@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { sidebarItems } from "@/lib/data/dashboard-sidebar";
 import { useDashboardStore } from "@/store/dashboardStore";
 import { signOut } from "@/lib/better-auth/client";
 import { useRouter } from "next/navigation";
@@ -12,6 +11,7 @@ import { motion } from "framer-motion";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { sidebarItems } from "@/data";
 
 export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
   const {
