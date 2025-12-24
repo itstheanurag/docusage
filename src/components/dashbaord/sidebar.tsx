@@ -11,7 +11,7 @@ import { motion } from "framer-motion";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { sidebarItems } from "@/data";
+import { sidebarItems } from "@/data/dashboard-sidebar";
 
 export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
   const {
@@ -92,10 +92,7 @@ export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
                   />
                 )}
                 <div className="relative z-10 flex items-center w-full">
-                  <motion.div
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
+                  <div className="transition-transform duration-200 hover:scale-110">
                     <item.icon
                       className={cn(
                         "size-4 transition-colors",
@@ -103,7 +100,7 @@ export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
                         isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground"
                       )}
                     />
-                  </motion.div>
+                  </div>
                   {!isCollapsed && (
                     <motion.span
                       initial={{ opacity: 0, x: -8 }}
@@ -133,9 +130,9 @@ export default function Sidebar({ mobile = false }: { mobile?: boolean }) {
           )}
           onClick={handleLogout}
         >
-          <motion.div whileHover={{ scale: 1.1, rotate: -5 }}>
+          <div className="transition-transform duration-200 hover:scale-110">
             <LogOut className={cn("h-5 w-5", !isCollapsed && "mr-2")} />
-          </motion.div>
+          </div>
           {!isCollapsed && "Logout"}
         </Button>
       </div>

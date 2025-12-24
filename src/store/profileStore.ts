@@ -3,7 +3,7 @@ import { ProfileState } from "@/types/profile";
 import {
   INITIAL_PROFILE_DATA,
   MOCK_PROFILE_STATS,
-} from "@/lib/data/mock-profile";
+} from "@/data/mock-profile";
 
 export const useProfileStore = create<ProfileState>((set, get) => ({
   profile: INITIAL_PROFILE_DATA,
