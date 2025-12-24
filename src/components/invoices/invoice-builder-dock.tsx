@@ -11,6 +11,7 @@ import {
 
 import { BuilderDock, DockSeparator } from "@/components/builders/shared/builder-dock";
 import { DockIconButton } from "@/components/builders/shared/dock-icon-button";
+import { ThemeSelector } from "./theme-selector";
 
 interface InvoiceBuilderDockProps {
   onPreview?: () => void;
@@ -46,6 +47,14 @@ export function InvoiceBuilderDock({
         shortcut="Ctrl+S"
         onClick={onSave}
       />
+      
+      <DockSeparator />
+
+      {/* Theme Settings */}
+      <ThemeSelector />
+
+      <DockSeparator />
+
       <DockIconButton
         icon={Download}
         label="Download PDF"

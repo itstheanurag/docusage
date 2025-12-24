@@ -6,9 +6,17 @@ const PreviewInoviceHeader = React.memo(({ invoice }: any) => {
   return (
     <div className="flex justify-between items-start mb-8">
       <div>
-        <h1 className="text-3xl font-bold mb-2 text-neutral-900 dark:text-neutral-100">
-          INVOICE
-        </h1>
+        {invoice.fromLogo ? (
+          <img 
+            src={invoice.fromLogo} 
+            alt="Company Logo" 
+            className="h-12 w-auto object-contain mb-4"
+          />
+        ) : (
+          <h1 className="text-3xl font-bold mb-2 text-neutral-900 dark:text-neutral-100">
+            INVOICE
+          </h1>
+        )}
 
         <p className="text-neutral-600 dark:text-neutral-400">
           #{invoice.invoiceNumber}

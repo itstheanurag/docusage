@@ -25,6 +25,18 @@ export interface InvoiceData {
   currency: string;
   recurrence: "one-time" | "weekly" | "monthly" | "yearly";
   isPreviewMode: boolean;
+  theme:
+    | "clean"
+    | "modern"
+    | "creative"
+    | "minimalist"
+    | "professional"
+    | "elegant"
+    | "tech"
+    | "brutalist"
+    | "classic"
+    | "compact";
+  accentColor: string;
 }
 
 export type InvoiceDataValue = string | number | InvoiceItem[];

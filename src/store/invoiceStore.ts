@@ -22,6 +22,8 @@ export const useInvoiceStore = create<InvoiceStore>((set, get) => ({
   currency: "USD",
   recurrence: "one-time",
   isPreviewMode: false,
+  theme: "clean",
+  accentColor: "#000000",
 
   updateField: (field, value) => set({ [field]: value }),
 
