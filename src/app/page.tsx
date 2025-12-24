@@ -9,8 +9,11 @@ import {
 
 export default function HomePage() {
   return (
+    <>
+    
+    
+          <Navbar />
     <main className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <Navbar />
       {/* Hero Section */}
       <Hero />
       {/* Feature Grid */}
@@ -22,5 +25,6 @@ export default function HomePage() {
       {/* Footer */}
       <NewFooter />
     </main>
+    </>
   );
 }
