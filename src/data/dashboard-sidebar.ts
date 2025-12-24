@@ -8,6 +8,7 @@ import {
   User,
   Key,
   PenTool,
+  LayoutTemplate,
 } from "lucide-react";
 
 export const sidebarItems = [
@@ -29,6 +30,7 @@ export const sidebarItems = [
     section: "invoices" as DashboarSectionType,
     href: "/dashboard/invoices",
   },
+
   {
     icon: Code2,
     label: "Snippets",
