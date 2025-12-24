@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { FIELD_TYPES } from "@/lib/data/form";
+import { FIELD_TYPES } from "@/data/form";
 import { useFormBuilderStore } from "@/store/form-builder-store";
 import { cn } from "@/lib/utils";
 

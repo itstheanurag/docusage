@@ -1,6 +1,6 @@
 import { InvoiceStore, InvoiceItem } from "@/types/invoice";
-
 import { create } from "zustand";
+
 export const useInvoiceStore = create<InvoiceStore>((set, get) => ({
   invoiceNumber: "INV-001",
   invoiceDate: new Date().toISOString().split("T")[0],

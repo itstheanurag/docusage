@@ -1,7 +1,14 @@
 "use client";
 
-import Editor from "@monaco-editor/react";
+import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
+
+const Editor = dynamic(() => import("@monaco-editor/react"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-full w-full bg-muted/50 animate-pulse rounded-md" />
+  ),
+});
 
 interface CodeEditorProps {
   code: string;
@@ -39,3 +46,4 @@ export function CodeEditor({
     </div>
   );
 }
+

@@ -7,7 +7,7 @@ import {
   MOCK_RECENT_ACTIVITIES,
   MOCK_OVERVIEW_STATS,
   MOCK_CODE_SNIPPETS,
-} from "@/lib/data/mock-management";
+} from "@/data/mock-management";
 
 export const useManagementStore = create<ManagementState>((set) => ({
   documents: [],

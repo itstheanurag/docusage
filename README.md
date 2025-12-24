@@ -37,6 +37,23 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Running with Docker
+
+To run the app with Docker (includes PostgreSQL):
+
+```bash
+docker-compose up
+```
+
+This will start:
+-   **App**: Next.js on [http://localhost:3000](http://localhost:3000)
+-   **Database**: PostgreSQL on port 5432
+
+To run database migrations:
+```bash
+docker-compose exec app bun db:migrate
+```
+
 ## Contributing
 
 We welcome contributions! Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
